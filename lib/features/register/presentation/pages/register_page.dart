@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../shared/utils/navigation_extensions.dart';
 import '../widgets/register_header.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -14,10 +15,20 @@ class RegisterPage extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: 420),
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  RegisterHeader(),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back_rounded),
+                      onPressed: () => context.goBack(),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  const RegisterHeader(),
                 ],
               ),
             ),
