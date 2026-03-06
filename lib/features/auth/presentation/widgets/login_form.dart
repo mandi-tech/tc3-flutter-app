@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
+import '../../../../app/router/app_routes.dart';
 import '../../../../shared/design_system/components/app_button.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
+import '../../../../shared/utils/navigation_extensions.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -46,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
     });
 
     // Redireciona para Home
-    context.go('/home');
+    context.pushPage(AppRoutes.home);
   }
 
   @override
