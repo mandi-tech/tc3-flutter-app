@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../tokens/app_colors.dart';
 import '../tokens/app_spacing.dart';
 
 class AppTextField extends StatelessWidget {
@@ -11,8 +12,11 @@ class AppTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool obscureText;
+  final bool enabled;
+  final bool readOnly;
   final String? Function(String?)? validator;
   final void Function(String)? onFieldSubmitted;
+  final void Function(String)? onChanged;
 
   const AppTextField({
     super.key,
@@ -24,59 +28,63 @@ class AppTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.obscureText = false,
+    this.enabled = true,
+    this.readOnly = false,
     this.validator,
     this.onFieldSubmitted,
+    this.onChanged,
   });
+
+  OutlineInputBorder _border(Color color, {double width = 1}) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(
+        color: color,
+        width: width,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      textInputAction: textInputAction,
+      obscureText: obscureText,
+      enabled: enabled,
+      readOnly: readOnly,
+      validator: validator,
+      onFieldSubmitted: onFieldSubmitted,
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hintText,
+
+        labelStyle: const TextStyle(
+          color: AppColors.textSecondary,
         ),
-        const SizedBox(height: AppSpacing.xs),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-          obscureText: obscureText,
-          validator: validator,
-          onFieldSubmitted: onFieldSubmitted,
-          decoration: InputDecoration(
-            hintText: hintText,
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                color: Colors.grey.shade300,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.primary,
-                width: 1.5,
-              ),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.md,
-            ),
-            filled: true,
-            fillColor: Colors.white,
-          ),
+
+        hintStyle: const TextStyle(
+          color: AppColors.textSecondary,
         ),
-      ],
+
+        filled: true,
+        fillColor: AppColors.background,
+
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.md,
+          vertical: AppSpacing.md,
+        ),
+
+        enabledBorder: _border(AppColors.neutral100),
+        focusedBorder: _border(AppColors.primary, width: 1.5),
+        errorBorder: _border(AppColors.danger),
+        focusedErrorBorder: _border(AppColors.danger, width: 1.5),
+      ),
     );
   }
 }

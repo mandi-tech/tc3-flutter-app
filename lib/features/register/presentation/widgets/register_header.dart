@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 
-class LoginHeader extends StatelessWidget {
-  const LoginHeader({super.key});
+class RegisterHeader extends StatelessWidget {
+  const RegisterHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +30,10 @@ class LoginHeader extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Bem-vinda!',
+                'Tela de cadastro',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.textPrimary,
-                    ),
-                textAlign: TextAlign.center,
-              ),
-
-              const SizedBox(height: AppSpacing.sm),
-
-              Text(
-                'Entre com seu e-mail e senha para continuar',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.textSecondary,
                     ),
                 textAlign: TextAlign.center,
               ),
