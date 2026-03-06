@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../app/router/app_routes.dart';
 import '../../../../shared/design_system/components/app_button.dart';
+import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/utils/navigation_extensions.dart';
 
@@ -37,7 +38,6 @@ class _LoginFormState extends State<LoginForm> {
       _isLoading = true;
     });
 
-    // Simulação de requisição
     await Future.delayed(const Duration(milliseconds: 800));
 
     if (!mounted) return;
@@ -46,7 +46,6 @@ class _LoginFormState extends State<LoginForm> {
       _isLoading = false;
     });
 
-    // Redireciona para Home
     context.pushPage(AppRoutes.home);
   }
 
@@ -55,33 +54,68 @@ class _LoginFormState extends State<LoginForm> {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(20),
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: Theme.of(context).colorScheme.outlineVariant,
+          color: AppColors.neutral100,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.secondary.withOpacity(0.08),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
       child: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Login',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: AppSpacing.lg),
-
             TextFormField(
               controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                hintText: 'Digite seu email',
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: 'E-mail',
+                hintText: 'Digite seu e-mail',
+                labelStyle: const TextStyle(
+                  color: AppColors.textSecondary,
+                ),
+                hintStyle: const TextStyle(
+                  color: AppColors.textSecondary,
+                ),
+                filled: true,
+                fillColor: AppColors.background,
+                prefixIcon: const Icon(
+                  Icons.mail_outline_rounded,
+                  color: AppColors.secondary,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(
+                    color: AppColors.neutral100,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(
+                    color: AppColors.primary,
+                    width: 1.5,
+                  ),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(
+                    color: AppColors.danger,
+                  ),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(
+                    color: AppColors.danger,
+                    width: 1.5,
+                  ),
+                ),
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
@@ -99,17 +133,56 @@ class _LoginFormState extends State<LoginForm> {
               decoration: InputDecoration(
                 labelText: 'Senha',
                 hintText: 'Digite sua senha',
+                labelStyle: const TextStyle(
+                  color: AppColors.textSecondary,
+                ),
+                hintStyle: const TextStyle(
+                  color: AppColors.textSecondary,
+                ),
+                filled: true,
+                fillColor: AppColors.background,
+                prefixIcon: const Icon(
+                  Icons.lock_outline_rounded,
+                  color: AppColors.secondary,
+                ),
                 suffixIcon: IconButton(
                   icon: Icon(
                     _obscurePassword
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                    color: AppColors.secondary,
                   ),
                   onPressed: () {
                     setState(() {
                       _obscurePassword = !_obscurePassword;
                     });
                   },
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(
+                    color: AppColors.neutral100,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(
+                    color: AppColors.primary,
+                    width: 1.5,
+                  ),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(
+                    color: AppColors.danger,
+                  ),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: const BorderSide(
+                    color: AppColors.danger,
+                    width: 1.5,
+                  ),
                 ),
               ),
               validator: (value) {
@@ -132,7 +205,13 @@ class _LoginFormState extends State<LoginForm> {
 
             TextButton(
               onPressed: () {},
-              child: const Text('Criar conta'),
+              child: const Text(
+                'Criar conta',
+                style: TextStyle(
+                  color: AppColors.secondary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ],
         ),
