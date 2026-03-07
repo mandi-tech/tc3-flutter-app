@@ -1,5 +1,5 @@
-![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)
-![Dart](https://img.shields.io/badge/Dart-3.x-blue?logo=dart)
+![Flutter](https://img.shields.io/badge/Flutter-3.41.2-blue?logo=flutter)
+![Dart](https://img.shields.io/badge/Dart-3.11.0-blue?logo=dart)
 ![Architecture](https://img.shields.io/badge/Architecture-DDD%20%2B%20Feature%20First-purple)
 ![Design System](https://img.shields.io/badge/Design%20System-Custom-pink)
 ![Storybook](https://img.shields.io/badge/Storybook-Flutter-orange)
