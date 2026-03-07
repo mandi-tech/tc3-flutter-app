@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/utils/navigation_extensions.dart';
+import '../../../../shared/design_system/tokens/app_colors.dart';
+import '../../../../shared/design_system/tokens/app_spacing.dart';
+import '../widgets/register_form.dart';
 import '../widgets/register_header.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -9,6 +11,7 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
@@ -18,17 +21,10 @@ class RegisterPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back_rounded),
-                      onPressed: () => context.goBack(),
-                    ),
-                  ),
-
-                  const SizedBox(height: 8),
-
+                  const SizedBox(height: AppSpacing.sm),
                   const RegisterHeader(),
+                  const SizedBox(height: AppSpacing.xl),
+                  const RegisterForm(),
                 ],
               ),
             ),
