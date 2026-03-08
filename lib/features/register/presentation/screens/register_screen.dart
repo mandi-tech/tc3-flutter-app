@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/design_system/tokens/app_colors.dart';
-import '../widgets/login_form.dart';
-import '../widgets/login_header.dart';
+import '../../../../shared/design_system/tokens/app_spacing.dart';
+import '../widgets/register_form.dart';
+import '../widgets/register_header.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +18,13 @@ class LoginPage extends StatelessWidget {
             constraints: const BoxConstraints(maxWidth: 420),
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(20),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  LoginHeader(),
-                  SizedBox(height: 24),
-                  LoginForm(),
+                  const SizedBox(height: AppSpacing.sm),
+                  const RegisterHeader(),
+                  const SizedBox(height: AppSpacing.xl),
+                  const RegisterForm(),
                 ],
               ),
             ),
