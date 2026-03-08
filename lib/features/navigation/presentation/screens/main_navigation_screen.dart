@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../add_transaction/presentation/screens/add_transaction_screen.dart';
-import '../../../charts/presentation/screens/charts_screen.dart';
+import '../../../cards/presentation/screens/cards_screen.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
 import '../../../transactions/presentation/screens/transactions_screen.dart';
