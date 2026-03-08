@@ -30,10 +30,20 @@ class RegisterHeader extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'Tela de cadastro',
+                'Crie sua conta',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.textPrimary,
+                    ),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: AppSpacing.sm),
+
+              Text(
+                'Comece a organizar sua vida financeira em poucos passos',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.textSecondary,
                     ),
                 textAlign: TextAlign.center,
               ),

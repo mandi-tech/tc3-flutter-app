@@ -6,6 +6,10 @@ abstract final class AppColors {
   static const secondary = Color(0xFF6C5B7B); // Mauve
   static const accent = Color(0xFFF8B195); // Peach
 
+  // Finances
+  static const income = Color(0xFF2E9F7E); // Entrada / saldo positivo
+  static const expense = Color(0xFFD64550); // Saída / saldo negativo
+
   /// Feedback
   static const success = Color(0xFF3FAE88);
   static const warning = Color(0xFFF59E0B);
@@ -14,6 +18,8 @@ abstract final class AppColors {
   /// Backgrounds / Surfaces
   static const background = Color(0xFFFFF8F5); // Soft Cream
   static const surface = Color(0xFFFFFFFF);
+  static const incomeSoft = Color(0xFFE7F6F1);
+  static const expenseSoft = Color(0xFFFCEBEC);
 
   /// Neutrals
   static const neutral0   = Color(0xFFFFFFFF);

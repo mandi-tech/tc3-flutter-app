@@ -6,6 +6,7 @@ import '../tokens/app_colors.dart';
 import '../tokens/app_spacing.dart';
 import 'stories/component_state_stories.dart';
 import 'stories/component_stories.dart';
+import 'stories/form_stories.dart';
 import 'stories/screen_stories.dart';
 import 'stories/token_stories.dart';
 
@@ -33,6 +34,7 @@ class StorybookApp extends StatelessWidget {
       stories: [
         ...componentStories,
         ...componentStateStories,
+        ...formStories,
         ...screenStories,
         ...tokenStories,
       ],
