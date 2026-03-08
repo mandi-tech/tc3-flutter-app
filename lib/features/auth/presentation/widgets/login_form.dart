@@ -47,7 +47,7 @@ class _LoginFormState extends State<LoginForm> {
       _isLoading = false;
     });
 
-    context.pushPage(AppRoutes.home);
+    context.pushPage(AppRoutes.main);
   }
 
   @override
