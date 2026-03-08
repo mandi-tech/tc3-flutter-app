@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
+import '../../../../features/navigation/domain/navigation_tab.dart';
+import '../../../../features/navigation/presentation/widgets/main_navigation_bar.dart';
 import '../../components/app_button.dart';
 import '../../components/app_email_field.dart';
 import '../../components/app_password_field.dart';
@@ -129,6 +131,34 @@ final List<Story> componentStories = [
           child: AppPasswordField(
             enabled: enabled,
             readOnly: readOnly,
+          ),
+        ),
+      );
+    },
+  ),
+  Story(
+    name: 'Components/MainNavigationBar',
+    description: 'Barra principal de navegação do app.',
+    builder: (context) {
+      final selectedTab = context.knobs.options<NavigationTab>(
+        label: 'Selected tab',
+        initial: NavigationTab.home,
+        options: const [
+          Option(label: 'Home', value: NavigationTab.home),
+          Option(label: 'Extrato', value: NavigationTab.transactions),
+          Option(label: 'Adicionar', value: NavigationTab.add),
+          Option(label: 'Cartões', value: NavigationTab.cards),
+          Option(label: 'Perfil', value: NavigationTab.profile),
+        ],
+      );
+
+      return Align(
+        alignment: Alignment.bottomCenter,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: MainNavigationBar(
+            currentTab: selectedTab,
+            onTabSelected: (_) {},
           ),
         ),
       );

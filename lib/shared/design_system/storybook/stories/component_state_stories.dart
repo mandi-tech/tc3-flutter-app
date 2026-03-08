@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
+import '../../../../features/navigation/domain/navigation_tab.dart';
+import '../../../../features/navigation/presentation/widgets/main_navigation_bar.dart';
 import '../../components/app_button.dart';
 import '../../components/app_email_field.dart';
 import '../../components/app_password_field.dart';
@@ -16,6 +18,11 @@ final List<Story> componentStateStories = [
     name: 'States/AppFields',
     description: 'Estados visuais dos campos.',
     builder: (_) => const _AppFieldsStatesStory(),
+  ),
+  Story(
+    name: 'States/MainNavigationBar',
+    description: 'Estados visuais da navbar com cada aba selecionada.',
+    builder: (_) => const _MainNavigationBarStatesStory(),
   ),
 ];
 
@@ -132,6 +139,30 @@ class _ErrorFieldDemoState extends State<_ErrorFieldDemo> {
     return Form(
       key: _formKey,
       child: widget.child,
+    );
+  }
+}
+
+class _MainNavigationBarStatesStory extends StatelessWidget {
+  const _MainNavigationBarStatesStory();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          for (final tab in NavigationTab.values) ...[
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: MainNavigationBar(
+                currentTab: tab,
+                onTabSelected: (_) {},
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xl),
+          ],
+        ],
+      ),
     );
   }
 }

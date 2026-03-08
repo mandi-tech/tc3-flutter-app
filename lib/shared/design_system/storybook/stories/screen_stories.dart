@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
+import '../../../../features/navigation/domain/navigation_tab.dart';
+import '../../../../features/navigation/presentation/widgets/main_navigation_bar.dart';
 import '../../components/app_button.dart';
 import '../../components/app_email_field.dart';
 import '../../components/app_password_field.dart';
@@ -82,6 +84,31 @@ final List<Story> screenStories = [
         ],
       ),
     ),
+  ),
+  Story(
+    name: 'Screens/Main Navigation Screen',
+    description: 'Prévia da tela principal com conteúdo e navbar.',
+    builder: (context) {
+      final selectedTab = context.knobs.options<NavigationTab>(
+        label: 'Selected tab',
+        initial: NavigationTab.home,
+        options: const [
+          Option(label: 'Home', value: NavigationTab.home),
+          Option(label: 'Extrato', value: NavigationTab.transactions),
+          Option(label: 'Adicionar', value: NavigationTab.add),
+          Option(label: 'Cartões', value: NavigationTab.cards),
+          Option(label: 'Perfil', value: NavigationTab.profile),
+        ],
+      );
+
+      return StoryPreviewFrame(
+        width: 390,
+        title: 'Main Navigation',
+        child: _MainNavigationScreenPreview(
+          selectedTab: selectedTab,
+        ),
+      );
+    },
   ),
 ];
 
@@ -227,5 +254,58 @@ class _RegisterFormOnly extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class _MainNavigationScreenPreview extends StatelessWidget {
+  final NavigationTab selectedTab;
+
+  const _MainNavigationScreenPreview({
+    required this.selectedTab,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 640,
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.background,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                _titleForTab(selectedTab),
+                style: AppTypography.title,
+              ),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          MainNavigationBar(
+            currentTab: selectedTab,
+            onTabSelected: (_) {},
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _titleForTab(NavigationTab tab) {
+    switch (tab) {
+      case NavigationTab.home:
+        return 'Home';
+      case NavigationTab.transactions:
+        return 'Extrato';
+      case NavigationTab.add:
+        return 'Adicionar transação';
+      case NavigationTab.cards:
+        return 'Cartões';
+      case NavigationTab.profile:
+        return 'Perfil';
+    }
   }
 }
