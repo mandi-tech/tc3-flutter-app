@@ -16,7 +16,6 @@ class MainNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final tabs = NavigationTab.values;
 
     return SafeArea(
@@ -42,28 +41,21 @@ class MainNavigationBar extends StatelessWidget {
           ),
           child: NavigationBar(
             selectedIndex: tabs.indexOf(currentTab),
-
             onDestinationSelected: (index) {
               onTabSelected(tabs[index]);
             },
-
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
             indicatorColor: AppColors.primary.withOpacity(0.16),
-
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             destinations: tabs.map((tab) {
               final isAdd = tab == NavigationTab.add;
 
               return NavigationDestination(
-                icon: isAdd
-                    ? _buildAddButton()
-                    : Icon(tab.icon),
-
-                selectedIcon: isAdd
-                    ? _buildAddButton(selected: true)
-                    : Icon(tab.selectedIcon),
-
+                icon: isAdd ? _buildAddButton() : Icon(tab.icon),
+                selectedIcon:
+                    isAdd ? _buildAddButton(selected: true) : Icon(tab.selectedIcon),
                 label: tab.label,
               );
             }).toList(),

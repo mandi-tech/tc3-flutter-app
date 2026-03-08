@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../add_transaction/presentation/screens/add_transaction_screen.dart';
+import '../../../charts/presentation/screens/charts_screen.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
 import '../../../transactions/presentation/screens/transactions_screen.dart';
@@ -15,15 +17,15 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-
   NavigationTab _currentTab = NavigationTab.home;
 
-  late final Map<NavigationTab, Widget> _pages = {
-    NavigationTab.home: const HomeScreen(),
-    NavigationTab.transactions: const TransactionsScreen(),
-    NavigationTab.add: const AddTransactionScreen(),
-    NavigationTab.profile: const ProfileScreen(),
-  };
+  final List<Widget> _pages = const [
+    HomeScreen(),
+    TransactionsScreen(),
+    AddTransactionScreen(),
+    ChartsScreen(),
+    ProfileScreen(),
+  ];
 
   void _onTabSelected(NavigationTab tab) {
     setState(() {
@@ -33,10 +35,13 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currentIndex = NavigationTab.values.indexOf(_currentTab);
+
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: IndexedStack(
-        index: NavigationTab.values.indexOf(_currentTab),
-        children: _pages.values.toList(),
+        index: currentIndex,
+        children: _pages,
       ),
       bottomNavigationBar: MainNavigationBar(
         currentTab: _currentTab,
