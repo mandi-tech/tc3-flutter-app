@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../tokens/app_spacing.dart';
+import '../../utils/theme_extensions.dart';
 
 enum AppButtonVariant { primary, secondary, danger }
 
@@ -23,23 +24,36 @@ class AppButton extends StatelessWidget {
   Color _backgroundColor(BuildContext context) {
     switch (variant) {
       case AppButtonVariant.primary:
-        return Theme.of(context).colorScheme.primary;
+        return context.colors.primary;
+
       case AppButtonVariant.secondary:
-        return Colors.grey.shade300;
+        return context.colors.surface;
+
       case AppButtonVariant.danger:
-        return Colors.red;
+        return context.colors.error;
     }
   }
 
-  Color _foregroundColor() {
+  Color _foregroundColor(BuildContext context) {
     switch (variant) {
       case AppButtonVariant.primary:
-        return Colors.white;
+        return context.colors.onPrimary;
+
       case AppButtonVariant.secondary:
-        return Colors.black;
+        return context.colors.onSurface;
+
       case AppButtonVariant.danger:
-        return Colors.white;
+        return context.colors.onError;
     }
+  }
+
+  BorderSide? _border(BuildContext context) {
+    if (variant == AppButtonVariant.secondary) {
+      return BorderSide(
+        color: context.colors.outlineVariant,
+      );
+    }
+    return null;
   }
 
   @override
@@ -48,7 +62,11 @@ class AppButton extends StatelessWidget {
       onPressed: enabled && !isLoading ? onPressed : null,
       style: FilledButton.styleFrom(
         backgroundColor: _backgroundColor(context),
-        foregroundColor: _foregroundColor(),
+        foregroundColor: _foregroundColor(context),
+        side: _border(context),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -56,10 +74,13 @@ class AppButton extends StatelessWidget {
           horizontal: AppSpacing.lg,
         ),
         child: isLoading
-            ? const SizedBox(
+            ? SizedBox(
                 width: 18,
                 height: 18,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: _foregroundColor(context),
+                ),
               )
             : Text(label),
       ),

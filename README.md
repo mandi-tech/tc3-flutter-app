@@ -112,7 +112,7 @@ shared/design_system/tokens
 AppColors.primary
 AppColors.secondary
 AppColors.accent
-AppColors.background
+context.theme.scaffoldBackgroundColor
 AppColors.surface
 ```
 

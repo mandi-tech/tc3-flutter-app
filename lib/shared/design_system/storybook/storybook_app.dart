@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
+import '../../utils/theme_extensions.dart';
 import '../themes/app_theme.dart';
-import '../tokens/app_colors.dart';
 import '../tokens/app_spacing.dart';
 import 'stories/component_state_stories.dart';
 import 'stories/component_stories.dart';
@@ -21,7 +21,7 @@ class StorybookApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.light(),
           home: Scaffold(
-            backgroundColor: AppColors.background,
+            backgroundColor: context.theme.scaffoldBackgroundColor,
             body: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(AppSpacing.lg),

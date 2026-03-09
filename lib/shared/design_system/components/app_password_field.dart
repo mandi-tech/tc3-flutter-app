@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../tokens/app_colors.dart';
+import '../../utils/theme_extensions.dart';
 import 'app_text_field.dart';
 
 class AppPasswordField extends StatefulWidget {
@@ -53,9 +53,9 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
       validator: widget.validator,
       onFieldSubmitted: widget.onFieldSubmitted,
       onChanged: widget.onChanged,
-      prefixIcon: const Icon(
+      prefixIcon: Icon(
         Icons.lock_outline_rounded,
-        color: AppColors.secondary,
+        color: context.colors.secondary,
       ),
       suffixIcon: IconButton(
         onPressed: _togglePasswordVisibility,
@@ -63,7 +63,7 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
           _obscurePassword
               ? Icons.visibility_off_outlined
               : Icons.visibility_outlined,
-          color: AppColors.secondary,
+          color: context.colors.secondary,
         ),
       ),
     );

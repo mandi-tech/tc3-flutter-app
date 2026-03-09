@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../tokens/app_colors.dart';
+import '../../utils/theme_extensions.dart';
 import 'app_text_field.dart';
 
 class AppEmailField extends StatelessWidget {
@@ -52,9 +52,9 @@ class AppEmailField extends StatelessWidget {
       onChanged: onChanged,
       onFieldSubmitted: onFieldSubmitted,
       validator: validator ?? _defaultValidator,
-      prefixIcon: const Icon(
+      prefixIcon: Icon(
         Icons.mail_outline_rounded,
-        color: AppColors.secondary,
+        color: context.colors.secondary,
       ),
     );
   }
