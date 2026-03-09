@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/design_system/components/app_button.dart';
-import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/design_system/tokens/app_typography.dart';
+import '../../../../shared/utils/theme_extensions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final isNegative = _balance < 0;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Gerenciador Financeiro'),
       ),

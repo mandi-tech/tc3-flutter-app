@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
+import '../../../../shared/utils/theme_extensions.dart';
 import '../../domain/navigation_tab.dart';
 
 class MainNavigationBar extends StatelessWidget {
@@ -29,11 +30,13 @@ class MainNavigationBar extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.colors.surface,
             borderRadius: BorderRadius.circular(28),
             boxShadow: [
               BoxShadow(
-                color: AppColors.secondary.withOpacity(0.10),
+                color: context.isDark
+                    ? Colors.black.withOpacity(0.35)
+                    : Colors.black.withOpacity(0.10),
                 blurRadius: 24,
                 offset: const Offset(0, 10),
               ),
@@ -47,15 +50,16 @@ class MainNavigationBar extends StatelessWidget {
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
-            indicatorColor: AppColors.primary.withOpacity(0.16),
+            indicatorColor: context.colors.primary.withOpacity(0.16),
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             destinations: tabs.map((tab) {
               final isAdd = tab == NavigationTab.add;
 
               return NavigationDestination(
                 icon: isAdd ? _buildAddButton() : Icon(tab.icon),
-                selectedIcon:
-                    isAdd ? _buildAddButton(selected: true) : Icon(tab.selectedIcon),
+                selectedIcon: isAdd
+                    ? _buildAddButton(selected: true)
+                    : Icon(tab.selectedIcon),
                 label: tab.label,
               );
             }).toList(),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/design_system/tokens/app_colors.dart';
+import '../../../../shared/utils/theme_extensions.dart';
 import '../../../add_transaction/presentation/screens/add_transaction_screen.dart';
 import '../../../cards/presentation/screens/cards_screen.dart';
 import '../../../home/presentation/screens/home_screen.dart';
@@ -38,7 +38,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     final currentIndex = NavigationTab.values.indexOf(_currentTab);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       body: IndexedStack(
         index: currentIndex,
         children: _pages,

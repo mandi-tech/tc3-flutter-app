@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
+import '../../../utils/theme_extensions.dart';
 import '../../tokens/app_colors.dart';
 import '../../tokens/app_spacing.dart';
 import '../../tokens/app_typography.dart';
@@ -32,13 +33,22 @@ class _ColorsStory extends StatelessWidget {
       const _ColorItem('Primary', AppColors.primary),
       const _ColorItem('Secondary', AppColors.secondary),
       const _ColorItem('Accent', AppColors.accent),
-      const _ColorItem('Background', AppColors.background),
-      const _ColorItem('Surface', AppColors.surface),
+
+      _ColorItem('Background (theme)', context.theme.scaffoldBackgroundColor),
+      _ColorItem('Surface (theme)', context.colors.surface),
+      _ColorItem('On Surface (theme)', context.colors.onSurface),
+      _ColorItem(
+        'On Surface Variant (theme)',
+        context.colors.onSurfaceVariant,
+      ),
+      _ColorItem('Outline Variant (theme)', context.colors.outlineVariant),
+
       const _ColorItem('Success', AppColors.success),
       const _ColorItem('Warning', AppColors.warning),
       const _ColorItem('Danger', AppColors.danger),
-      const _ColorItem('Text Primary', AppColors.textPrimary),
-      const _ColorItem('Text Secondary', AppColors.textSecondary),
+      const _ColorItem('Income', AppColors.income),
+      const _ColorItem('Expense', AppColors.expense),
+
       const _ColorItem('Neutral 0', AppColors.neutral0),
       const _ColorItem('Neutral 100', AppColors.neutral100),
       const _ColorItem('Neutral 900', AppColors.neutral900),
@@ -51,7 +61,7 @@ class _ColorsStory extends StatelessWidget {
       itemBuilder: (_, index) {
         final item = colors[index];
         final textColor = _useDarkText(item.color)
-            ? AppColors.textPrimary
+            ? Colors.black
             : Colors.white;
 
         return Container(
@@ -59,18 +69,23 @@ class _ColorsStory extends StatelessWidget {
           decoration: BoxDecoration(
             color: item.color,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.neutral100),
+            border: Border.all(
+              color: context.colors.outlineVariant,
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                item.name,
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  item.name,
+                  style: TextStyle(
+                    color: textColor,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
+              const SizedBox(width: AppSpacing.md),
               Text(
                 _toHex(item.color),
                 style: TextStyle(
@@ -145,9 +160,11 @@ class _TypographyItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.md),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: context.colors.surface,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.neutral100),
+        border: Border.all(
+          color: context.colors.outlineVariant,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,10 +173,16 @@ class _TypographyItem extends StatelessWidget {
             name,
             style: AppTypography.caption.copyWith(
               fontWeight: FontWeight.w600,
+              color: context.colors.onSurfaceVariant,
             ),
           ),
           const SizedBox(height: AppSpacing.sm),
-          Text(text, style: style),
+          Text(
+            text,
+            style: style.copyWith(
+              color: context.colors.onSurface,
+            ),
+          ),
         ],
       ),
     );
@@ -189,9 +212,11 @@ class _SpacingStory extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.all(AppSpacing.md),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: context.colors.surface,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.neutral100),
+            border: Border.all(
+              color: context.colors.outlineVariant,
+            ),
           ),
           child: Row(
             children: [
@@ -206,7 +231,9 @@ class _SpacingStory extends StatelessWidget {
               const SizedBox(width: AppSpacing.md),
               Text(
                 '${item.$1}  (${item.$2}px)',
-                style: AppTypography.body,
+                style: AppTypography.body.copyWith(
+                  color: context.colors.onSurface,
+                ),
               ),
             ],
           ),

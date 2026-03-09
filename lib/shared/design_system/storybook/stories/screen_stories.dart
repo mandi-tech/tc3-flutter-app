@@ -3,6 +3,7 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../../features/navigation/domain/navigation_tab.dart';
 import '../../../../features/navigation/presentation/widgets/main_navigation_bar.dart';
+import '../../../utils/theme_extensions.dart';
 import '../../components/app_button.dart';
 import '../../components/app_email_field.dart';
 import '../../components/app_password_field.dart';
@@ -117,9 +118,9 @@ class _LoginScreenPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisSize: MainAxisSize.min,
-      children: const [
+      children: [
         _AuthHeaderPreview(
           title: 'Bem-vinda!',
           description: 'Entre com seu e-mail e senha para continuar',
@@ -136,9 +137,9 @@ class _RegisterScreenPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisSize: MainAxisSize.min,
-      children: const [
+      children: [
         _AuthHeaderPreview(
           title: 'Crie sua conta',
           description: 'Comece a organizar sua vida financeira em poucos passos',
@@ -185,7 +186,7 @@ class _AuthHeaderPreview extends StatelessWidget {
             style: AppTypography.title.copyWith(
               fontSize: 26,
               fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              color: context.colors.onSurface,
             ),
             textAlign: TextAlign.center,
           ),
@@ -193,7 +194,7 @@ class _AuthHeaderPreview extends StatelessWidget {
           Text(
             description,
             style: AppTypography.body.copyWith(
-              color: AppColors.textSecondary,
+              color: context.colors.onSurfaceVariant,
             ),
             textAlign: TextAlign.center,
           ),
@@ -208,8 +209,8 @@ class _LoginFormOnly extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const [
+    return const Column(
+      children: [
         AppEmailField(),
         SizedBox(height: AppSpacing.md),
         AppPasswordField(),
@@ -233,9 +234,9 @@ class _RegisterFormOnly extends StatelessWidget {
         AppTextField(
           label: 'Nome completo',
           hintText: 'Digite seu nome completo',
-          prefixIcon: const Icon(
+          prefixIcon: Icon(
             Icons.person_outline_rounded,
-            color: AppColors.secondary,
+            color: context.colors.secondary,
           ),
         ),
         const SizedBox(height: AppSpacing.md),
@@ -274,13 +275,18 @@ class _MainNavigationScreenPreview extends StatelessWidget {
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: AppColors.background,
+                color: context.theme.scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: context.colors.outlineVariant,
+                ),
               ),
               alignment: Alignment.center,
               child: Text(
                 _titleForTab(selectedTab),
-                style: AppTypography.title,
+                style: AppTypography.title.copyWith(
+                  color: context.colors.onSurface,
+                ),
               ),
             ),
           ),

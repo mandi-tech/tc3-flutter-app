@@ -29,13 +29,13 @@ extension NavigationTabExtension on NavigationTab {
       case NavigationTab.home:
         return Icons.home_outlined;
       case NavigationTab.transactions:
-        return Icons.receipt_long_outlined;
+        return Icons.receipt_outlined;
       case NavigationTab.add:
         return Icons.add;
       case NavigationTab.cards:
-        return Icons.credit_card_outlined;
+        return Icons.credit_card_rounded;
       case NavigationTab.profile:
-        return Icons.person_outline;
+        return Icons.person_outlined;
     }
   }
 
@@ -44,7 +44,7 @@ extension NavigationTabExtension on NavigationTab {
       case NavigationTab.home:
         return Icons.home_rounded;
       case NavigationTab.transactions:
-        return Icons.receipt_long_rounded;
+        return Icons.receipt_rounded;
       case NavigationTab.add:
         return Icons.add;
       case NavigationTab.cards:

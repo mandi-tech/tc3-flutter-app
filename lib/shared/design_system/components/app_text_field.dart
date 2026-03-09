@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/theme_extensions.dart';
 import '../tokens/app_colors.dart';
 import '../tokens/app_spacing.dart';
 
@@ -61,16 +62,16 @@ class AppTextField extends StatelessWidget {
         labelText: label,
         hintText: hintText,
 
-        labelStyle: const TextStyle(
-          color: AppColors.textSecondary,
+        labelStyle: TextStyle(
+          color: context.colors.onSurfaceVariant,
         ),
 
-        hintStyle: const TextStyle(
-          color: AppColors.textSecondary,
+        hintStyle: TextStyle(
+          color: context.colors.onSurfaceVariant,
         ),
 
         filled: true,
-        fillColor: AppColors.background,
+        fillColor: context.theme.scaffoldBackgroundColor,
 
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
@@ -80,8 +81,8 @@ class AppTextField extends StatelessWidget {
           vertical: AppSpacing.md,
         ),
 
-        enabledBorder: _border(AppColors.neutral100),
-        focusedBorder: _border(AppColors.primary, width: 1.5),
+        enabledBorder: _border(context.colors.onSurfaceVariant),
+        focusedBorder: _border(context.colors.primary, width: 1.5),
         errorBorder: _border(AppColors.danger),
         focusedErrorBorder: _border(AppColors.danger, width: 1.5),
       ),
