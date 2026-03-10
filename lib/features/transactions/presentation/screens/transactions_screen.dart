@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../controllers/transaction_controller.dart';
 import '../widgets/balance_card.dart';
+import '../widgets/filters/transactions_filter_panel.dart';
 import '../widgets/transaction_empty_state.dart';
-import '../widgets/transactions_list.dart';
+import '../widgets/transaction_group_section.dart';
 
 class TransactionsScreen extends StatefulWidget {
   const TransactionsScreen({super.key});
@@ -57,15 +59,44 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                     );
                   }
 
-                  if (controller.transactions.isEmpty) {
-                    return const TransactionEmptyState();
-                  }
+                  final groups = controller.groupedFilteredTransactions;
 
-                  return TransactionsList(
-                    transactions: controller.transactions,
-                    onDelete: (id) async {
-                      await controller.deleteTransaction(id);
-                    },
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        TransactionFiltersPanel(
+                          selectedType: controller.filter.type,
+                          selectedPeriod: controller.filter.period,
+                          selectedCategory: controller.filter.category,
+                          searchController: controller.searchController,
+                          categories: controller.availableCategories,
+                          onTypeChanged: controller.setTypeFilter,
+                          onPeriodChanged: controller.setPeriodFilter,
+                          onCategoryChanged: controller.setCategoryFilter,
+                          onSearchChanged: controller.setSearchQuery,
+                          onClearFilters: controller.clearFilters,
+                        ),
+                        const SizedBox(height: AppSpacing.lg),
+                        if (groups.isEmpty)
+                          const TransactionEmptyState()
+                        else
+                          ...groups.map(
+                            (group) => Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: AppSpacing.lg,
+                              ),
+                              child: TransactionGroupSection(
+                                group: group,
+                                onDelete: (id) async {
+                                  await controller.deleteTransaction(id);
+                                },
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   );
                 },
               ),

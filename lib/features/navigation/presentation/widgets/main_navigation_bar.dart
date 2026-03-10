@@ -56,10 +56,18 @@ class MainNavigationBar extends StatelessWidget {
               final isAdd = tab == NavigationTab.addTransaction;
 
               return NavigationDestination(
-                icon: isAdd ? _buildAddButton() : Icon(tab.icon),
+                icon: isAdd
+                    ? _buildAddButton()
+                    : Icon(
+                        tab.icon,
+                        color: context.colors.onSurfaceVariant,
+                      ),
                 selectedIcon: isAdd
                     ? _buildAddButton(selected: true)
-                    : Icon(tab.selectedIcon),
+                    : Icon(
+                        tab.selectedIcon,
+                        color: context.colors.primary,
+                      ),
                 label: tab.label,
               );
             }).toList(),
