@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../app/router/app_routes.dart';
 import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/design_system/tokens/app_typography.dart';
+import '../../../../shared/utils/navigation_extensions.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
 import '../widgets/settings_card.dart';
 import '../widgets/settings_item.dart';
 import 'acount_screen.dart';
@@ -28,9 +32,7 @@ class ProfileScreen extends StatelessWidget {
             'Conta',
             style: AppTypography.title,
           ),
-
           const SizedBox(height: AppSpacing.md),
-
           SettingsCard(
             children: [
               SettingsItem(
@@ -47,17 +49,13 @@ class ProfileScreen extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: AppSpacing.xl),
-
           // Preferências
           Text(
             'Preferências',
             style: AppTypography.title,
           ),
-
           const SizedBox(height: AppSpacing.md),
-
           SettingsCard(
             children: [
               SettingsItem(
@@ -74,9 +72,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: AppSpacing.xl),
-
           /// Logout
           SettingsCard(
             children: [
@@ -85,9 +81,11 @@ class ProfileScreen extends StatelessWidget {
                 label: 'Sair',
                 textColor: AppColors.danger,
                 iconColor: AppColors.danger,
-                onTap: () {
-                  /// TO DO: conectar com auth
-                  print("logout");
+                onTap: () async {
+                  await context.read<AuthController>().signOut();
+
+                  if (!context.mounted) return;
+                  context.goPage(AppRoutes.login);
                 },
               ),
             ],

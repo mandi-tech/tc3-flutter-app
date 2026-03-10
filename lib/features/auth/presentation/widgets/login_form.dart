@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../app/router/app_routes.dart';
 import '../../../../shared/design_system/components/app_button.dart';
@@ -7,6 +8,7 @@ import '../../../../shared/design_system/components/app_password_field.dart';
 import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/utils/navigation_extensions.dart';
+import '../controllers/auth_controller.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -21,8 +23,6 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _isLoading = false;
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -35,19 +35,26 @@ class _LoginFormState extends State<LoginForm> {
 
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+    final authController = context.read<AuthController>();
 
-    await Future.delayed(const Duration(milliseconds: 800));
+    final success = await authController.signIn(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
 
     if (!mounted) return;
 
-    setState(() {
-      _isLoading = false;
-    });
-
-    context.pushPage(AppRoutes.main);
+    if (success) {
+      context.goPage(AppRoutes.main);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            authController.errorMessage ?? 'Erro ao entrar.',
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -84,10 +91,14 @@ class _LoginFormState extends State<LoginForm> {
               onFieldSubmitted: (_) => _handleLogin(),
             ),
             const SizedBox(height: AppSpacing.lg),
-            AppButton(
-              label: 'Entrar',
-              onPressed: _handleLogin,
-              isLoading: _isLoading,
+            Consumer<AuthController>(
+              builder: (context, authController, _) {
+                return AppButton(
+                  label: 'Entrar',
+                  onPressed: _handleLogin,
+                  isLoading: authController.isLoading,
+                );
+              },
             ),
             const SizedBox(height: AppSpacing.sm),
             TextButton(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../app/router/app_routes.dart';
 import '../../../../shared/design_system/components/app_button.dart';
@@ -8,6 +9,7 @@ import '../../../../shared/design_system/components/app_text_field.dart';
 import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/utils/navigation_extensions.dart';
+import '../../../auth/presentation/controllers/auth_controller.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -24,8 +26,6 @@ class _RegisterFormState extends State<RegisterForm> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  bool _isLoading = false;
-
   @override
   void dispose() {
     _fullNameController.dispose();
@@ -40,19 +40,27 @@ class _RegisterFormState extends State<RegisterForm> {
 
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+    final authController = context.read<AuthController>();
 
-    await Future.delayed(const Duration(milliseconds: 800));
+    final success = await authController.signUp(
+      fullName: _fullNameController.text,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
 
     if (!mounted) return;
 
-    setState(() {
-      _isLoading = false;
-    });
-
-    context.pushPage(AppRoutes.home);
+    if (success) {
+      context.goPage(AppRoutes.main);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            authController.errorMessage ?? 'Erro ao criar conta.',
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -97,16 +105,12 @@ class _RegisterFormState extends State<RegisterForm> {
                 return null;
               },
             ),
-
             const SizedBox(height: AppSpacing.md),
-
             AppEmailField(
               controller: _emailController,
               textInputAction: TextInputAction.next,
             ),
-
             const SizedBox(height: AppSpacing.md),
-
             AppPasswordField(
               controller: _passwordController,
               textInputAction: TextInputAction.next,
@@ -120,9 +124,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 return null;
               },
             ),
-
             const SizedBox(height: AppSpacing.md),
-
             AppPasswordField(
               controller: _confirmPasswordController,
               label: 'Confirmar senha',
@@ -139,17 +141,17 @@ class _RegisterFormState extends State<RegisterForm> {
                 return null;
               },
             ),
-
             const SizedBox(height: AppSpacing.lg),
-
-            AppButton(
-              label: 'Criar conta',
-              onPressed: _handleRegister,
-              isLoading: _isLoading,
+            Consumer<AuthController>(
+              builder: (context, authController, _) {
+                return AppButton(
+                  label: 'Criar conta',
+                  onPressed: _handleRegister,
+                  isLoading: authController.isLoading,
+                );
+              },
             ),
-
             const SizedBox(height: AppSpacing.sm),
-
             TextButton(
               onPressed: () => context.goBack(),
               child: const Text(
