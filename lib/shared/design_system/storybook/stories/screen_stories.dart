@@ -111,6 +111,24 @@ final List<Story> screenStories = [
       );
     },
   ),
+  Story(
+    name: 'Screens/Account Screen',
+    description: 'Tela de dados da conta.',
+    builder: (_) => const StoryPreviewFrame(
+      width: 390,
+      title: 'Account Screen',
+      child: _AccountScreenPreview(),
+    ),
+  ),
+  Story(
+    name: 'Screens/Profile Screen',
+    description: 'Tela principal de perfil.',
+    builder: (_) => const StoryPreviewFrame(
+      width: 390,
+      title: 'Profile Screen',
+      child: _ProfileScreenPreview(),
+    ),
+  ),
 ];
 
 class _LoginScreenPreview extends StatelessWidget {
@@ -313,5 +331,207 @@ class _MainNavigationScreenPreview extends StatelessWidget {
       case NavigationTab.profile:
         return 'Perfil';
     }
+  }
+}
+
+class _AccountScreenPreview extends StatelessWidget {
+  const _AccountScreenPreview();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Dados da conta',
+            style: AppTypography.title.copyWith(
+              color: context.colors.onSurface,
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          decoration: BoxDecoration(
+            color: context.colors.surface,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: context.colors.outlineVariant,
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Nome',
+                style: AppTypography.caption.copyWith(
+                  color: context.colors.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                'Isabelle Ribeiro',
+                style: AppTypography.body.copyWith(
+                  color: context.colors.onSurface,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                'E-mail',
+                style: AppTypography.caption.copyWith(
+                  color: context.colors.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xs),
+              Text(
+                'isabelle@email.com',
+                style: AppTypography.body.copyWith(
+                  color: context.colors.onSurface,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.lg),
+        Container(
+          decoration: BoxDecoration(
+            color: context.colors.surface,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: context.colors.outlineVariant,
+            ),
+          ),
+          child: ListTile(
+            leading: const Icon(
+              Icons.lock_outline_rounded,
+              color: AppColors.secondary,
+            ),
+            title: Text(
+              'Alterar senha',
+              style: AppTypography.body.copyWith(
+                color: context.colors.onSurface,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () {},
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ProfileScreenPreview extends StatelessWidget {
+  const _ProfileScreenPreview();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          'Perfil',
+          style: AppTypography.title.copyWith(
+            color: context.colors.onSurface,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.lg),
+
+        Text(
+          'Conta',
+          style: AppTypography.title.copyWith(
+            color: context.colors.onSurface,
+            fontSize: 18,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        _SettingsCardPreview(
+          child: ListTile(
+            leading: const Icon(Icons.person_outline_rounded),
+            title: Text(
+              'Dados da conta',
+              style: AppTypography.body.copyWith(
+                color: context.colors.onSurface,
+              ),
+            ),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () {},
+          ),
+        ),
+
+        const SizedBox(height: AppSpacing.xl),
+
+        Text(
+          'Preferências',
+          style: AppTypography.title.copyWith(
+            color: context.colors.onSurface,
+            fontSize: 18,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        _SettingsCardPreview(
+          child: ListTile(
+            leading: const Icon(Icons.palette_outlined),
+            title: Text(
+              'Tema',
+              style: AppTypography.body.copyWith(
+                color: context.colors.onSurface,
+              ),
+            ),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () {},
+          ),
+        ),
+
+        const SizedBox(height: AppSpacing.xl),
+
+        _SettingsCardPreview(
+          child: ListTile(
+            leading: Icon(
+              Icons.logout_rounded,
+              color: context.colors.error,
+            ),
+            title: Text(
+              'Sair',
+              style: AppTypography.body.copyWith(
+                color: context.colors.error,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            trailing: const Icon(Icons.chevron_right_rounded),
+            onTap: () {},
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SettingsCardPreview extends StatelessWidget {
+  final Widget child;
+
+  const _SettingsCardPreview({
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: context.colors.surface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: context.colors.outlineVariant,
+        ),
+      ),
+      child: child,
+    );
   }
 }

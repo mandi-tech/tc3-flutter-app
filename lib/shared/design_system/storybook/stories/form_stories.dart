@@ -28,6 +28,15 @@ final List<Story> formStories = [
       child: _RegisterFormPreview(),
     ),
   ),
+  Story(
+    name: 'Forms/Change Password Form',
+    description: 'Formulário de alteração de senha.',
+    builder: (_) => const StoryPreviewFrame(
+      width: 380,
+      title: 'Change Password Form',
+      child: _ChangePasswordFormPreview(),
+    ),
+  ),
 ];
 
 class _LoginFormPreview extends StatelessWidget {
@@ -93,6 +102,34 @@ class _RegisterFormPreview extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ChangePasswordFormPreview extends StatelessWidget {
+  const _ChangePasswordFormPreview();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        AppPasswordField(
+          label: 'Nova senha',
+          hintText: 'Digite sua nova senha',
+        ),
+        SizedBox(height: AppSpacing.md),
+        AppPasswordField(
+          label: 'Confirmar nova senha',
+          hintText: 'Digite novamente a nova senha',
+        ),
+        SizedBox(height: AppSpacing.lg),
+        AppButton(
+          label: 'Salvar nova senha',
+          onPressed: null,
         ),
       ],
     );
