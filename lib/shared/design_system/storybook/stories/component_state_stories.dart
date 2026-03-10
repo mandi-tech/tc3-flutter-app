@@ -3,10 +3,12 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../../features/navigation/domain/navigation_tab.dart';
 import '../../../../features/navigation/presentation/widgets/main_navigation_bar.dart';
+import '../../../utils/theme_extensions.dart';
 import '../../components/app_button.dart';
 import '../../components/app_email_field.dart';
 import '../../components/app_password_field.dart';
 import '../../tokens/app_spacing.dart';
+import '../../tokens/app_typography.dart';
 
 final List<Story> componentStateStories = [
   Story(
@@ -23,6 +25,11 @@ final List<Story> componentStateStories = [
     name: 'States/MainNavigationBar',
     description: 'Estados visuais da navbar com cada aba selecionada.',
     builder: (_) => const _MainNavigationBarStatesStory(),
+  ),
+  Story(
+    name: 'States/Login Form - Error',
+    description: 'Estado de erro do formulário de login.',
+    builder: (_) => const _LoginFormErrorStateStory(),
   ),
 ];
 
@@ -162,6 +169,58 @@ class _MainNavigationBarStatesStory extends StatelessWidget {
             const SizedBox(height: AppSpacing.xl),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class _LoginFormErrorStateStory extends StatelessWidget {
+  const _LoginFormErrorStateStory();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 380),
+        child: Container(
+          padding: const EdgeInsets.all(AppSpacing.lg),
+          decoration: BoxDecoration(
+            color: context.colors.surface,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: context.colors.outlineVariant,
+            ),
+          ),
+          child: Form(
+            autovalidateMode: AutovalidateMode.always,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                AppEmailField(
+                  controller: TextEditingController(text: 'email-invalido'),
+                  validator: (_) => 'Informe um e-mail válido.',
+                ),
+                const SizedBox(height: AppSpacing.md),
+                AppPasswordField(
+                  controller: TextEditingController(text: '123'),
+                  validator: (_) => 'Senha incorreta.',
+                ),
+                const SizedBox(height: AppSpacing.sm),
+                Text(
+                  'E-mail ou senha incorretos.',
+                  style: AppTypography.caption.copyWith(
+                    color: context.colors.error,
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                const AppButton(
+                  label: 'Entrar',
+                  onPressed: null,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

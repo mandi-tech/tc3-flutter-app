@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../features/auth/presentation/controllers/auth_controller.dart';
+import '../features/auth/data/services/auth_service.dart';
 import '../shared/design_system/themes/app_theme.dart';
 import 'controllers/theme_controller.dart';
 import 'router/app_router.dart';
@@ -30,18 +33,30 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return _ThemeControllerProvider(
       controller: _themeController,
-      child: AnimatedBuilder(
-        animation: _themeController,
-        builder: (context, _) {
-          return MaterialApp.router(
-            title: 'Gerenciador Financeiro',
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.light(),
-            darkTheme: AppTheme.dark(),
-            themeMode: _themeController.flutterThemeMode,
-            routerConfig: appRouter,
-          );
-        },
+      child: MultiProvider(
+        providers: [
+          Provider<AuthService>(
+            create: (_) => AuthService(),
+          ),
+          ChangeNotifierProvider<AuthController>(
+            create: (context) => AuthController(
+              context.read<AuthService>(),
+            ),
+          ),
+        ],
+        child: AnimatedBuilder(
+          animation: _themeController,
+          builder: (context, _) {
+            return MaterialApp.router(
+              title: 'Gerenciador Financeiro',
+              debugShowCheckedModeBanner: false,
+              theme: AppTheme.light(),
+              darkTheme: AppTheme.dark(),
+              themeMode: _themeController.flutterThemeMode,
+              routerConfig: appRouter,
+            );
+          },
+        ),
       ),
     );
   }
