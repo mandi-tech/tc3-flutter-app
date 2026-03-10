@@ -198,12 +198,12 @@ class _LoginFormErrorStateStory extends StatelessWidget {
               children: [
                 AppEmailField(
                   controller: TextEditingController(text: 'email-invalido'),
-                  validator: (_) => 'Informe um e-mail válido',
+                  validator: (_) => 'Informe um e-mail válido.',
                 ),
                 const SizedBox(height: AppSpacing.md),
                 AppPasswordField(
                   controller: TextEditingController(text: '123'),
-                  validator: (_) => 'E-mail ou senha incorretos.',
+                  validator: (_) => 'Senha incorreta.',
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(

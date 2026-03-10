@@ -117,10 +117,11 @@ class AuthController extends ChangeNotifier {
     switch (e.code) {
       case 'invalid-email':
         return 'E-mail inválido.';
-      case 'user-not-found':
       case 'wrong-password':
+        return 'Senha incorreta.';
+      case 'user-not-found':
       case 'invalid-credential':
-        return 'E-mail ou senha incorretos.';
+        return 'Credenciais inválidas ou desconhecidas.';
       case 'email-already-in-use':
         return 'Este e-mail já está em uso.';
       case 'weak-password':
