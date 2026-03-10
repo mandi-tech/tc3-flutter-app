@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../features/auth/presentation/controllers/auth_controller.dart';
 import '../features/auth/data/services/auth_service.dart';
+import '../features/transactions/data/services/transaction_service.dart';
+import '../features/transactions/presentation/controllers/transaction_controller.dart';
 import '../shared/design_system/themes/app_theme.dart';
 import 'controllers/theme_controller.dart';
 import 'router/app_router.dart';
@@ -43,6 +46,11 @@ class _AppState extends State<App> {
               context.read<AuthService>(),
             ),
           ),
+          ChangeNotifierProvider(
+            create: (_) => TransactionController(
+              service: TransactionService(),
+            ),
+          ),
         ],
         child: AnimatedBuilder(
           animation: _themeController,
@@ -54,6 +62,16 @@ class _AppState extends State<App> {
               darkTheme: AppTheme.dark(),
               themeMode: _themeController.flutterThemeMode,
               routerConfig: appRouter,
+              locale: const Locale('pt', 'BR'),
+              supportedLocales: const [
+                Locale('pt', 'BR'),
+                Locale('en', 'US'),
+              ],
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
             );
           },
         ),

@@ -53,7 +53,7 @@ class MainNavigationBar extends StatelessWidget {
             indicatorColor: context.colors.primary.withOpacity(0.16),
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             destinations: tabs.map((tab) {
-              final isAdd = tab == NavigationTab.add;
+              final isAdd = tab == NavigationTab.addTransaction;
 
               return NavigationDestination(
                 icon: isAdd ? _buildAddButton() : Icon(tab.icon),
