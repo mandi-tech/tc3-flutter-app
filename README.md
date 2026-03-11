@@ -3,16 +3,16 @@
 </h1>
 
 <p align="center">
-  
-  ![Flutter](https://img.shields.io/badge/Flutter-3.41.2-blue?logo=flutter)
-  ![Dart](https://img.shields.io/badge/Dart-3.11.0-blue?logo=dart)
-  ![Architecture](https://img.shields.io/badge/Architecture-DDD%20%2B%20Feature%20First-purple)
-  ![Design System](https://img.shields.io/badge/Design%20System-Custom-pink)
-  ![Storybook](https://img.shields.io/badge/Storybook-Flutter-orange)
-  ![Firebase](https://img.shields.io/badge/Firebase-Firestore%20%2B%20Storage-orange)
-  ![Status](https://img.shields.io/badge/Status-Work%20In%20Progress-yellow)
-  
+  <img src="https://img.shields.io/badge/Flutter-3.41.2-blue?logo=flutter" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Dart-3.11.0-blue?logo=dart" alt="Dart" />
+  <img src="https://img.shields.io/badge/Architecture-DDD%20%2B%20Feature%20First-purple" alt="Architecture" />
+  <img src="https://img.shields.io/badge/Design%20System-Custom-pink" alt="Design System" />
+  <img src="https://img.shields.io/badge/Storybook-Flutter-orange" alt="Storybook" />
+  <img src="https://img.shields.io/badge/Firebase-Firestore%20%2B%20Storage-orange" alt="Firebase" />
+  <img src="https://img.shields.io/badge/Status-Work%20In%20Progress-yellow" alt="Status" />
 </p>
+
+> Aplicativo Flutter para gerenciamento financeiro pessoal com autenticação, dashboard financeiro e armazenamento de recibos utilizando Firebase.
 
 ## 📑 Sumário
 
@@ -35,20 +35,14 @@
 
 ## 📱 Sobre o projeto
 
-Aplicativo mobile desenvolvido em **Flutter** para **gerenciamento
-financeiro pessoal**.
+Este projeto foi desenvolvido como parte do **Tech Challenge - Fase 03** da Pós Tech.
 
-O projeto foi desenvolvido como parte do **Tech Challenge - Fase 03** da Pós Tech, com o objetivo de aplicar conceitos de:
+A aplicação tem como objetivo permitir que usuários gerenciem suas finanças pessoais,
+incluindo cadastro de transações, visualização de relatórios financeiros e armazenamento
+de recibos utilizando Firebase.
 
--   arquitetura escalável
--   design system reutilizável
--   integração com Firebase
--   gerenciamento de estado
--   documentação visual de componentes
-
-A aplicação permite que usuários autenticados **cadastrem, visualizem,
-filtrem e gerenciem transações financeiras**, incluindo anexos de
-recibos.
+O projeto também explora conceitos de arquitetura escalável, Design System e documentação
+de componentes utilizando Storybook.
 
 ---
 
