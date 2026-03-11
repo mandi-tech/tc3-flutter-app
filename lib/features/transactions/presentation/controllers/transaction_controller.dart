@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 import '../../data/models/transaction_model.dart';
 import '../../data/services/transaction_service.dart';
+import '../enums/transaction_type.dart';
+import '../formatters/transaction_formatters.dart';
 import '../utils/transaction_filter.dart';
 import '../utils/transaction_grouping.dart';
 
@@ -19,46 +20,31 @@ class TransactionController extends ChangeNotifier {
   final TextEditingController searchController = TextEditingController();
 
   final List<TransactionModel> _transactions = [];
-  List<TransactionModel> get transactions => List.unmodifiable(_transactions);
-
   StreamSubscription<List<TransactionModel>>? _subscription;
 
   bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
   String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-
   TransactionFilter _filter = const TransactionFilter();
+
+  List<TransactionModel> get transactions => List.unmodifiable(_transactions);
+  bool get isLoading => _isLoading;
+  String? get errorMessage => _errorMessage;
   TransactionFilter get filter => _filter;
 
   void startListening() {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
+    _setLoading(true);
+    _clearError();
 
     _subscription?.cancel();
 
     _subscription = service.getTransactions().listen(
-      (data) {
-        _transactions
-          ..clear()
-          ..addAll(data);
-
-        _isLoading = false;
-        _errorMessage = null;
-        notifyListeners();
-      },
-      onError: (_) {
-        _isLoading = false;
-        _errorMessage = 'Erro ao carregar transações.';
-        notifyListeners();
-      },
+      _handleTransactionsLoaded,
+      onError: (_) => _handleTransactionsError(),
     );
   }
 
   Future<void> addTransaction({
-    required String type,
+    required TransactionType type,
     required String description,
     required String category,
     required double amount,
@@ -109,8 +95,12 @@ class TransactionController extends ChangeNotifier {
   }
 
   List<String> get availableCategories {
-    final categories = _transactions.map((e) => e.category).toSet().toList();
-    categories.sort();
+    final categories = _transactions
+        .map((transaction) => transaction.category)
+        .toSet()
+        .toList()
+      ..sort();
+
     return categories;
   }
 
@@ -119,10 +109,16 @@ class TransactionController extends ChangeNotifier {
     final today = DateTime(now.year, now.month, now.day);
 
     return _transactions.where((transaction) {
+      final transactionDate = DateTime(
+        transaction.date.year,
+        transaction.date.month,
+        transaction.date.day,
+      );
+
       final matchesType = switch (_filter.type) {
         TransactionTypeFilter.all => true,
-        TransactionTypeFilter.income => transaction.type == 'income',
-        TransactionTypeFilter.expense => transaction.type == 'expense',
+        TransactionTypeFilter.income => transaction.type.isIncome,
+        TransactionTypeFilter.expense => transaction.type.isExpense,
       };
 
       final matchesCategory = _filter.category == null
@@ -131,15 +127,9 @@ class TransactionController extends ChangeNotifier {
 
       final matchesSearch = _filter.searchQuery.trim().isEmpty
           ? true
-          : transaction.description
-              .toLowerCase()
-              .contains(_filter.searchQuery.toLowerCase());
-
-      final transactionDate = DateTime(
-        transaction.date.year,
-        transaction.date.month,
-        transaction.date.day,
-      );
+          : transaction.description.toLowerCase().contains(
+                _filter.searchQuery.toLowerCase(),
+              );
 
       final matchesPeriod = switch (_filter.period) {
         TransactionPeriodFilter.all => true,
@@ -161,11 +151,10 @@ class TransactionController extends ChangeNotifier {
   }
 
   List<TransactionGroup> get groupedFilteredTransactions {
-    final Map<String, List<TransactionModel>> grouped = {};
+    final grouped = <String, List<TransactionModel>>{};
 
     for (final transaction in filteredTransactions) {
-      final key = DateFormat('yyyy-MM-dd').format(transaction.date);
-
+      final key = TransactionFormatters.groupKey(transaction.date);
       grouped.putIfAbsent(key, () => []);
       grouped[key]!.add(transaction);
     }
@@ -177,36 +166,101 @@ class TransactionController extends ChangeNotifier {
       final date = DateTime.parse(entry.key);
 
       return TransactionGroup(
-        title: _formatGroupTitle(date),
+        title: TransactionFormatters.groupTitle(date),
         transactions: entry.value,
       );
     }).toList();
   }
 
-  String _formatGroupTitle(DateTime date) {
+  List<TransactionModel> get currentMonthTransactions {
     final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final transactionDate = DateTime(date.year, date.month, date.day);
-    final difference = today.difference(transactionDate).inDays;
 
-    if (difference == 0) return 'Hoje';
-    if (difference == 1) return 'Ontem';
-
-    return DateFormat('dd/MM/yyyy').format(date);
+    return _transactions.where((transaction) {
+      return transaction.date.year == now.year &&
+          transaction.date.month == now.month;
+    }).toList();
   }
 
-  double get balance {
+  double get totalIncome => _sumByType(_transactions, TransactionType.income);
+  double get totalExpense => _sumByType(_transactions, TransactionType.expense);
+  double get balance => totalIncome - totalExpense;
+
+  double get filteredIncome =>
+      _sumByType(filteredTransactions, TransactionType.income);
+
+  double get filteredExpense =>
+      _sumByType(filteredTransactions, TransactionType.expense);
+
+  double get filteredBalance => filteredIncome - filteredExpense;
+
+  double get currentMonthIncome =>
+      _sumByType(currentMonthTransactions, TransactionType.income);
+
+  double get currentMonthExpense =>
+      _sumByType(currentMonthTransactions, TransactionType.expense);
+
+  double get currentMonthBalance => currentMonthIncome - currentMonthExpense;
+
+  String get formattedBalance => TransactionFormatters.currency(balance);
+  String get formattedIncome => TransactionFormatters.currency(totalIncome);
+  String get formattedExpense => TransactionFormatters.currency(totalExpense);
+
+  String get formattedFilteredBalance =>
+      TransactionFormatters.currency(filteredBalance);
+
+  String get formattedFilteredIncome =>
+      TransactionFormatters.currency(filteredIncome);
+
+  String get formattedFilteredExpense =>
+      TransactionFormatters.currency(filteredExpense);
+
+  String get formattedCurrentMonthBalance =>
+      TransactionFormatters.currency(currentMonthBalance);
+
+  String get formattedCurrentMonthIncome =>
+      TransactionFormatters.currency(currentMonthIncome);
+
+  String get formattedCurrentMonthExpense =>
+      TransactionFormatters.currency(currentMonthExpense);
+
+  double _sumByType(
+    List<TransactionModel> transactions,
+    TransactionType type,
+  ) {
     double total = 0;
 
-    for (final transaction in _transactions) {
-      if (transaction.type == 'income') {
+    for (final transaction in transactions) {
+      if (transaction.type == type) {
         total += transaction.amount;
-      } else {
-        total -= transaction.amount;
       }
     }
 
     return total;
+  }
+
+  void _handleTransactionsLoaded(List<TransactionModel> data) {
+    _transactions
+      ..clear()
+      ..addAll(data);
+
+    _isLoading = false;
+    _errorMessage = null;
+    notifyListeners();
+  }
+
+  void _handleTransactionsError() {
+    _isLoading = false;
+    _errorMessage = 'Erro ao carregar transações.';
+    notifyListeners();
+  }
+
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  void _clearError() {
+    _errorMessage = null;
   }
 
   @override

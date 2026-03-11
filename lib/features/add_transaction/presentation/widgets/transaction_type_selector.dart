@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/design_system/components/app_button.dart';
+import '../../../transactions/presentation/enums/transaction_type.dart';
 
 class TransactionTypeSelector extends StatelessWidget {
-  final String selectedType;
-  final ValueChanged<String> onChanged;
+  final TransactionType selectedType;
+  final ValueChanged<TransactionType> onChanged;
 
   const TransactionTypeSelector({
     super.key,
@@ -14,8 +15,8 @@ class TransactionTypeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isExpense = selectedType == 'expense';
-    final isIncome = selectedType == 'income';
+    final isExpense = selectedType == TransactionType.expense;
+    final isIncome = selectedType == TransactionType.income;
 
     return Row(
       children: [
@@ -23,7 +24,7 @@ class TransactionTypeSelector extends StatelessWidget {
           child: AppButton(
             key: const ValueKey('transaction-type-expense'),
             label: 'Saída',
-            onPressed: () => onChanged('expense'),
+            onPressed: () => onChanged(TransactionType.expense),
             variant: isExpense
                 ? AppButtonVariant.primary
                 : AppButtonVariant.secondary,
@@ -34,7 +35,7 @@ class TransactionTypeSelector extends StatelessWidget {
           child: AppButton(
             key: const ValueKey('transaction-type-income'),
             label: 'Entrada',
-            onPressed: () => onChanged('income'),
+            onPressed: () => onChanged(TransactionType.income),
             variant: isIncome
                 ? AppButtonVariant.primary
                 : AppButtonVariant.secondary,

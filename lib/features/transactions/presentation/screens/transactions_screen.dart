@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../controllers/transaction_controller.dart';
-import '../widgets/balance_card.dart';
 import '../widgets/filters/transaction_filters_panel.dart';
 import '../widgets/transaction_empty_state.dart';
 import '../widgets/transaction_group_section.dart';
@@ -37,7 +36,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            BalanceCard(balance: controller.balance),
             Expanded(
               child: Builder(
                 builder: (_) {

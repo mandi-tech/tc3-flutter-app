@@ -1,5 +1,5 @@
-import 'dart:typed_data';
 import 'dart:io' show File;
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../presentation/enums/transaction_type.dart';
 import '../models/transaction_model.dart';
 
 class TransactionService {
@@ -22,48 +23,59 @@ class TransactionService {
         auth = auth ?? FirebaseAuth.instance,
         storage = storage ?? FirebaseStorage.instance;
 
-  CollectionReference<Map<String, dynamic>> get _transactions {
+  User get _currentUser {
     final user = auth.currentUser;
 
     if (user == null) {
-      throw Exception('Usuário não autenticado');
+      throw Exception('Usuário não autenticado.');
     }
 
+    return user;
+  }
+
+  CollectionReference<Map<String, dynamic>> get _transactionsCollection {
     return firestore
         .collection('users')
-        .doc(user.uid)
+        .doc(_currentUser.uid)
         .collection('transactions');
   }
 
   Future<String?> _uploadReceiptImage(XFile? image) async {
     if (image == null) return null;
 
-    final user = auth.currentUser;
-    if (user == null) {
-      throw Exception('Usuário não autenticado');
-    }
-
     final fileName =
         '${DateTime.now().millisecondsSinceEpoch}_${image.name}';
-    final ref = storage
+
+    final reference = storage
         .ref()
-        .child('users/${user.uid}/receipts/$fileName');
+        .child('users/${_currentUser.uid}/receipts/$fileName');
 
-    UploadTask uploadTask;
-
-    if (kIsWeb) {
-      final Uint8List bytes = await image.readAsBytes();
-      uploadTask = ref.putData(bytes);
-    } else {
-      uploadTask = ref.putFile(File(image.path));
-    }
+    final UploadTask uploadTask = kIsWeb
+        ? await _uploadFromWeb(reference, image)
+        : await _uploadFromDevice(reference, image);
 
     await uploadTask;
-    return ref.getDownloadURL();
+
+    return reference.getDownloadURL();
+  }
+
+  Future<UploadTask> _uploadFromWeb(
+    Reference reference,
+    XFile image,
+  ) async {
+    final Uint8List bytes = await image.readAsBytes();
+    return reference.putData(bytes);
+  }
+
+  Future<UploadTask> _uploadFromDevice(
+    Reference reference,
+    XFile image,
+  ) async {
+    return reference.putFile(File(image.path));
   }
 
   Future<void> addTransaction({
-    required String type,
+    required TransactionType type,
     required String description,
     required String category,
     required double amount,
@@ -82,21 +94,21 @@ class TransactionService {
       receiptImageUrl: receiptImageUrl,
     );
 
-    await _transactions.add(transaction.toMap());
+    await _transactionsCollection.add(transaction.toMap());
   }
 
   Stream<List<TransactionModel>> getTransactions() {
-    return _transactions
+    return _transactionsCollection
         .orderBy('date', descending: true)
         .snapshots()
         .map(
           (snapshot) => snapshot.docs
-              .map((doc) => TransactionModel.fromDoc(doc))
+              .map(TransactionModel.fromDoc)
               .toList(),
         );
   }
 
   Future<void> deleteTransaction(String id) async {
-    await _transactions.doc(id).delete();
+    await _transactionsCollection.doc(id).delete();
   }
 }

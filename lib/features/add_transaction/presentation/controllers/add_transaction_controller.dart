@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../transactions/presentation/enums/transaction_type.dart';
 import '../helpers/transaction_categories.dart';
 
 class AddTransactionController extends ChangeNotifier {
@@ -10,31 +11,37 @@ class AddTransactionController extends ChangeNotifier {
   final amountController = TextEditingController();
   final imagePicker = ImagePicker();
 
-  String type = 'expense';
-  String? selectedCategory = TransactionCategories.expense.first;
-  DateTime selectedDate = DateTime.now();
-  XFile? receiptImage;
-  bool isSaving = false;
+  TransactionType _type = TransactionType.expense;
+  String? _selectedCategory = TransactionCategories.expense.first;
+  DateTime _selectedDate = DateTime.now();
+  XFile? _receiptImage;
+  bool _isSaving = false;
+
+  TransactionType get type => _type;
+  String? get selectedCategory => _selectedCategory;
+  DateTime get selectedDate => _selectedDate;
+  XFile? get receiptImage => _receiptImage;
+  bool get isSaving => _isSaving;
 
   List<String> get currentCategories {
-    return type == 'income'
+    return _type.isIncome
         ? TransactionCategories.income
         : TransactionCategories.expense;
   }
 
-  void setType(String value) {
-    type = value;
-    selectedCategory = currentCategories.first;
+  void setType(TransactionType value) {
+    _type = value;
+    _selectedCategory = currentCategories.first;
     notifyListeners();
   }
 
   void setCategory(String? value) {
-    selectedCategory = value;
+    _selectedCategory = value;
     notifyListeners();
   }
 
   void setDate(DateTime value) {
-    selectedDate = value;
+    _selectedDate = value;
     notifyListeners();
   }
 
@@ -45,7 +52,7 @@ class AddTransactionController extends ChangeNotifier {
     );
 
     if (image != null) {
-      receiptImage = image;
+      _receiptImage = image;
       notifyListeners();
     }
   }
@@ -57,13 +64,13 @@ class AddTransactionController extends ChangeNotifier {
     );
 
     if (image != null) {
-      receiptImage = image;
+      _receiptImage = image;
       notifyListeners();
     }
   }
 
   void removeImage() {
-    receiptImage = null;
+    _receiptImage = null;
     notifyListeners();
   }
 
@@ -80,27 +87,27 @@ class AddTransactionController extends ChangeNotifier {
 
   bool validateForm() {
     final isValid = formKey.currentState?.validate() ?? false;
-    return isValid && selectedCategory != null;
+    return isValid && _selectedCategory != null;
   }
 
   void startSaving() {
-    isSaving = true;
+    _isSaving = true;
     notifyListeners();
   }
 
   void finishSuccessState() {
-    isSaving = false;
+    _isSaving = false;
     descriptionController.clear();
     amountController.clear();
-    type = 'expense';
-    selectedCategory = TransactionCategories.expense.first;
-    selectedDate = DateTime.now();
-    receiptImage = null;
+    _type = TransactionType.expense;
+    _selectedCategory = TransactionCategories.expense.first;
+    _selectedDate = DateTime.now();
+    _receiptImage = null;
     notifyListeners();
   }
 
   void finishErrorState() {
-    isSaving = false;
+    _isSaving = false;
     notifyListeners();
   }
 
