@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/utils/theme_extensions.dart';
+import '../widgets/add_transaction_view.dart';
 
 class AddTransactionScreen extends StatelessWidget {
   const AddTransactionScreen({super.key});
@@ -8,10 +8,11 @@ class AddTransactionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
-      body: Center(
-        child: Text('Adicionar transação'),
+      appBar: AppBar(
+        title: Text('Nova transação'),
+        centerTitle: true,
       ),
+      body: AddTransactionView(),
     );
   }
 }
