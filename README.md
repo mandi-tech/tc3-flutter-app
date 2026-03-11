@@ -338,7 +338,7 @@ https://www.youtube.com/watch?v=7yawItuhJDM
 
 <span id="equipe">
 
-## 👥 Equipe - Grupo 01
+## 👥 Equipe - Grupo 11
 
 | RM | Nome | LinkedIn | GitHub | 
 | :-------: | :--: | :---------:|:-------: | 
