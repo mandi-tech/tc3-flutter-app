@@ -4,11 +4,12 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 import '../../utils/theme_extensions.dart';
 import '../themes/app_theme.dart';
 import '../tokens/app_spacing.dart';
-import 'stories/component_state_stories.dart';
-import 'stories/component_stories.dart';
-import 'stories/form_stories.dart';
-import 'stories/screen_stories.dart';
-import 'stories/token_stories.dart';
+import 'stories/states/component_state_stories.dart';
+import 'stories/components/components_stories.dart';
+import 'stories/forms/form_stories.dart';
+import 'stories/screens/screen_stories.dart';
+import 'stories/tokens/token_stories.dart';
+import 'stories/transactions/transaction_stories.dart';
 
 class StorybookApp extends StatelessWidget {
   const StorybookApp({super.key});
@@ -33,6 +34,7 @@ class StorybookApp extends StatelessWidget {
       },
       stories: [
         ...componentStories,
+        ...transactionStories,
         ...componentStateStories,
         ...formStories,
         ...screenStories,

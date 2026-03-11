@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../controllers/transaction_controller.dart';
 import '../widgets/balance_card.dart';
-import '../widgets/filters/transactions_filter_panel.dart';
+import '../widgets/filters/transaction_filters_panel.dart';
 import '../widgets/transaction_empty_state.dart';
 import '../widgets/transaction_group_section.dart';
 
