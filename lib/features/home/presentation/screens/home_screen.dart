@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import '../../../../shared/design_system/components/app_button.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/design_system/tokens/app_typography.dart';
+import '../../../../shared/utils/theme_extensions.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   double _balance = 0;
 
   void _addIncome() {
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
     final isNegative = _balance < 0;
 
     return Scaffold(
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Gerenciador Financeiro'),
       ),

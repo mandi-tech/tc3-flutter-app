@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tc3_flutter_app/features/navigation/presentation/screens/main_navigation_screen.dart';
 
-import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/home/presentation/pages/home_page.dart';
-import '../../features/register/presentation/pages/register_page.dart';
-import '../../features/splash/presentation/pages/splash_page.dart';
+import '../../features/auth/presentation/screens/login_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/register/presentation/screens/register_screen.dart';
+import '../../features/splash/presentation/screens/splash_screen.dart';
 import 'app_routes.dart';
 
 final appRouter = GoRouter(
@@ -14,7 +15,7 @@ final appRouter = GoRouter(
       path: AppRoutes.login,
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
-        child: const LoginPage(),
+        child: const LoginScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,
@@ -27,7 +28,7 @@ final appRouter = GoRouter(
       path: AppRoutes.register,
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
-        child: const RegisterPage(),
+        child: const RegisterScreen(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,
@@ -38,11 +39,15 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.home,
-      builder: (context, state) => const HomePage(),
+      builder: (context, state) => const HomeScreen(),
     ),
     GoRoute(
       path: AppRoutes.splash,
-      builder: (context, state) => const SplashPage(),
+      builder: (context, state) => const SplashScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.main,
+      builder: (context, state) => const MainNavigationScreen(),
     ),
   ],
 );
