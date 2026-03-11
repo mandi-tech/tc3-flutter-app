@@ -1,159 +1,251 @@
-# 📱 Finance Manager
+<h1 align="center">
+  Tech Challenge - Fase 03: Gerenciador Financeiro
+</h1>
 
-![Flutter](https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter)
-![Dart](https://img.shields.io/badge/Dart-3.x-blue?logo=dart)
-![Architecture](https://img.shields.io/badge/Architecture-DDD%20%2B%20Feature%20First-purple)
-![Design System](https://img.shields.io/badge/Design%20System-Custom-pink)
-![Storybook](https://img.shields.io/badge/Storybook-Flutter-orange)
-![Status](https://img.shields.io/badge/Status-Work%20In%20Progress-yellow)
+<p align="center">
+  <img src="https://img.shields.io/badge/Flutter-3.41.2-blue?logo=flutter" alt="Flutter" />
+  <img src="https://img.shields.io/badge/Dart-3.11.0-blue?logo=dart" alt="Dart" />
+  <img src="https://img.shields.io/badge/Architecture-DDD%20%2B%20Feature%20First-purple" alt="Architecture" />
+  <img src="https://img.shields.io/badge/Design%20System-Custom-pink" alt="Design System" />
+  <img src="https://img.shields.io/badge/Storybook-Flutter-orange" alt="Storybook" />
+  <img src="https://img.shields.io/badge/Firebase-Firestore%20%2B%20Storage-orange" alt="Firebase" />
+  <img src="https://img.shields.io/badge/Status-Work%20In%20Progress-yellow" alt="Status" />
+</p>
 
-Aplicativo Flutter para **gerenciamento financeiro pessoal**, desenvolvido com foco em:
+> Aplicativo Flutter para gerenciamento financeiro pessoal com autenticação, dashboard financeiro e armazenamento de recibos utilizando Firebase.
 
-- arquitetura escalável
-- design system reutilizável
-- documentação de UI via Storybook
-- organização modular de features
+## 📑 Sumário
 
-O projeto funciona como **base arquitetural para aplicações Flutter maiores**, explorando boas práticas utilizadas em times profissionais.
-
----
-
-# ✨ Objetivos do projeto
-
-Este projeto foi criado para explorar e demonstrar:
-
-- Arquitetura **DDD + Feature First**
-- **Design System próprio**
-- Componentização consistente
-- Storybook para documentação visual
-- Separação clara de responsabilidades
-- Escalabilidade estrutural
-
----
-
-# 🏗 Arquitetura
-
-O projeto utiliza uma arquitetura híbrida baseada em:
-
-- **DDD (Domain Driven Design)**
-- **Feature First**
-
-Isso permite organizar o código por **domínio de negócio**, enquanto mantém **infraestrutura compartilhada isolada**.
+- 📱 [Sobre o projeto](#sobre)
+- 🛠 [Tecnologias](#tecnologias)
+- ✨ [Funcionalidades](#funcionalidades)
+- 🏗 [Arquitetura](#arquitetura)
+- 📂 [Estrutura do projeto](#estrutura)
+- 🧠 [Gerenciamento de estado](#estado)
+- 🎨 [Design System](#design-system)
+- 📚 [Storybook](#storybook)
+- 🚀 [Executando o projeto](#exe)
+- 🔥 [Configuração do Firebase](#firebase)
+- 🎥 [Demonstração](#demonstracao)
+- 👥 [Equipe](#equipe)
 
 ---
 
-## Estrutura de diretórios
+<span id="sobre">
 
-```
-lib/
-│
-├── app/
-│   └── router/
-│       └── app_router.dart
-│
-├── core/
-│   └── error/
-│       └── exceptions.dart
-│
-├── features/
-│   ├── auth/
-│   │   ├── login/
-│   │   └── register/
-│   │
-│   └── home/
-│
-├── shared/
-│   ├── design_system/
-│   │   ├── components/
-│   │   ├── tokens/
-│   │   └── themes/
-│   │
-│   └── utils/
-│       └── navigation_extensions.dart
-│
-├── storybook/
-│   ├── stories/
-│   ├── widgets/
-│   └── storybook_app.dart
-│
-├── main.dart
-└── main_storybook.dart
-```
+## 📱 Sobre o projeto
+
+Este projeto foi desenvolvido como parte do **Tech Challenge - Fase 03** da Pós Tech.
+
+A aplicação tem como objetivo permitir que usuários gerenciem suas finanças pessoais,
+incluindo cadastro de transações, visualização de relatórios financeiros e armazenamento
+de recibos utilizando Firebase.
+
+O projeto também explora conceitos de arquitetura escalável, Design System e documentação
+de componentes utilizando Storybook.
 
 ---
 
-# 🎨 Design System
+<span id="tecnologias">
 
-O projeto possui um **Design System próprio**, responsável por centralizar:
+## 🛠 Tecnologias
 
-- tokens visuais
-- componentes reutilizáveis
-- temas
+O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-Isso garante:
+### Mobile
 
-- consistência visual
-- reutilização de código
-- manutenção simplificada
+- **Flutter** — framework para desenvolvimento mobile multiplataforma
+- **Dart** — linguagem utilizada pelo Flutter
+
+### Backend / Cloud
+
+- **Firebase Authentication** — autenticação de usuários
+- **Cloud Firestore** — banco de dados NoSQL para armazenamento de transações
+- **Firebase Storage** — armazenamento de recibos e anexos
+
+### Gerenciamento de Estado
+
+- **Provider** — gerenciamento de estado da aplicação
+
+### UI / Design
+
+- **Custom Design System** — tokens e componentes reutilizáveis
+- **Storybook Flutter** — documentação visual de componentes
+
+### Ferramentas
+
+- **Git / GitHub** — versionamento de código
 
 ---
 
-# 🎨 Tokens
+<span id="funcionalidades">
+
+## ✨ Funcionalidades
+
+### 🔐 Autenticação
+
+-   Login de usuário
+-   Registro de novos usuários
+-   Persistência de sessão
+
+### 📊 Dashboard Financeiro
+
+-   Visualização de gráficos financeiros
+-   Análise das transações cadastradas
+
+### 💸 Gerenciamento de Transações
+
+-   Listagem de transações
+-   Filtros por categoria e data
+-   Paginação / scroll infinito
+
+### ➕ Cadastro de Transações
+
+-   Adicionar novas transações
+-   Editar transações existentes
+-   Validação de campos
+
+### 📎 Upload de Recibos
+
+-   Upload de comprovantes
+-   Armazenamento no **Firebase Storage**
+
+---
+
+<span id="arquitetura">
+
+## 🏗 Arquitetura
+
+O projeto utiliza uma arquitetura baseada em:
+
+### **DDD (Domain Driven Design)**
+
+Separação clara entre:
+
+-   Domain
+-   Application / UseCases
+-   Presentation
+-   Infrastructure
+
+### **Feature First**
+
+Organização baseada em funcionalidades da aplicação.
+
+Isso permite:
+
+-   melhor escalabilidade
+-   maior isolamento de features
+-   código mais fácil de manter
+
+---
+
+<span id="estrutura">
+
+## 📂 Estrutura do projeto
+
+    lib/
+    │
+    ├── app/
+    │   └── router/
+    │
+    ├── core/
+    │   └── error/
+    │
+    ├── features/
+    │   ├── auth/
+    │   │   ├── login/
+    │   │   └── register/
+    │   │
+    │   ├── dashboard/
+    │   └── transactions/
+    │
+    ├── shared/
+    │   ├── design_system/
+    │   │   ├── components/
+    │   │   ├── tokens/
+    │   │   └── themes/
+    │   │
+    │   └── utils/
+    │
+    ├── storybook/
+    │
+    ├── main.dart
+    └── main_storybook.dart
+
+---
+
+<span id="estado">
+
+## 🧠 Gerenciamento de estado
+
+O gerenciamento de estado é realizado utilizando: 
+
+    Provider
+
+Responsável por gerenciar:
+- estado de autenticação
+- estado das transações
+- atualização da interface
+
+---
+
+<span id="design-system">
+
+## 🎨 Design System
+
+O projeto possui um **Design System próprio**, responsável por
+centralizar:
+
+-   tokens visuais
+-   componentes reutilizáveis
+-   temas
+
+### 🎨 Tokens
 
 Localizados em:
 
-```
-shared/design_system/tokens
-```
+    shared/design_system/tokens
 
-### Colors
+#### Colors
 
-```
-AppColors.primary
-AppColors.secondary
-AppColors.accent
-context.theme.scaffoldBackgroundColor
-AppColors.surface
-```
+    AppColors.primary
+    AppColors.secondary
+    AppColors.accent
+    AppColors.background
+    AppColors.surface
 
-### Spacing
+#### Spacing
 
-```
-AppSpacing.xs
-AppSpacing.sm
-AppSpacing.md
-AppSpacing.lg
-AppSpacing.xl
-```
+    AppSpacing.xs
+    AppSpacing.sm
+    AppSpacing.md
+    AppSpacing.lg
+    AppSpacing.xl
 
-### Typography
+#### Typography
 
-```
-AppTypography.title
-AppTypography.body
-AppTypography.caption
-```
+    AppTypography.title
+    AppTypography.subtitle
+    AppTypography.body
+    AppTypography.caption
+    AppTypography.button
 
----
-
-# 🧩 Componentes
+### 🧩 Componentes
 
 Localizados em:
 
-```
-shared/design_system/components
-```
+    shared/design_system/components
 
 Componentes disponíveis:
 
-- AppButton
-- AppTextField
-- AppEmailField
-- AppPasswordField
+-   AppButton
+-   AppTextField
+-   AppEmailField
+-   AppPasswordField
 
 Exemplo:
 
-```dart
+``` dart
 AppButton(
   label: 'Entrar',
   onPressed: () {},
@@ -162,41 +254,93 @@ AppButton(
 
 ---
 
-# 📚 Storybook
+<span id="storybook">
 
-O projeto utiliza **Storybook Flutter** para documentar visualmente os componentes do Design System.
+## 📚 Storybook
 
-Isso permite:
+O projeto utiliza **Storybook Flutter** para documentar visualmente os
+componentes.
 
-- visualizar componentes isoladamente
-- testar estados
-- validar responsividade
-- documentar tokens
+Permite:
 
-## Rodar o Storybook
+-   visualizar componentes isoladamente
+-   testar diferentes estados
+-   documentar tokens
+-   validar consistência visual
 
-```bash
+### Rodar Storybook
+
+``` bash
 flutter run -t lib/main_storybook.dart
 ```
 
 ---
 
-# 🚀 Como rodar o projeto
+<span id="exe">
 
-## Instalar dependências
+## 🚀 Executando o projeto
 
-```bash
-flutter pub get
+### Instalar dependências
+
+    flutter pub get
+
+### Rodar aplicativo
+
+    flutter run
+
+---
+
+<span id="firebase">
+
+## 🔥 Configuração do Firebase
+
+O projeto utiliza:
+
+-   Firebase Authentication
+-   Cloud Firestore
+-   Firebase Storage
+
+### Criar projeto
+
+https://console.firebase.google.com
+
+### Instalar dependências
+
+    flutter pub add firebase_core
+    flutter pub add firebase_auth
+    flutter pub add cloud_firestore
+    flutter pub add firebase_storage
+
+### Inicializar Firebase
+
+``` dart
+await Firebase.initializeApp();
 ```
 
-## Rodar o aplicativo
+---
 
-```bash
-flutter run
-```
+<span id="demonstracao">
 
-## Rodar o Storybook
+## 🎥 Demonstração
 
-```bash
-flutter run -t lib/main_storybook.dart
-```
+Vídeo demonstrando:
+
+-   login
+-   cadastro de transações
+-   edição
+-   filtros
+-   upload de recibos
+-   integração com Firebase
+
+https://www.youtube.com/watch?v=7yawItuhJDM
+
+---
+
+<span id="equipe">
+
+## 👥 Equipe - Grupo 11
+
+| RM | Nome | LinkedIn | GitHub | 
+| :-------: | :--: | :---------:|:-------: | 
+| RM367409 | Isabelle Dias Ribeiro Silva|[![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/drisabelles) | [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/drisabelles)| 
+| RM367047 | Mariana Ayumi Tamay | [![Linkedin Badge](https://img.shields.io/badge/Linkedin-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/marianatamay) | [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/Mariayumi)
