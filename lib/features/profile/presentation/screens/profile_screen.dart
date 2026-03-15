@@ -9,8 +9,6 @@ import '../../../../shared/utils/navigation_extensions.dart';
 import '../../../auth/presentation/controllers/auth_controller.dart';
 import '../widgets/settings_card.dart';
 import '../widgets/settings_item.dart';
-import 'acount_screen.dart';
-import 'preferences_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -39,12 +37,7 @@ class ProfileScreen extends StatelessWidget {
                 icon: Icons.person_outline,
                 label: 'Dados da conta',
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const AccountScreen(),
-                    ),
-                  );
+                  context.pushPage(AppRoutes.account);
                 },
               ),
             ],
@@ -62,12 +55,7 @@ class ProfileScreen extends StatelessWidget {
                 icon: Icons.palette_outlined,
                 label: 'Tema',
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const PreferencesScreen(),
-                    ),
-                  );
+                  context.pushPage(AppRoutes.preferences);
                 },
               ),
             ],

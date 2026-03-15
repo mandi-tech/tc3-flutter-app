@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tc3_flutter_app/features/navigation/presentation/screens/main_navigation_screen.dart';
 
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/navigation/presentation/screens/main_navigation_screen.dart';
+import '../../features/profile/presentation/screens/account_screen.dart';
+import '../../features/profile/presentation/screens/preferences_screen.dart';
 import '../../features/register/presentation/screens/register_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import 'app_routes.dart';
@@ -48,6 +50,14 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.main,
       builder: (context, state) => const MainNavigationScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.account,
+      builder: (context, state) => const AccountScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.preferences,
+      builder: (context, state) => const PreferencesScreen(),
     ),
   ],
 );

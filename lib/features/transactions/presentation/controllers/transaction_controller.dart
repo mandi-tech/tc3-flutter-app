@@ -201,6 +201,47 @@ class TransactionController extends ChangeNotifier {
 
   double get currentMonthBalance => currentMonthIncome - currentMonthExpense;
 
+  Map<String, double> get expensesByCategory {
+    final Map<String, double> result = {};
+
+    for (final transaction in currentMonthTransactions) {
+      if (transaction.type.isExpense) {
+        result.update(
+          transaction.category,
+          (value) => value + transaction.amount,
+          ifAbsent: () => transaction.amount,
+        );
+      }
+    }
+
+    return result;
+  }
+
+  Map<int, double> get expensesByDay {
+    final Map<int, double> result = {};
+
+    for (final transaction in currentMonthTransactions) {
+      if (transaction.type.isExpense) {
+        final day = transaction.date.day;
+
+        result.update(
+          day,
+          (value) => value + transaction.amount,
+          ifAbsent: () => transaction.amount,
+        );
+      }
+    }
+
+    return result;
+  }
+
+  Map<String, double> get incomeVsExpense {
+    return {
+      "Receitas": currentMonthIncome,
+      "Despesas": currentMonthExpense,
+    };
+  }
+
   String get formattedBalance => TransactionFormatters.currency(balance);
   String get formattedIncome => TransactionFormatters.currency(totalIncome);
   String get formattedExpense => TransactionFormatters.currency(totalExpense);

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/design_system/tokens/app_spacing.dart';
+import '../../../../shared/widgets/app_tob_bar.dart';
 import '../../../transactions/presentation/controllers/transaction_controller.dart';
 import '../widgets/balance_card.dart';
+import '../widgets/dashboard_charts_section.dart';
 import '../widgets/home_header.dart';
 import '../widgets/monthly_summary_section.dart';
 import '../widgets/quick_actions_section.dart';
@@ -16,6 +18,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Scaffold(
+        appBar: AppTopBar(
+          title: "Dashboard",
+        ),
         body: _HomeContent(),
       ),
     );
@@ -31,23 +36,24 @@ class _HomeContent extends StatelessWidget {
 
     return ListView(
       padding: const EdgeInsets.all(AppSpacing.md),
-      children:  [
-        HomeHeader(userName: 'Isabelle'),
-        SizedBox(height: AppSpacing.lg),
-        BalanceCard(
-          balance: controller.balance
-        ),
-        SizedBox(height: AppSpacing.lg),
-        QuickActionsSection(),
-        SizedBox(height: AppSpacing.lg),
-        SectionTitle(title: 'Resumo do mês'),
-        SizedBox(height: AppSpacing.sm),
+      children: [
+        const HomeHeader(),
+        const SizedBox(height: AppSpacing.lg),
+        BalanceCard(balance: controller.balance),
+        const SizedBox(height: AppSpacing.lg),
+        const QuickActionsSection(),
+        const SizedBox(height: AppSpacing.lg),
+        const SectionTitle(title: 'Resumo do mês'),
+        const SizedBox(height: AppSpacing.sm),
         MonthlySummarySection(
           income: controller.formattedCurrentMonthIncome,
           expense: controller.formattedCurrentMonthExpense,
         ),
-        SizedBox(height: AppSpacing.lg),
-        SectionTitle(title: 'Transações recentes'),
+        const SizedBox(height: AppSpacing.lg),
+        DashboardChartsSection(
+          controller: controller,
+        ),
+        const SizedBox(height: AppSpacing.lg),
       ],
     );
   }
