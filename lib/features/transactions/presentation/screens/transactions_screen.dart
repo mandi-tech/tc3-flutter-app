@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../../shared/widgets/app_tob_bar.dart';
 import '../controllers/transaction_controller.dart';
 import '../widgets/filters/transaction_filters_panel.dart';
 import '../widgets/transaction_empty_state.dart';
@@ -30,9 +29,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     final controller = context.watch<TransactionController>();
 
     return Scaffold(
-      appBar: AppTopBar(
-        title: "Transações",
-      ),
       body: SafeArea(
         child: Column(
           children: [

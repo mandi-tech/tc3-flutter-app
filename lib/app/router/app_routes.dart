@@ -6,4 +6,5 @@ class AppRoutes {
   static const main = '/main';
   static const account = '/account';
   static const preferences = '/preferences';
+  static const addTransaction = '/add-transaction';
 }

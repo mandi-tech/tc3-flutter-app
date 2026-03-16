@@ -5,14 +5,21 @@ import '../../../transactions/presentation/enums/transaction_type.dart';
 import '../helpers/transaction_categories.dart';
 
 class AddTransactionController extends ChangeNotifier {
+  AddTransactionController({
+    TransactionType initialType = TransactionType.expense,
+  }) : _type = initialType {
+    _selectedCategory = currentCategories.first;
+  }
+
   final formKey = GlobalKey<FormState>();
 
   final descriptionController = TextEditingController();
   final amountController = TextEditingController();
+
   final imagePicker = ImagePicker();
 
-  TransactionType _type = TransactionType.expense;
-  String? _selectedCategory = TransactionCategories.expense.first;
+  TransactionType _type;
+  String? _selectedCategory;
   DateTime _selectedDate = DateTime.now();
   XFile? _receiptImage;
   bool _isSaving = false;

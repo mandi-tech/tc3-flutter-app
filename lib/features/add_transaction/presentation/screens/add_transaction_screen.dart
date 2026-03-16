@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/widgets/app_tob_bar.dart';
-import '../widgets/add_transaction_view.dart';
+import '../../../../shared/design_system/components/app_tob_bar.dart';
+import '../../../transactions/presentation/enums/transaction_type.dart';
+import '../views/add_transaction_view.dart';
 
 class AddTransactionScreen extends StatelessWidget {
-  const AddTransactionScreen({super.key});
+  final TransactionType initialType;
+
+  const AddTransactionScreen({
+    super.key,
+    required this.initialType,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppTopBar(
-        title: "Adicionar nova transação",
+      appBar: AppTopBar(
+        title: 'Nova transação',
+        showBackButton: true,
       ),
-      body: AddTransactionView(),
+      body: AddTransactionView(
+        initialType: initialType,
+      ),
     );
   }
 }

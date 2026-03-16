@@ -6,7 +6,6 @@ import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/design_system/tokens/app_typography.dart';
 import '../../../../shared/utils/navigation_extensions.dart';
-import '../../../../shared/widgets/app_tob_bar.dart';
 import '../../../auth/presentation/controllers/auth_controller.dart';
 import '../widgets/settings_card.dart';
 import '../widgets/settings_item.dart';
@@ -20,9 +19,6 @@ class ProfileScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: AppTopBar(
-        title: "Perfil",
-      ),
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 enum NavigationTab {
   home,
   transactions,
-  addTransaction,
   cards,
   profile,
 }
@@ -15,8 +14,6 @@ extension NavigationTabExtension on NavigationTab {
         return 'Home';
       case NavigationTab.transactions:
         return 'Extrato';
-      case NavigationTab.addTransaction:
-        return 'Adicionar';
       case NavigationTab.cards:
         return 'Cartões';
       case NavigationTab.profile:
@@ -30,8 +27,6 @@ extension NavigationTabExtension on NavigationTab {
         return Icons.home_outlined;
       case NavigationTab.transactions:
         return Icons.receipt_outlined;
-      case NavigationTab.addTransaction:
-        return Icons.add;
       case NavigationTab.cards:
         return Icons.credit_card_rounded;
       case NavigationTab.profile:
@@ -45,8 +40,6 @@ extension NavigationTabExtension on NavigationTab {
         return Icons.home_rounded;
       case NavigationTab.transactions:
         return Icons.receipt_rounded;
-      case NavigationTab.addTransaction:
-        return Icons.add;
       case NavigationTab.cards:
         return Icons.credit_card_rounded;
       case NavigationTab.profile:

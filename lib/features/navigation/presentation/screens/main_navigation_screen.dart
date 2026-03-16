@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tc3_flutter_app/shared/utils/navigation_extensions.dart';
 
+import '../../../../shared/design_system/components/app_speed_dial.dart';
 import '../../../../shared/utils/theme_extensions.dart';
-import '../../../add_transaction/presentation/screens/add_transaction_screen.dart';
-import '../../../add_transaction/presentation/widgets/add_transaction_view.dart';
+import '../../../../shared/design_system/components/app_tob_bar.dart';
 import '../../../cards/presentation/screens/cards_screen.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
+import '../../../transactions/presentation/enums/transaction_type.dart';
 import '../../../transactions/presentation/screens/transactions_screen.dart';
 import '../../domain/navigation_tab.dart';
 import '../widgets/main_navigation_bar.dart';
@@ -19,60 +21,64 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   NavigationTab _currentTab = NavigationTab.home;
-  int _addScreenVersion = 0;
 
-  final List<Widget> _persistentPages = const [
-    HomeScreen(),
-    TransactionsScreen(),
-    ChartsScreen(),
-    ProfileScreen(),
-  ];
+  final Map<NavigationTab, Widget> _pages = const {
+    NavigationTab.home: HomeScreen(),
+    NavigationTab.transactions: TransactionsScreen(),
+    NavigationTab.cards: ChartsScreen(),
+    NavigationTab.profile: ProfileScreen(),
+  };
 
   void _onTabSelected(NavigationTab tab) {
-    if (tab == NavigationTab.addTransaction) {
-      setState(() {
-        _currentTab = NavigationTab.addTransaction;
-        _addScreenVersion++;
-      });
-      return;
-    }
-
     setState(() {
       _currentTab = tab;
     });
   }
 
-  int get _persistentIndex {
+  PreferredSizeWidget _buildAppBar() {
     switch (_currentTab) {
       case NavigationTab.home:
-        return 0;
+        return const AppTopBar(title: "Dashboard");
+
       case NavigationTab.transactions:
-        return 1;
+        return const AppTopBar(title: "Transações");
+
       case NavigationTab.cards:
-        return 2;
+        return const AppTopBar(title: "Cartões");
+
       case NavigationTab.profile:
-        return 3;
-      case NavigationTab.addTransaction:
-        return 0;
+        return const AppTopBar(title: "Perfil");
     }
   }
 
-  Widget _buildBody() {
-    if (_currentTab == NavigationTab.addTransaction) {
-      return AddTransactionScreen();
-    }
+  // Widget? _buildFab() {
+  //   if (_currentTab == NavigationTab.profile) {
+  //     return null;
+  //   }
 
-    return IndexedStack(
-      index: _persistentIndex,
-      children: _persistentPages,
-    );
-  }
+  //   return const ExpandableFab();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final pages = _pages.values.toList();
+    final index = _pages.keys.toList().indexOf(_currentTab);
+
     return Scaffold(
       backgroundColor: context.theme.scaffoldBackgroundColor,
-      body: _buildBody(),
+      appBar: _buildAppBar(),
+      body: IndexedStack(
+        index: index,
+        children: pages,
+      ),
+      floatingActionButton: AppSpeedDial(
+        onIncomeTap: () {
+          context.pushPage('/add-transaction', extra: TransactionType.income);
+        },
+        onExpenseTap: () {
+          context.pushPage('/add-transaction', extra: TransactionType.expense);
+        },
+      ),
       bottomNavigationBar: MainNavigationBar(
         currentTab: _currentTab,
         onTabSelected: _onTabSelected,

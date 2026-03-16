@@ -15,7 +15,6 @@ final List<Story> mainNavigationBarStories = [
         options: const [
           Option(label: 'Home', value: NavigationTab.home),
           Option(label: 'Extrato', value: NavigationTab.transactions),
-          Option(label: 'Adicionar', value: NavigationTab.addTransaction),
           Option(label: 'Cartões', value: NavigationTab.cards),
           Option(label: 'Perfil', value: NavigationTab.profile),
         ],

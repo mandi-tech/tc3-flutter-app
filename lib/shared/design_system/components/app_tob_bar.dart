@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/auth/data/services/auth_service.dart';
-import '../design_system/tokens/app_colors.dart';
-import '../design_system/tokens/app_spacing.dart';
-import '../design_system/tokens/app_typography.dart';
+import '../../../features/auth/data/services/auth_service.dart';
+import '../tokens/app_colors.dart';
+import '../tokens/app_spacing.dart';
+import '../tokens/app_typography.dart';
 
 class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
+  final bool showBackButton;
 
   const AppTopBar({
     super.key,
     required this.title,
+    this.showBackButton = false,
   });
 
   String _getFirstName(String? fullName) {
@@ -46,11 +48,23 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.surface,
       centerTitle: false,
       titleSpacing: AppSpacing.lg,
-
+      leading: showBackButton
+        ? IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              if (context.canPop()) {
+                context.pop();
+              } else {
+                context.go('/main');
+              }
+            },
+          )
+        : null,
       title: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: AppSpacing.md),
+          SizedBox(height: AppSpacing.md),
           Text(
             "${_greeting()}, $firstName 👋",
             style: AppTypography.caption.copyWith(

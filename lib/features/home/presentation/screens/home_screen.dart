@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../../shared/widgets/app_tob_bar.dart';
 import '../../../transactions/presentation/controllers/transaction_controller.dart';
 import '../widgets/balance_card.dart';
 import '../widgets/dashboard_charts_section.dart';
@@ -18,9 +17,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SafeArea(
       child: Scaffold(
-        appBar: AppTopBar(
-          title: "Home",
-        ),
         body: _HomeContent(),
       ),
     );

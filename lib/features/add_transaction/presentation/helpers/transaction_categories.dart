@@ -1,21 +1,23 @@
-abstract final class TransactionCategories {
+class TransactionCategories {
+
   static const income = [
-    'Salário',
-    'Freelance',
-    'Investimentos',
-    'Presente',
-    'Outros',
+    "Salário",
+    "Freelance",
+    "Investimentos",
+    "Presente",
+    "Reembolso",
+    "Outros"
   ];
 
   static const expense = [
-    'Alimentação',
-    'Transporte',
-    'Moradia',
-    'Saúde',
-    'Educação',
-    'Lazer',
-    'Compras',
-    'Assinaturas',
-    'Outros',
+    "Alimentação",
+    "Transporte",
+    "Moradia",
+    "Lazer",
+    "Saúde",
+    "Compras",
+    "Educação",
+    "Assinaturas",
+    "Outros"
   ];
 }
