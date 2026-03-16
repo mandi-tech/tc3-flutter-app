@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
     return const SafeArea(
       child: Scaffold(
         appBar: AppTopBar(
-          title: "Dashboard",
+          title: "Home",
         ),
         body: _HomeContent(),
       ),

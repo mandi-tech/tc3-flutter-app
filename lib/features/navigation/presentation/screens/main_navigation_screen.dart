@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/utils/theme_extensions.dart';
+import '../../../add_transaction/presentation/screens/add_transaction_screen.dart';
 import '../../../add_transaction/presentation/widgets/add_transaction_view.dart';
 import '../../../cards/presentation/screens/cards_screen.dart';
 import '../../../home/presentation/screens/home_screen.dart';
@@ -58,9 +59,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   Widget _buildBody() {
     if (_currentTab == NavigationTab.addTransaction) {
-      return AddTransactionView(
-        key: ValueKey(_addScreenVersion),
-      );
+      return AddTransactionScreen();
     }
 
     return IndexedStack(
