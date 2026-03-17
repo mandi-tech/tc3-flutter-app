@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../transactions/presentation/controllers/transaction_controller.dart';
-import '../../../transactions/presentation/enums/transaction_type.dart';
+import '../controllers/transaction_controller.dart';
+import '../../domain/enums/transaction_type.dart';
 import '../controllers/add_transaction_controller.dart';
 import '../widgets/add_transaction_form.dart';
 import '../widgets/add_transaction_header.dart';

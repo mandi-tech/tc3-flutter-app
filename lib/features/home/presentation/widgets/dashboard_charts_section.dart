@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../transactions/presentation/controllers/transaction_controller.dart';
-import 'charts/expense_line_chart.dart';
 import 'charts/expenses_donut_chart.dart';
-import 'charts/income_expense_bar_chart.dart';
+import 'charts/weekly_cash_flow.dart';
 
 class DashboardChartsSection extends StatelessWidget {
   final TransactionController controller;
@@ -27,28 +26,14 @@ class DashboardChartsSection extends StatelessWidget {
             ),
           ),
         ),
-
         const SizedBox(height: AppSpacing.lg),
-
         _ChartCard(
-          title: 'Receitas vs Despesas',
-          child: SizedBox(
-            height: 200,
-            child: IncomeExpenseBarChart(
-              data: controller.incomeVsExpense,
-            ),
-          ),
-        ),
-
-        const SizedBox(height: AppSpacing.lg),
-
-        _ChartCard(
-          title: 'Gastos por dia',
+          title: 'Movimentações da semana',
           child: SizedBox(
             height: 220,
-            child: ExpensesLineChart(
-              data: controller.expensesByDay,
-            ),
+            child: WeeklyCashflowChart(
+              data: controller.weeklyCashFlow,
+            )
           ),
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/design_system/tokens/app_typography.dart';
 import '../../../../shared/utils/theme_extensions.dart';
@@ -65,7 +66,7 @@ class _SummaryCard extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: context.colors.primary,
+            color: icon == Icons.trending_down ? AppColors.danger : AppColors.success,
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(

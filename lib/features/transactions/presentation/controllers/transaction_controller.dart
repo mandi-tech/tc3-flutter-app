@@ -1,39 +1,49 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../data/models/transaction_model.dart';
 import '../../data/services/transaction_service.dart';
-import '../enums/transaction_type.dart';
+import '../../domain/enums/transaction_type.dart';
+import '../../domain/usecases/add_transaction_usecase.dart';
+import '../../domain/usecases/delete_transaction_usecase.dart';
+import '../../domain/usecases/get_monthly_summary_usecase.dart';
+import '../../domain/usecases/get_transaction_charts_usecase.dart';
+import '../../domain/usecases/get_transaction_stats_usecase.dart';
+import '../../domain/usecases/get_transaction_weekly_usecase.dart';
 import '../formatters/transaction_formatters.dart';
-import '../utils/transaction_filter.dart';
-import '../utils/transaction_grouping.dart';
 
 class TransactionController extends ChangeNotifier {
   final TransactionService service;
+  final GetMonthlySummaryUsecase getMonthlySummary;
+  final GetTransactionStatsUsecase statsUsecase;
+  final GetTransactionChartsUsecase chartsUsecase;
+  final GetTransactionWeeklyUsecase weeklyUsecase;
+  final DeleteTransactionUsecase deleteTransactionUsecase;
+  final AddTransactionUsecase addTransactionUsecase;
 
   TransactionController({
     required this.service,
+    required this.statsUsecase,
+    required this.chartsUsecase,
+    required this.weeklyUsecase,
+    required this.deleteTransactionUsecase,
+    required this.getMonthlySummary,
+    required this.addTransactionUsecase,
   });
-
-  final TextEditingController searchController = TextEditingController();
 
   final List<TransactionModel> _transactions = [];
   StreamSubscription<List<TransactionModel>>? _subscription;
 
   bool _isLoading = false;
   String? _errorMessage;
-  TransactionFilter _filter = const TransactionFilter();
 
   List<TransactionModel> get transactions => List.unmodifiable(_transactions);
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
-  TransactionFilter get filter => _filter;
 
   void startListening() {
     _setLoading(true);
-    _clearError();
 
     _subscription?.cancel();
 
@@ -41,6 +51,10 @@ class TransactionController extends ChangeNotifier {
       _handleTransactionsLoaded,
       onError: (_) => _handleTransactionsError(),
     );
+  }
+
+  Future<void> deleteTransaction(String id) async {
+    await deleteTransactionUsecase(id);
   }
 
   Future<void> addTransaction({
@@ -51,7 +65,7 @@ class TransactionController extends ChangeNotifier {
     required DateTime date,
     XFile? receiptImage,
   }) async {
-    await service.addTransaction(
+    await addTransactionUsecase(
       type: type,
       description: description,
       category: category,
@@ -61,223 +75,57 @@ class TransactionController extends ChangeNotifier {
     );
   }
 
-  Future<void> deleteTransaction(String id) async {
-    await service.deleteTransaction(id);
-  }
+  /// STATS
 
-  void setTypeFilter(TransactionTypeFilter type) {
-    _filter = _filter.copyWith(type: type);
-    notifyListeners();
-  }
+  double get totalIncome =>
+      statsUsecase.totalIncome(transactions);
 
-  void setPeriodFilter(TransactionPeriodFilter period) {
-    _filter = _filter.copyWith(period: period);
-    notifyListeners();
-  }
+  double get totalExpense =>
+      statsUsecase.totalExpense(transactions);
 
-  void setCategoryFilter(String? category) {
-    _filter = _filter.copyWith(
-      category: category,
-      clearCategory: category == null || category.isEmpty,
-    );
-    notifyListeners();
-  }
+  double get balance =>
+      statsUsecase.balance(transactions);
 
-  void setSearchQuery(String value) {
-    _filter = _filter.copyWith(searchQuery: value);
-    notifyListeners();
-  }
+  /// MONTH
 
-  void clearFilters() {
-    searchController.clear();
-    _filter = const TransactionFilter();
-    notifyListeners();
-  }
-
-  List<String> get availableCategories {
-    final categories = _transactions
-        .map((transaction) => transaction.category)
-        .toSet()
-        .toList()
-      ..sort();
-
-    return categories;
-  }
-
-  List<TransactionModel> get filteredTransactions {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-
-    return _transactions.where((transaction) {
-      final transactionDate = DateTime(
-        transaction.date.year,
-        transaction.date.month,
-        transaction.date.day,
-      );
-
-      final matchesType = switch (_filter.type) {
-        TransactionTypeFilter.all => true,
-        TransactionTypeFilter.income => transaction.type.isIncome,
-        TransactionTypeFilter.expense => transaction.type.isExpense,
-      };
-
-      final matchesCategory = _filter.category == null
-          ? true
-          : transaction.category == _filter.category;
-
-      final matchesSearch = _filter.searchQuery.trim().isEmpty
-          ? true
-          : transaction.description.toLowerCase().contains(
-                _filter.searchQuery.toLowerCase(),
-              );
-
-      final matchesPeriod = switch (_filter.period) {
-        TransactionPeriodFilter.all => true,
-        TransactionPeriodFilter.today => transactionDate == today,
-        TransactionPeriodFilter.last7Days =>
-          !transactionDate.isBefore(today.subtract(const Duration(days: 6))),
-        TransactionPeriodFilter.last30Days =>
-          !transactionDate.isBefore(today.subtract(const Duration(days: 29))),
-        TransactionPeriodFilter.currentMonth =>
-          transaction.date.year == now.year &&
-          transaction.date.month == now.month,
-      };
-
-      return matchesType &&
-          matchesCategory &&
-          matchesSearch &&
-          matchesPeriod;
-    }).toList();
-  }
-
-  List<TransactionGroup> get groupedFilteredTransactions {
-    final grouped = <String, List<TransactionModel>>{};
-
-    for (final transaction in filteredTransactions) {
-      final key = TransactionFormatters.groupKey(transaction.date);
-      grouped.putIfAbsent(key, () => []);
-      grouped[key]!.add(transaction);
-    }
-
-    final entries = grouped.entries.toList()
-      ..sort((a, b) => b.key.compareTo(a.key));
-
-    return entries.map((entry) {
-      final date = DateTime.parse(entry.key);
-
-      return TransactionGroup(
-        title: TransactionFormatters.groupTitle(date),
-        transactions: entry.value,
-      );
-    }).toList();
-  }
-
-  List<TransactionModel> get currentMonthTransactions {
-    final now = DateTime.now();
-
-    return _transactions.where((transaction) {
-      return transaction.date.year == now.year &&
-          transaction.date.month == now.month;
-    }).toList();
-  }
-
-  double get totalIncome => _sumByType(_transactions, TransactionType.income);
-  double get totalExpense => _sumByType(_transactions, TransactionType.expense);
-  double get balance => totalIncome - totalExpense;
-
-  double get filteredIncome =>
-      _sumByType(filteredTransactions, TransactionType.income);
-
-  double get filteredExpense =>
-      _sumByType(filteredTransactions, TransactionType.expense);
-
-  double get filteredBalance => filteredIncome - filteredExpense;
+  List<TransactionModel> get currentMonthTransactions =>
+      statsUsecase.currentMonthTransactions(transactions);
 
   double get currentMonthIncome =>
-      _sumByType(currentMonthTransactions, TransactionType.income);
+      statsUsecase.currentMonthIncome(transactions);
 
   double get currentMonthExpense =>
-      _sumByType(currentMonthTransactions, TransactionType.expense);
+      statsUsecase.currentMonthExpense(transactions);
 
-  double get currentMonthBalance => currentMonthIncome - currentMonthExpense;
-
-  Map<String, double> get expensesByCategory {
-    final Map<String, double> result = {};
-
-    for (final transaction in currentMonthTransactions) {
-      if (transaction.type.isExpense) {
-        result.update(
-          transaction.category,
-          (value) => value + transaction.amount,
-          ifAbsent: () => transaction.amount,
-        );
-      }
-    }
-
-    return result;
+  MonthlySummary get monthlySummary {
+    return getMonthlySummary(_transactions);
   }
-
-  Map<int, double> get expensesByDay {
-    final Map<int, double> result = {};
-
-    for (final transaction in currentMonthTransactions) {
-      if (transaction.type.isExpense) {
-        final day = transaction.date.day;
-
-        result.update(
-          day,
-          (value) => value + transaction.amount,
-          ifAbsent: () => transaction.amount,
-        );
-      }
-    }
-
-    return result;
-  }
-
-  Map<String, double> get incomeVsExpense {
-    return {
-      "Receitas": currentMonthIncome,
-      "Despesas": currentMonthExpense,
-    };
-  }
-
-  String get formattedBalance => TransactionFormatters.currency(balance);
-  String get formattedIncome => TransactionFormatters.currency(totalIncome);
-  String get formattedExpense => TransactionFormatters.currency(totalExpense);
-
-  String get formattedFilteredBalance =>
-      TransactionFormatters.currency(filteredBalance);
-
-  String get formattedFilteredIncome =>
-      TransactionFormatters.currency(filteredIncome);
-
-  String get formattedFilteredExpense =>
-      TransactionFormatters.currency(filteredExpense);
-
-  String get formattedCurrentMonthBalance =>
-      TransactionFormatters.currency(currentMonthBalance);
 
   String get formattedCurrentMonthIncome =>
-      TransactionFormatters.currency(currentMonthIncome);
+    TransactionFormatters.currency(monthlySummary.income);
 
   String get formattedCurrentMonthExpense =>
-      TransactionFormatters.currency(currentMonthExpense);
+      TransactionFormatters.currency(monthlySummary.expense);
 
-  double _sumByType(
-    List<TransactionModel> transactions,
-    TransactionType type,
-  ) {
-    double total = 0;
+  double get currentMonthBalance => monthlySummary.balance;
 
-    for (final transaction in transactions) {
-      if (transaction.type == type) {
-        total += transaction.amount;
-      }
-    }
+  /// CHARTS
 
-    return total;
-  }
+  Map<String, double> get expensesByCategory =>
+      chartsUsecase.expensesByCategory(currentMonthTransactions);
+
+  Map<int, double> get expensesByDay =>
+      chartsUsecase.expensesByDay(currentMonthTransactions);
+
+  /// WEEKLY
+
+  Map<int, double> get weeklyCashFlow =>
+      weeklyUsecase.weeklyCashFlow(transactions);
+
+  double get weeklyBalance =>
+      weeklyUsecase.weeklyBalance(transactions);
+
+  /// PRIVATE
 
   void _handleTransactionsLoaded(List<TransactionModel> data) {
     _transactions
@@ -285,7 +133,6 @@ class TransactionController extends ChangeNotifier {
       ..addAll(data);
 
     _isLoading = false;
-    _errorMessage = null;
     notifyListeners();
   }
 
@@ -300,14 +147,9 @@ class TransactionController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _clearError() {
-    _errorMessage = null;
-  }
-
   @override
   void dispose() {
     _subscription?.cancel();
-    searchController.dispose();
     super.dispose();
   }
 }

@@ -3,8 +3,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../data/models/transaction_model.dart';
-import '../enums/transaction_type.dart';
-import '../utils/category_icon_mapper.dart';
+import '../../domain/enums/transaction_type.dart';
+import '../mappers/category_icon_mapper.dart';
 
 class TransactionTile extends StatelessWidget {
   final TransactionModel transaction;

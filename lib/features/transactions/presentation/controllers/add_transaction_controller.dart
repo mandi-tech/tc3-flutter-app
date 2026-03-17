@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../transactions/presentation/enums/transaction_type.dart';
+import '../../domain/enums/transaction_type.dart';
 import '../helpers/transaction_categories.dart';
 
 class AddTransactionController extends ChangeNotifier {

@@ -5,40 +5,79 @@ import '../../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../../shared/design_system/tokens/app_typography.dart';
 
-class ExpensesLineChart extends StatelessWidget {
+class WeeklyCashflowChart extends StatelessWidget {
   final Map<int, double> data;
 
-  const ExpensesLineChart({
+  const WeeklyCashflowChart({
     super.key,
     required this.data,
   });
 
   @override
   Widget build(BuildContext context) {
+
+    /// ESTADO VAZIO
+    if (data.isEmpty) {
+      return SizedBox(
+        height: 200,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.show_chart,
+                size: 36,
+                color: Colors.grey.shade400,
+              ),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                "Sem dados para exibir",
+                style: AppTypography.caption.copyWith(
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     final spots = data.entries
         .map((e) => FlSpot(e.key.toDouble(), e.value))
         .toList()
       ..sort((a, b) => a.x.compareTo(b.x));
 
-    final color = AppColors.expense;
+    final values = spots.map((e) => e.y).toList();
 
-    final maxValue =
-        spots.map((e) => e.y).reduce((a, b) => a > b ? a : b);
+    final maxValue = values.reduce((a, b) => a > b ? a : b);
+    final minValue = values.reduce((a, b) => a < b ? a : b);
 
-    final maxY = _niceMax(maxValue);
-    final interval = _niceInterval(maxY);
+    final maxY = _niceMax(maxValue.abs());
+    final minY = -_niceMax(minValue.abs());
+
+    const days = ["S", "T", "Q", "Q", "S", "S", "D"];
 
     return SizedBox(
-      height: 200,
+      height: 220,
       child: LineChart(
         LineChartData(
-          minY: 0,
+          minY: minY,
           maxY: maxY,
 
+          /// GRID
           gridData: FlGridData(
             drawVerticalLine: false,
-            horizontalInterval: interval,
+            horizontalInterval: maxY / 4,
             getDrawingHorizontalLine: (value) {
+
+              /// LINHA CENTRAL (0)
+              if (value == 0) {
+                return FlLine(
+                  color: Colors.grey.shade400,
+                  strokeWidth: 1.5,
+                );
+              }
+
               return FlLine(
                 color: AppColors.neutral900.withOpacity(0.08),
                 strokeWidth: 1,
@@ -57,15 +96,23 @@ class ExpensesLineChart extends StatelessWidget {
               sideTitles: SideTitles(showTitles: false),
             ),
 
+            /// DIAS DA SEMANA
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                interval: 5,
+                interval: 1,
                 getTitlesWidget: (value, meta) {
+
+                  final index = value.toInt() - 1;
+
+                  if (index < 0 || index >= days.length) {
+                    return const SizedBox();
+                  }
+
                   return Padding(
                     padding: const EdgeInsets.only(top: AppSpacing.sm),
                     child: Text(
-                      value.toInt().toString().padLeft(2, '0'),
+                      days[index],
                       style: AppTypography.caption,
                     ),
                   );
@@ -73,13 +120,20 @@ class ExpensesLineChart extends StatelessWidget {
               ),
             ),
 
+            /// VALORES
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                interval: interval,
-                reservedSize: 36,
+                interval: maxY / 4,
+                reservedSize: 40,
                 getTitlesWidget: (value, meta) {
-                  if (value == 0) return const SizedBox();
+
+                  if (value == 0) {
+                    return Text(
+                      "0",
+                      style: AppTypography.caption,
+                    );
+                  }
 
                   return Text(
                     _formatCurrencyCompact(value),
@@ -90,35 +144,41 @@ class ExpensesLineChart extends StatelessWidget {
             ),
           ),
 
+          /// LINHA
           lineBarsData: [
             LineChartBarData(
               spots: spots,
-
               isCurved: true,
               curveSmoothness: 0.35,
-
               barWidth: 3,
-              color: color,
+              color: Colors.blueAccent,
               isStrokeCapRound: true,
 
+              /// PONTOS
               dotData: FlDotData(
                 show: true,
                 getDotPainter: (spot, percent, barData, index) {
+
+                  final isPositive = spot.y >= 0;
+
                   return FlDotCirclePainter(
-                    radius: 3,
-                    color: color,
+                    radius: 4,
+                    color: isPositive
+                        ? AppColors.income
+                        : AppColors.expense,
                     strokeWidth: 2,
                     strokeColor: Colors.white,
                   );
                 },
               ),
 
+              /// ÁREA
               belowBarData: BarAreaData(
                 show: true,
                 gradient: LinearGradient(
                   colors: [
-                    color.withOpacity(0.25),
-                    color.withOpacity(0.02),
+                    Colors.blueAccent.withOpacity(0.25),
+                    Colors.blueAccent.withOpacity(0.02),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -127,14 +187,36 @@ class ExpensesLineChart extends StatelessWidget {
             ),
           ],
 
+          /// TOOLTIP
           lineTouchData: LineTouchData(
             touchTooltipData: LineTouchTooltipData(
               tooltipBorderRadius: BorderRadius.circular(10),
               tooltipPadding: const EdgeInsets.all(AppSpacing.sm),
               getTooltipItems: (spots) {
                 return spots.map((spot) {
+
+                  final dayIndex = spot.x.toInt() - 1;
+
+                  const dayNames = [
+                    "Seg",
+                    "Ter",
+                    "Qua",
+                    "Qui",
+                    "Sex",
+                    "Sáb",
+                    "Dom"
+                  ];
+
+                  final day = (dayIndex >= 0 && dayIndex < 7)
+                      ? dayNames[dayIndex]
+                      : "";
+
+                  final type = spot.y >= 0
+                      ? "Receita"
+                      : "Despesa";
+
                   return LineTooltipItem(
-                    "Dia ${spot.x.toInt()}\nR\$ ${spot.y.toStringAsFixed(2)}",
+                    "$day\n$type: R\$ ${spot.y.abs().toStringAsFixed(2)}",
                     AppTypography.caption.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
@@ -152,25 +234,21 @@ class ExpensesLineChart extends StatelessWidget {
   }
 
   double _niceMax(double value) {
+    if (value <= 100) return 100;
+    if (value <= 500) return 500;
     if (value <= 1000) return 1000;
     if (value <= 2000) return 2000;
     if (value <= 5000) return 5000;
-    if (value <= 10000) return 10000;
     return (value / 1000).ceil() * 1000;
   }
 
-  double _niceInterval(double maxY) {
-    if (maxY <= 1000) return 250;
-    if (maxY <= 2000) return 500;
-    if (maxY <= 5000) return 1000;
-    if (maxY <= 10000) return 2000;
-    return 5000;
-  }
-
   String _formatCurrencyCompact(double value) {
-    if (value >= 1000) {
+    final abs = value.abs();
+
+    if (abs >= 1000) {
       return "${(value / 1000).toStringAsFixed(1)}k";
     }
+
     return value.toInt().toString();
   }
 }

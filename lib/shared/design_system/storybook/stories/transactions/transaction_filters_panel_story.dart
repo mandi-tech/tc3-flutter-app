@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../../../features/transactions/presentation/utils/transaction_filter.dart';
+import '../../../../../features/transactions/presentation/filters/transaction_filter.dart';
 import '../../../../../features/transactions/presentation/widgets/filters/transaction_filters_panel.dart';
 
 class _TransactionFiltersPanelStoryWrapper extends StatefulWidget {
@@ -14,6 +14,7 @@ class _TransactionFiltersPanelStoryWrapper extends StatefulWidget {
 
 class _TransactionFiltersPanelStoryWrapperState
     extends State<_TransactionFiltersPanelStoryWrapper> {
+
   final TextEditingController _searchController = TextEditingController();
 
   TransactionTypeFilter _selectedType = TransactionTypeFilter.all;
@@ -46,6 +47,7 @@ class _TransactionFiltersPanelStoryWrapperState
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: ConstrainedBox(
@@ -56,18 +58,23 @@ class _TransactionFiltersPanelStoryWrapperState
           selectedCategory: _selectedCategory,
           searchController: _searchController,
           categories: _categories,
-          onTypeChanged: (value) {
+
+          onTypeChanged: (TransactionTypeFilter value) {
             setState(() => _selectedType = value);
           },
-          onPeriodChanged: (value) {
+
+          onPeriodChanged: (TransactionPeriodFilter value) {
             setState(() => _selectedPeriod = value);
           },
-          onCategoryChanged: (value) {
+
+          onCategoryChanged: (String? value) {
             setState(() => _selectedCategory = value);
           },
-          onSearchChanged: (_) {
+
+          onSearchChanged: (String _) {
             setState(() {});
           },
+
           onClearFilters: _clearFilters,
         ),
       ),

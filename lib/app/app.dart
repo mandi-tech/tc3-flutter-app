@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../features/auth/presentation/controllers/auth_controller.dart';
 import '../features/auth/data/services/auth_service.dart';
-import '../features/transactions/data/services/transaction_service.dart';
-import '../features/transactions/presentation/controllers/transaction_controller.dart';
+import '../features/transactions/di/transaction_providers.dart';
+import '../features/transactions/presentation/controllers/transaction_filter_controller.dart';
 import '../shared/design_system/themes/app_theme.dart';
 import 'controllers/theme_controller.dart';
 import 'router/app_router.dart';
@@ -46,11 +46,15 @@ class _AppState extends State<App> {
               context.read<AuthService>(),
             ),
           ),
-          ChangeNotifierProvider(
-            create: (_) => TransactionController(
-              service: TransactionService(),
+          ChangeNotifierProvider<AuthController>(
+            create: (context) => AuthController(
+              context.read<AuthService>(),
             ),
           ),
+          ChangeNotifierProvider(
+            create: (_) => TransactionFilterController(),
+          ),
+          ...transactionProviders,
         ],
         child: AnimatedBuilder(
           animation: _themeController,

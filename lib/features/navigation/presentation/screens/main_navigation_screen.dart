@@ -7,7 +7,7 @@ import '../../../../shared/design_system/components/app_tob_bar.dart';
 import '../../../cards/presentation/screens/cards_screen.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../profile/presentation/screens/profile_screen.dart';
-import '../../../transactions/presentation/enums/transaction_type.dart';
+import '../../../transactions/domain/enums/transaction_type.dart';
 import '../../../transactions/presentation/screens/transactions_screen.dart';
 import '../../domain/navigation_tab.dart';
 import '../widgets/main_navigation_bar.dart';

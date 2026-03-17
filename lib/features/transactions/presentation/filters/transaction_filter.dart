@@ -29,13 +29,13 @@ class TransactionFilter {
     TransactionTypeFilter? type,
     TransactionPeriodFilter? period,
     String? category,
-    String? searchQuery,
     bool clearCategory = false,
+    String? searchQuery,
   }) {
     return TransactionFilter(
       type: type ?? this.type,
       period: period ?? this.period,
-      category: clearCategory ? null : (category ?? this.category),
+      category: clearCategory ? null : category ?? this.category,
       searchQuery: searchQuery ?? this.searchQuery,
     );
   }

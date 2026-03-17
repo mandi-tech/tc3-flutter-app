@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../presentation/enums/transaction_type.dart';
+import '../../domain/enums/transaction_type.dart';
 
 class TransactionModel {
   final String id;

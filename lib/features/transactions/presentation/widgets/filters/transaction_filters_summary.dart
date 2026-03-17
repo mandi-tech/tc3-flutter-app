@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/transaction_filter.dart';
+import '../../filters/transaction_filter.dart';
 
 class TransactionFiltersSummary extends StatelessWidget {
   final TransactionTypeFilter selectedType;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../transactions/presentation/enums/transaction_type.dart';
+import '../../domain/enums/transaction_type.dart';
 
 class AddTransactionHeader extends StatelessWidget {
   final TransactionType type;
