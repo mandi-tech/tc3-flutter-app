@@ -20,7 +20,7 @@ class DashboardChartsSection extends StatelessWidget {
         _ChartCard(
           title: 'Gastos por categoria',
           child: SizedBox(
-            height: 200,
+            height: 220,
             child: ExpensesDonutChart(
               data: controller.expensesByCategory,
             ),

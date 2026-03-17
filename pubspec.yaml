@@ -50,6 +50,7 @@ dependencies:
   firebase_storage: ^12.4.10
   image_picker: ^1.2.1
   fl_chart: ^1.2.0
+  mocktail: ^1.0.4
 
 dev_dependencies:
   flutter_test:

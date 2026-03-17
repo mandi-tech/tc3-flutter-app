@@ -35,7 +35,7 @@ class ExpensesDonutChart extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 160,
+          height: 180,
           child: PieChart(
             PieChartData(
               sectionsSpace: 4,

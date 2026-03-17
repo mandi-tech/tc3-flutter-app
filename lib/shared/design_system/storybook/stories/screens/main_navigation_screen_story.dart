@@ -19,7 +19,6 @@ final List<Story> mainNavigationScreenStories = [
         options: const [
           Option(label: 'Home', value: NavigationTab.home),
           Option(label: 'Extrato', value: NavigationTab.transactions),
-          Option(label: 'Cartões', value: NavigationTab.cards),
           Option(label: 'Perfil', value: NavigationTab.profile),
         ],
       );
@@ -83,8 +82,6 @@ class _MainNavigationScreenPreview extends StatelessWidget {
         return 'Home';
       case NavigationTab.transactions:
         return 'Extrato';
-      case NavigationTab.cards:
-        return 'Cartões';
       case NavigationTab.profile:
         return 'Perfil';
     }
