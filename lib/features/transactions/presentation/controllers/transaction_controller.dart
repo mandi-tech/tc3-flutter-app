@@ -75,7 +75,7 @@ class TransactionController extends ChangeNotifier {
     );
   }
 
-  /// STATS
+  /// Stats
 
   double get totalIncome =>
       statsUsecase.totalIncome(transactions);
@@ -86,7 +86,7 @@ class TransactionController extends ChangeNotifier {
   double get balance =>
       statsUsecase.balance(transactions);
 
-  /// MONTH
+  /// Mês
 
   List<TransactionModel> get currentMonthTransactions =>
       statsUsecase.currentMonthTransactions(transactions);
@@ -109,7 +109,7 @@ class TransactionController extends ChangeNotifier {
 
   double get currentMonthBalance => monthlySummary.balance;
 
-  /// CHARTS
+  /// Gráficos
 
   Map<String, double> get expensesByCategory =>
       chartsUsecase.expensesByCategory(currentMonthTransactions);
@@ -117,7 +117,7 @@ class TransactionController extends ChangeNotifier {
   Map<int, double> get expensesByDay =>
       chartsUsecase.expensesByDay(currentMonthTransactions);
 
-  /// WEEKLY
+  /// Semanal
 
   Map<int, double> get weeklyCashFlow =>
       weeklyUsecase.weeklyCashFlow(transactions);
@@ -125,7 +125,7 @@ class TransactionController extends ChangeNotifier {
   double get weeklyBalance =>
       weeklyUsecase.weeklyBalance(transactions);
 
-  /// PRIVATE
+  /// Privado
 
   void _handleTransactionsLoaded(List<TransactionModel> data) {
     _transactions

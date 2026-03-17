@@ -24,36 +24,35 @@ class HomeScreenPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     final mockController = MockTransactionController();
 
-    // 1. Mock de Estado e Valores Básicos
+    /// Mock de Estado e Valores Básicos
     when(() => mockController.isLoading).thenReturn(false);
     when(() => mockController.balance).thenReturn(balance);
     when(() => mockController.formattedCurrentMonthIncome).thenReturn(income);
     when(() => mockController.formattedCurrentMonthExpense).thenReturn(expense);
 
-    // 2. Mock de Listas (Essencial para não dar erro de Null nas funções de extensão)
+    /// Mock de Listas (Essencial para não dar erro de Null nas funções de extensão)
     when(() => mockController.transactions).thenReturn([]);
     when(() => mockController.currentMonthTransactions).thenReturn([]);
 
-    // 3. Mock para o ExpensesDonutChart (Map<String, double>)
+    /// Mock para o ExpensesDonutChart (Map<String, double>)
     when(() => mockController.expensesByCategory).thenReturn({
       'Alimentação': 1200.0,
       'Transporte': 450.0,
       'Lazer': 300.0,
     });
 
-    // 4. Mock para o WeeklyCashflowChart (Map<int, double>)
-    // Nota: Use chaves de 1 a 7 para representar os dias da semana conforme seu gráfico
+    /// Mock para o WeeklyCashflowChart (Map<int, double>)
     when(() => mockController.weeklyCashFlow).thenReturn({
-      1: 150.0,  // Seg
-      2: -50.0,  // Ter
-      3: 200.0,  // Qua
-      4: 0.0,    // Qui
-      5: -120.0, // Sex
-      6: 400.0,  // Sab
-      7: 350.0,  // Dom
+      1: 150.0,  /// Seg
+      2: -50.0,  /// Ter
+      3: 200.0,  /// Qua
+      4: 0.0,    /// Qui
+      5: -120.0, /// Sex
+      6: 400.0,  /// Sab
+      7: 350.0,  /// Dom
     });
 
-    // 5. Outros getters que podem ser chamados
+    /// Outros getters que podem ser chamados
     when(() => mockController.expensesByDay).thenReturn({});
     when(() => mockController.weeklyBalance).thenReturn(balance);
 

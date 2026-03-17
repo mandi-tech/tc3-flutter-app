@@ -16,7 +16,7 @@ class WeeklyCashflowChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    /// ESTADO VAZIO
+    /// Estado vazio
     if (data.isEmpty) {
       return SizedBox(
         height: 200,
@@ -64,13 +64,13 @@ class WeeklyCashflowChart extends StatelessWidget {
           minY: minY,
           maxY: maxY,
 
-          /// GRID
+          /// Grid
           gridData: FlGridData(
             drawVerticalLine: false,
             horizontalInterval: maxY / 4,
             getDrawingHorizontalLine: (value) {
 
-              /// LINHA CENTRAL (0)
+              /// Linha central (y=0)
               if (value == 0) {
                 return FlLine(
                   color: Colors.grey.shade400,
@@ -96,7 +96,7 @@ class WeeklyCashflowChart extends StatelessWidget {
               sideTitles: SideTitles(showTitles: false),
             ),
 
-            /// DIAS DA SEMANA
+            /// Dias da semana
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
@@ -120,7 +120,7 @@ class WeeklyCashflowChart extends StatelessWidget {
               ),
             ),
 
-            /// VALORES
+            /// Valores
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
@@ -144,7 +144,7 @@ class WeeklyCashflowChart extends StatelessWidget {
             ),
           ),
 
-          /// LINHA
+          /// Linha do gráfico
           lineBarsData: [
             LineChartBarData(
               spots: spots,
@@ -154,7 +154,7 @@ class WeeklyCashflowChart extends StatelessWidget {
               color: Colors.blueAccent,
               isStrokeCapRound: true,
 
-              /// PONTOS
+              /// Pontos de cada movimentação
               dotData: FlDotData(
                 show: true,
                 getDotPainter: (spot, percent, barData, index) {
@@ -172,7 +172,7 @@ class WeeklyCashflowChart extends StatelessWidget {
                 },
               ),
 
-              /// ÁREA
+              /// Área abaixo da linha
               belowBarData: BarAreaData(
                 show: true,
                 gradient: LinearGradient(

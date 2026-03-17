@@ -65,7 +65,7 @@ class ExpensesDonutChart extends StatelessWidget {
 
         const SizedBox(height: AppSpacing.lg),
 
-        /// legenda
+        /// Legenda
         Wrap(
           alignment: WrapAlignment.center,
           spacing: AppSpacing.lg,

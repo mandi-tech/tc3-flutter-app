@@ -5,7 +5,7 @@ final Story homeScreenStory = Story(
   name: 'Screens/Home Screen',
   description: 'Visão completa da Dashboard com dados mockados.',
   builder: (context) {
-    // Knobs para controle em tempo real
+    /// Knobs para controle em tempo real
     final balance = context.knobs.slider(
       label: 'Saldo em conta',
       initial: 2450.00,
