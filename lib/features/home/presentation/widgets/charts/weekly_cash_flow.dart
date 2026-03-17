@@ -187,7 +187,7 @@ class WeeklyCashflowChart extends StatelessWidget {
             ),
           ],
 
-          /// TOOLTIP
+          /// Tooltip
           lineTouchData: LineTouchData(
             touchTooltipData: LineTouchTooltipData(
               tooltipBorderRadius: BorderRadius.circular(10),
