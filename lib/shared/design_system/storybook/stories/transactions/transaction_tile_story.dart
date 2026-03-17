@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../../../features/transactions/data/models/transaction_model.dart';
+import '../../../../../features/transactions/domain/enums/transaction_type.dart';
 import '../../../../../features/transactions/presentation/widgets/transaction_tile.dart';
 
 final List<Story> transactionTileStories = [
@@ -37,7 +38,7 @@ final List<Story> transactionTileStories = [
 
       final transaction = TransactionModel(
         id: '1',
-        type: type,
+        type: type == 'income' ? TransactionType.income : TransactionType.expense,
         description: description,
         category: category,
         amount: amount,

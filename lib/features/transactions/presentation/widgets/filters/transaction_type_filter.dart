@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../utils/transaction_filter.dart';
+import '../../filters/transaction_filter.dart';
 
 class TransactionTypeFilterWidget extends StatelessWidget {
   final TransactionTypeFilter selectedType;

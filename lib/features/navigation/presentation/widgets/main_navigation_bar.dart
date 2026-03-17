@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../shared/utils/theme_extensions.dart';
 import '../../domain/navigation_tab.dart';
@@ -53,41 +52,20 @@ class MainNavigationBar extends StatelessWidget {
             indicatorColor: context.colors.primary.withOpacity(0.16),
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             destinations: tabs.map((tab) {
-              final isAdd = tab == NavigationTab.addTransaction;
-
               return NavigationDestination(
-                icon: isAdd
-                    ? _buildAddButton()
-                    : Icon(
-                        tab.icon,
-                        color: context.colors.onSurfaceVariant,
-                      ),
-                selectedIcon: isAdd
-                    ? _buildAddButton(selected: true)
-                    : Icon(
-                        tab.selectedIcon,
-                        color: context.colors.primary,
-                      ),
+                icon: Icon(
+                  tab.icon,
+                  color: context.colors.onSurfaceVariant,
+                ),
+                selectedIcon: Icon(
+                  tab.selectedIcon,
+                  color: context.colors.primary,
+                ),
                 label: tab.label,
               );
             }).toList(),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildAddButton({bool selected = false}) {
-    return Container(
-      width: 42,
-      height: 42,
-      decoration: BoxDecoration(
-        color: selected ? AppColors.secondary : AppColors.primary,
-        shape: BoxShape.circle,
-      ),
-      child: const Icon(
-        Icons.add,
-        color: Colors.white,
       ),
     );
   }

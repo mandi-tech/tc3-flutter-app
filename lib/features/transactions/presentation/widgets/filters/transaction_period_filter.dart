@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../shared/design_system/components/app_dropdown_field.dart';
-import '../../utils/transaction_filter.dart';
+import '../../filters/transaction_filter.dart';
 
 class TransactionPeriodDropdown extends StatelessWidget {
   final TransactionPeriodFilter selectedPeriod;

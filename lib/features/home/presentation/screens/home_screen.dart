@@ -1,112 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../shared/design_system/components/app_button.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../../../shared/design_system/tokens/app_typography.dart';
-import '../../../../shared/utils/theme_extensions.dart';
+import '../../../transactions/presentation/controllers/transaction_controller.dart';
+import '../widgets/balance_card.dart';
+import '../widgets/dashboard_charts_section.dart';
+import '../widgets/home_header.dart';
+import '../widgets/monthly_summary_section.dart';
+import '../widgets/quick_actions_section.dart';
+import '../widgets/section_title.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  Widget build(BuildContext context) {
+    return const SafeArea(
+      child: Scaffold(
+        body: _HomeContent(),
+      ),
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  double _balance = 0;
-
-  void _addIncome() {
-    setState(() => _balance += 50);
-  }
-
-  void _addExpense() {
-    setState(() => _balance -= 20);
-  }
-
-  void _reset() {
-    setState(() => _balance = 0);
-  }
+class _HomeContent extends StatelessWidget {
+  const _HomeContent();
 
   @override
   Widget build(BuildContext context) {
-    final isNegative = _balance < 0;
+    final controller = context.watch<TransactionController>();
 
-    return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: const Text('Gerenciador Financeiro'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Resumo',
-              style: AppTypography.title,
-            ),
-            const SizedBox(height: AppSpacing.md),
-
-            Container(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.outlineVariant,
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Saldo atual', style: AppTypography.caption),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    'R\$ ${_balance.toStringAsFixed(2)}',
-                    style: AppTypography.title.copyWith(
-                      fontSize: 28,
-                      color: isNegative
-                          ? Theme.of(context).colorScheme.error
-                          : Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    'Simulação usando tokens + AppButton.',
-                    style: AppTypography.body.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: AppSpacing.xl),
-
-            AppButton(
-              label: 'Adicionar receita (+R\$ 50)',
-              variant: AppButtonVariant.primary,
-              onPressed: _addIncome,
-            ),
-            const SizedBox(height: AppSpacing.sm),
-
-            AppButton(
-              label: 'Adicionar despesa (-R\$ 20)',
-              variant: AppButtonVariant.secondary,
-              onPressed: _addExpense,
-            ),
-            const SizedBox(height: AppSpacing.sm),
-
-            AppButton(
-              label: 'Zerar saldo',
-              variant: AppButtonVariant.danger,
-              onPressed: _reset,
-            ),
-
-            const Spacer(),
-          ],
+    return ListView(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      children: [
+        const HomeHeader(),
+        const SizedBox(height: AppSpacing.lg),
+        BalanceCard(balance: controller.balance),
+        const SizedBox(height: AppSpacing.lg),
+        const QuickActionsSection(),
+        const SizedBox(height: AppSpacing.lg),
+        const SectionTitle(title: 'Resumo do mês'),
+        const SizedBox(height: AppSpacing.sm),
+        MonthlySummarySection(
+          income: controller.formattedCurrentMonthIncome,
+          expense: controller.formattedCurrentMonthExpense,
         ),
-      ),
+        const SizedBox(height: AppSpacing.lg),
+        DashboardChartsSection(
+          controller: controller,
+        ),
+        const SizedBox(height: AppSpacing.lg),
+      ],
     );
   }
 }

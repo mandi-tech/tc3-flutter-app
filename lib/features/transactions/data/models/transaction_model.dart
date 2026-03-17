@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../domain/enums/transaction_type.dart';
+
 class TransactionModel {
   final String id;
-  final String type; // income | expense
+  final TransactionType type;
   final String description;
   final String category;
   final double amount;
@@ -21,7 +23,7 @@ class TransactionModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'type': type,
+      'type': type.value, // salva como string
       'description': description,
       'category': category,
       'amount': amount,
@@ -38,7 +40,7 @@ class TransactionModel {
 
     return TransactionModel(
       id: doc.id,
-      type: data['type'] ?? '',
+      type: (data['type'] as String).toTransactionType(),
       description: data['description'] ?? '',
       category: data['category'] ?? '',
       amount: (data['amount'] ?? 0).toDouble(),
@@ -49,7 +51,7 @@ class TransactionModel {
 
   TransactionModel copyWith({
     String? id,
-    String? type,
+    TransactionType? type,
     String? description,
     String? category,
     double? amount,

@@ -35,4 +35,15 @@ abstract final class AppColors {
   /// Text dark
   static const textPrimaryDark = Color(0xFFF4EDF4);
   static const textSecondaryDark = Color(0xFFCAC4D0);
+
+  /// Chart palette (brand based)
+  static const List<Color> categorySwatch = [
+    Color(0xFFC06C84), // primary
+    Color(0xFF6C5B7B), // secondary
+    Color(0xFFF8B195), // accent
+    Color(0xFFD9899B), // primary light
+    Color(0xFF8C7A9E), // secondary light
+    Color(0xFFE7A98C), // accent muted
+    Color(0xFF9F536A), // primary dark
+  ];
 }

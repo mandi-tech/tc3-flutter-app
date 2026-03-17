@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../utils/theme_extensions.dart';
 import '../tokens/app_colors.dart';
@@ -20,6 +21,9 @@ class AppTextField extends StatelessWidget {
   final void Function(String)? onFieldSubmitted;
   final void Function(String)? onChanged;
   final VoidCallback? onTap;
+  final TextAlign textAlign;
+  final TextStyle? style;
+  final List<TextInputFormatter>? inputFormatters;
 
   const AppTextField({
     super.key,
@@ -38,6 +42,9 @@ class AppTextField extends StatelessWidget {
     this.onFieldSubmitted,
     this.onChanged,
     this.onTap,
+    this.textAlign = TextAlign.start,
+    this.style,
+    this.inputFormatters,
   });
 
   OutlineInputBorder _border(Color color, {double width = 1}) {
@@ -64,6 +71,11 @@ class AppTextField extends StatelessWidget {
       onChanged: onChanged,
       onTap: onTap,
       maxLines: obscureText ? 1 : maxLines,
+
+      /// NOVOS
+      textAlign: textAlign,
+      style: style,
+
       decoration: InputDecoration(
         labelText: label,
         hintText: hintText,

@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../shared/design_system/components/app_button.dart';
 import '../../../../shared/design_system/components/app_text_field.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
-import 'category_dropdown.dart';
+import '../../../../shared/utils/currency_input_formatter.dart';
+import 'category_grid.dart';
 import 'receipt_image_picker.dart';
 import 'transaction_date_field.dart';
-import 'transaction_type_selector.dart';
 
 class AddTransactionForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController descriptionController;
   final TextEditingController amountController;
-  final String type;
+
   final String? selectedCategory;
   final DateTime selectedDate;
   final XFile? receiptImage;
+
   final bool isSaving;
+
   final List<String> categories;
-  final ValueChanged<String> onTypeChanged;
+
   final ValueChanged<String?> onCategoryChanged;
+
   final VoidCallback onPickDate;
   final Future<void> Function() onPickFromGallery;
   final Future<void> Function() onPickFromCamera;
   final VoidCallback onRemoveImage;
+
   final VoidCallback onSave;
 
   const AddTransactionForm({
@@ -32,13 +37,11 @@ class AddTransactionForm extends StatelessWidget {
     required this.formKey,
     required this.descriptionController,
     required this.amountController,
-    required this.type,
     required this.selectedCategory,
     required this.selectedDate,
     required this.receiptImage,
     required this.isSaving,
     required this.categories,
-    required this.onTypeChanged,
     required this.onCategoryChanged,
     required this.onPickDate,
     required this.onPickFromGallery,
@@ -54,14 +57,9 @@ class AddTransactionForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TransactionTypeSelector(
-            selectedType: type,
-            onChanged: onTypeChanged,
-          ),
-          const SizedBox(height: AppSpacing.md),
           AppTextField(
             label: 'Descrição',
-            hintText: 'Ex: Mercado, salário, Uber...',
+            hintText: 'Ex: Mercado, Uber...',
             controller: descriptionController,
             textInputAction: TextInputAction.next,
             validator: (value) {
@@ -71,13 +69,18 @@ class AddTransactionForm extends StatelessWidget {
               return null;
             },
           ),
+
           const SizedBox(height: AppSpacing.md),
+
           AppTextField(
             label: 'Valor',
-            hintText: 'Ex: 120,50',
+            hintText: 'R\$ 0,00',
             controller: amountController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            textInputAction: TextInputAction.next,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.end, 
+            inputFormatters: [
+              CurrencyInputFormatter(),
+            ],
             validator: (value) {
               if (value == null || value.trim().isEmpty) {
                 return 'Informe o valor';
@@ -85,26 +88,40 @@ class AddTransactionForm extends StatelessWidget {
               return null;
             },
           ),
-          const SizedBox(height: AppSpacing.md),
-          CategoryDropdown(
-            label: 'Categoria',
+
+          const SizedBox(height: AppSpacing.lg),
+
+          const Text(
+            'Categoria',
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+
+          const SizedBox(height: AppSpacing.sm),
+
+          CategoryGrid(
             categories: categories,
             selectedCategory: selectedCategory,
-            onChanged: onCategoryChanged,
+            onSelected: (category) => onCategoryChanged(category),
           ),
-          const SizedBox(height: AppSpacing.md),
+
+          const SizedBox(height: AppSpacing.lg),
+
           TransactionDateField(
             selectedDate: selectedDate,
             onTap: onPickDate,
           ),
-          const SizedBox(height: AppSpacing.md),
+
+          const SizedBox(height: AppSpacing.lg),
+
           ReceiptImagePicker(
             image: receiptImage,
             onPickFromGallery: onPickFromGallery,
             onTakePhoto: onPickFromCamera,
             onRemove: onRemoveImage,
           ),
-          const SizedBox(height: AppSpacing.lg),
+
+          const SizedBox(height: AppSpacing.xl),
+
           AppButton(
             label: 'Salvar transação',
             onPressed: onSave,

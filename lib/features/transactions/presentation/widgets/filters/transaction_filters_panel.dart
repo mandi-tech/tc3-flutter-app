@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../shared/design_system/tokens/app_spacing.dart';
-import '../../utils/transaction_filter.dart';
+import '../../filters/transaction_filter.dart';
 import 'transaction_category_filter.dart';
 import 'transaction_filters_summary.dart';
 import 'transaction_period_filter.dart';
