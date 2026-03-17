@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../components/app_email_field.dart';
-import '../../../components/app_password_field.dart';
-import '../../../tokens/app_spacing.dart';
-import 'widgets/error_field_demo.dart';
-import 'widgets/state_story_center.dart';
+import '../../../../components/app_email_field.dart';
+import '../../../../components/app_password_field.dart';
+import '../../../../tokens/app_spacing.dart';
+import '../widgets/error_field_demo.dart';
+import '../widgets/state_story_center.dart';
 
-class AppFieldsStatesStory extends StatelessWidget {
-  const AppFieldsStatesStory({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+final Story appFieldsStatesStory = Story(
+  name: 'States/Shared/AppFields',
+  description: 'Estados visuais dos campos.',
+  builder: (context) {
     return StateStoryCenter(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -39,5 +39,5 @@ class AppFieldsStatesStory extends StatelessWidget {
         ],
       ),
     );
-  }
-}
+  },
+);

@@ -2,7 +2,7 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 import '../../../../previews/features/home/widgets/donut_chart_preview.dart';
 
 final Story donutChartStory = Story(
-  name: 'Components/Charts/Expenses Donut',
+  name: 'Widgets/Home/Donut Chart',
   description: 'Gráfico de rosca para despesas por categoria.',
   builder: (context) {
     // Knob para alternar entre estados

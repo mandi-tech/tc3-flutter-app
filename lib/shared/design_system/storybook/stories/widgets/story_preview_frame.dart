@@ -7,19 +7,21 @@ class StoryPreviewFrame extends StatelessWidget {
   final double width;
   final String title;
   final Widget child;
+  final double? height; // Adicionei um parâmetro opcional de altura
 
   const StoryPreviewFrame({
     super.key,
     required this.width,
     required this.title,
     required this.child,
+    this.height, // Se não passar nada, usaremos um valor padrão
   });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min, // Mantém o título colado no frame
         children: [
           Text(
             '$title • ${width.toInt()}px',
@@ -31,20 +33,19 @@ class StoryPreviewFrame extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           Container(
             width: width,
-            padding: const EdgeInsets.all(AppSpacing.lg),
+            height: height ?? 700, // IMPORTANTE: Define uma altura para o "celular"
+            clipBehavior: Clip.antiAlias, // Garante que o conteúdo respeite o borderRadius
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(24),
               border: Border.all(color: AppColors.neutral100),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.secondary.withOpacity(0.08),
-                  blurRadius: 24,
-                  offset: const Offset(0, 10),
-                ),
-              ],
+              // ... seu boxShadow continua aqui ...
             ),
-            child: child,
+            // Se o conteúdo for maior que a altura do frame, ele precisa de um scroll interno
+            child: Material( // Adiciona o Material para widgets que precisam de tema (como TextFields)
+              color: Colors.transparent,
+              child: child,
+            ),
           ),
         ],
       ),

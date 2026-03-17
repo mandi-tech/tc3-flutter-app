@@ -1,29 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+import 'package:tc3_flutter_app/shared/design_system/storybook/previews/features/home/widgets/balance_card_preview.dart';
 
-import '../../../../../../../features/transactions/presentation/widgets/balance_card.dart';
-
-final List<Story> balanceCardStories = [
+final List<Story> balanceCardStory = [
   Story(
-    name: 'Transactions/BalanceCard',
-    description: 'Card de saldo total.',
+    name: 'Widgets/Home/Balance Card',
+    description: 'Card que exibe o saldo atual do usuário.',
     builder: (context) {
       final balance = context.knobs.slider(
-        label: 'Balance',
+        label: 'Saldo',
         min: -5000,
         max: 10000,
         initial: 2450.75,
       );
 
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
-            child: BalanceCard(balance: balance),
-          ),
-        ),
-      );
+      return BalanceCardPreview(balance: balance);
     },
   ),
 ];

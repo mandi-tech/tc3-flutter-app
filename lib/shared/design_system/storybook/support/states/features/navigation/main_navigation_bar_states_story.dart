@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../../../features/navigation/domain/navigation_tab.dart';
-import '../../../../../features/navigation/presentation/widgets/main_navigation_bar.dart';
-import '../../../tokens/app_spacing.dart';
+import '../../../../../../../features/navigation/domain/navigation_tab.dart';
+import '../../../../../../../features/navigation/presentation/widgets/main_navigation_bar.dart';
+import '../../../../../tokens/app_spacing.dart';
 
-class MainNavigationBarStatesStory extends StatelessWidget {
-  const MainNavigationBarStatesStory({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+final Story mainNavigationBarStatesStory = Story(
+  name: 'States/Navigation/MainNavigationBar',
+  description: 'Estados visuais da navbar com cada aba selecionada.',
+  builder: (context) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -26,4 +26,4 @@ class MainNavigationBarStatesStory extends StatelessWidget {
       ),
     );
   }
-}
+);

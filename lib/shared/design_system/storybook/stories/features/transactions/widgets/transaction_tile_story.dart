@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../../../../features/transactions/data/models/transaction_model.dart';
-import '../../../../../../features/transactions/domain/enums/transaction_type.dart';
-import '../../../../../../features/transactions/presentation/widgets/transaction_tile.dart';
+import '../../../../../../../features/transactions/data/models/transaction_model.dart';
+import '../../../../../../../features/transactions/domain/enums/transaction_type.dart';
+import '../../../../../../../features/transactions/presentation/widgets/transaction_tile.dart';
 
 final List<Story> transactionTileStories = [
   Story(
-    name: 'Transactions/TransactionTile',
+    name: 'Widgets/Transactions/TransactionTile',
     description: 'Item de transação com entrada e saída.',
     builder: (context) {
       final type = context.knobs.options<String>(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../../../../features/transactions/presentation/filters/transaction_filter.dart';
-import '../../../../../../features/transactions/presentation/widgets/filters/transaction_filters_panel.dart';
+import '../../../../../../../features/transactions/presentation/filters/transaction_filter.dart';
+import '../../../../../../../features/transactions/presentation/widgets/filters/transaction_filters_panel.dart';
 
 class _TransactionFiltersPanelStoryWrapper extends StatefulWidget {
   const _TransactionFiltersPanelStoryWrapper();
@@ -84,7 +84,7 @@ class _TransactionFiltersPanelStoryWrapperState
 
 final List<Story> transactionFiltersPanelStories = [
   Story(
-    name: 'Transactions/TransactionFiltersPanel',
+    name: 'Widgets/Transactions/TransactionFiltersPanel',
     description: 'Painel compacto de filtros das transações.',
     builder: (_) => const _TransactionFiltersPanelStoryWrapper(),
   ),

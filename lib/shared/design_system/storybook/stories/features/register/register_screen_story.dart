@@ -21,7 +21,7 @@ final List<Story> registerScreenStories = [
     ),
   ),
   Story(
-    name: 'Screens/Register Screen Responsive',
+    name: 'Screens/Responsive/Register Screen Responsive',
     description: 'Tela completa de cadastro em larguras diferentes.',
     builder: (_) => SingleChildScrollView(
       child: Column(
@@ -55,7 +55,6 @@ class _RegisterScreenPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
         AuthHeaderPreview(
           title: 'Crie sua conta',

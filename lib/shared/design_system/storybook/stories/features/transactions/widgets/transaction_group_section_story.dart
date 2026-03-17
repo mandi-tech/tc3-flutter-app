@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../../../../features/transactions/domain/enums/transaction_type.dart';
-import '../../../../../../features/transactions/data/models/transaction_model.dart';
-import '../../../../../../features/transactions/presentation/utils/transaction_grouping.dart';
-import '../../../../../../features/transactions/presentation/widgets/transaction_group_section.dart';
+import '../../../../../../../features/transactions/domain/enums/transaction_type.dart';
+import '../../../../../../../features/transactions/data/models/transaction_model.dart';
+import '../../../../../../../features/transactions/presentation/utils/transaction_grouping.dart';
+import '../../../../../../../features/transactions/presentation/widgets/transaction_group_section.dart';
 
 final List<Story> transactionGroupSectionStories = [
   Story(
-    name: 'Transactions/TransactionGroupSection',
+    name: 'Widgets/Transactions/TransactionGroupSection',
     description: 'Grupo de transações por data.',
     builder: (_) {
       final group = TransactionGroup(
