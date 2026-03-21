@@ -11,6 +11,7 @@ class BalanceCardPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoryPreviewFrame(
       width: 350,
+      height: 130,
       title: 'Balance Card',
       child: Padding(
         padding: const EdgeInsets.all(16),

@@ -11,6 +11,7 @@ class DonutChartPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoryPreviewFrame(
+      height: 280,
       width: 350,
       title: 'Donut Chart',
       child: Center(
