@@ -9,6 +9,7 @@ import '../../../previews/features/auth/login_screen_preview.dart';
 final List<Story> loginScreenStories = [
   Story(
     name: 'Screens/Login',
+    description: 'Tela para autenticação do usuário.',
     builder: (context) => const StoryPreviewFrame(
       width: 380,
       title: 'Login Screen',

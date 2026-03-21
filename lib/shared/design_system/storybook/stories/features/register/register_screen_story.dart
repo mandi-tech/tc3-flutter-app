@@ -7,6 +7,7 @@ import '../../../previews/features/register/register_screen_preview.dart';
 final List<Story> registerScreenStories = [
   Story(
     name: 'Screens/Register',
+    description: 'Tela para cadastro de novos usuários.',
     builder: (context) => const StoryPreviewFrame(
       width: 380,
       title: 'Register Screen',
