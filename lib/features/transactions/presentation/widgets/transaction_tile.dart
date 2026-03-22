@@ -9,11 +9,13 @@ import '../mappers/category_icon_mapper.dart';
 class TransactionTile extends StatelessWidget {
   final TransactionModel transaction;
   final Future<void> Function()? onDelete;
+  final VoidCallback? onTap;
 
   const TransactionTile({
     super.key,
     required this.transaction,
     this.onDelete,
+    this.onTap
   });
 
   @override
@@ -31,6 +33,7 @@ class TransactionTile extends StatelessWidget {
 
     return Card(
       child: ListTile(
+        onTap: onTap,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 8,

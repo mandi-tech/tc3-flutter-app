@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/design_system/tokens/app_spacing.dart';
 import '../utils/transaction_grouping.dart';
+import 'transaction_details_modal.dart';
 import 'transaction_tile.dart';
 
 class TransactionGroupSection extends StatelessWidget {
@@ -32,6 +33,7 @@ class TransactionGroupSection extends StatelessWidget {
               onDelete: onDelete == null
                   ? null
                   : () async => onDelete!(transaction.id),
+              onTap: () => showTransactionDetails(context, transaction),
             ),
           ),
         ),

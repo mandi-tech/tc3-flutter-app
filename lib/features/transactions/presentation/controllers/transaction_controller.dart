@@ -11,6 +11,7 @@ import '../../domain/usecases/get_monthly_summary_usecase.dart';
 import '../../domain/usecases/get_transaction_charts_usecase.dart';
 import '../../domain/usecases/get_transaction_stats_usecase.dart';
 import '../../domain/usecases/get_transaction_weekly_usecase.dart';
+import '../../domain/usecases/update_transaction_usecase.dart';
 import '../formatters/transaction_formatters.dart';
 
 class TransactionController extends ChangeNotifier {
@@ -21,6 +22,7 @@ class TransactionController extends ChangeNotifier {
   final GetTransactionWeeklyUsecase weeklyUsecase;
   final DeleteTransactionUsecase deleteTransactionUsecase;
   final AddTransactionUsecase addTransactionUsecase;
+  final UpdateTransactionUsecase updateTransactionUsecase;
 
   TransactionController({
     required this.service,
@@ -30,6 +32,7 @@ class TransactionController extends ChangeNotifier {
     required this.deleteTransactionUsecase,
     required this.getMonthlySummary,
     required this.addTransactionUsecase,
+    required this.updateTransactionUsecase,
   });
 
   final List<TransactionModel> _transactions = [];
@@ -77,6 +80,33 @@ class TransactionController extends ChangeNotifier {
     } catch (e) {
       debugPrint("Erro capturado no TransactionController: $e");
       rethrow; 
+    }
+  }
+
+  Future<void> updateTransaction({
+    required String id,
+    required TransactionType type,
+    required String description,
+    required String category,
+    required double amount,
+    required DateTime date,
+    XFile? newReceiptImage,
+    String? currentImageUrl,
+  }) async {
+    try {
+      // Reutilizamos o addTransactionUsecase ou o novo updateTransactionUsecase
+      await updateTransactionUsecase(
+        id: id,
+        type: type,
+        description: description,
+        category: category,
+        amount: amount,
+        date: date,
+        newReceiptImage: newReceiptImage,
+        currentImageUrl: currentImageUrl,
+      );
+    } catch (e) {
+      rethrow;
     }
   }
 
