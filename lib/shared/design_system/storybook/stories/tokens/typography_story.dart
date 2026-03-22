@@ -40,7 +40,7 @@ class TypographyStory extends StatelessWidget {
         TypographyTile(
           name: 'Button',
           style: AppTypography.button,
-          sampleText: 'BOTÃO',
+          sampleText: 'Botão',
         ),
       ],
     );

@@ -7,7 +7,6 @@ import '../widgets/balance_card.dart';
 import '../widgets/dashboard_charts_section.dart';
 import '../widgets/home_header.dart';
 import '../widgets/monthly_summary_section.dart';
-import '../widgets/quick_actions_section.dart';
 import '../widgets/section_title.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -36,8 +35,6 @@ class _HomeContent extends StatelessWidget {
         const HomeHeader(),
         const SizedBox(height: AppSpacing.lg),
         BalanceCard(balance: controller.balance),
-        const SizedBox(height: AppSpacing.lg),
-        const QuickActionsSection(),
         const SizedBox(height: AppSpacing.lg),
         const SectionTitle(title: 'Resumo do mês'),
         const SizedBox(height: AppSpacing.sm),

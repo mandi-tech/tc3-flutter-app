@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
+import 'package:tc3_flutter_app/shared/design_system/storybook/stories/all_stories.dart';
 
 import '../../utils/theme_extensions.dart';
 import '../themes/app_theme.dart';
 import '../tokens/app_spacing.dart';
-import 'stories/states/component_state_stories.dart';
-import 'stories/components/components_stories.dart';
-import 'stories/forms/form_stories.dart';
-import 'stories/screens/screen_stories.dart';
-import 'stories/tokens/token_stories.dart';
-import 'stories/transactions/transaction_stories.dart';
 
 class StorybookApp extends StatelessWidget {
   const StorybookApp({super.key});
@@ -33,12 +28,7 @@ class StorybookApp extends StatelessWidget {
         );
       },
       stories: [
-        ...componentStories,
-        ...transactionStories,
-        ...componentStateStories,
-        ...formStories,
-        ...screenStories,
-        ...tokenStories,
+        ...allStories
       ],
     );
   }
