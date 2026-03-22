@@ -8,6 +8,7 @@ import '../domain/usecases/get_monthly_summary_usecase.dart';
 import '../domain/usecases/get_transaction_charts_usecase.dart';
 import '../domain/usecases/get_transaction_stats_usecase.dart';
 import '../domain/usecases/get_transaction_weekly_usecase.dart';
+import '../domain/usecases/update_transaction_usecase.dart';
 import '../presentation/controllers/transaction_controller.dart';
 
 List<SingleChildWidget> transactionProviders = [
@@ -35,6 +36,9 @@ List<SingleChildWidget> transactionProviders = [
   Provider(
     create: (context) => GetTransactionWeeklyUsecase(),
   ),
+  Provider(
+    create: (context) => UpdateTransactionUsecase(context.read<TransactionService>()),
+  ),
 
   // Controller
   ChangeNotifierProvider(
@@ -45,7 +49,8 @@ List<SingleChildWidget> transactionProviders = [
       getMonthlySummary: context.read<GetMonthlySummaryUsecase>(),
       statsUsecase: context.read<GetTransactionStatsUsecase>(),
       chartsUsecase: context.read<GetTransactionChartsUsecase>(),
-      weeklyUsecase: context.read<GetTransactionWeeklyUsecase>(),
+      weeklyUsecase: context.read<GetTransactionWeeklyUsecase>(), 
+      updateTransactionUsecase: context.read<UpdateTransactionUsecase>(),
     ),
   ),
 ];

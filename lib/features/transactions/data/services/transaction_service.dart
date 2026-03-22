@@ -111,4 +111,40 @@ class TransactionService {
   Future<void> deleteTransaction(String id) async {
     await _transactionsCollection.doc(id).delete();
   }
+
+  Future<void> updateTransaction({
+    required String id,
+    required TransactionType type,
+    required String description,
+    required String category,
+    required double amount,
+    required DateTime date,
+    XFile? newReceiptImage,
+    String? currentImageUrl,
+  }) async {
+    try {
+      String? imageUrl = currentImageUrl;
+
+      // Se o usuário selecionou uma nova imagem, fazemos o upload dela
+      if (newReceiptImage != null) {
+        imageUrl = await _uploadReceiptImage(newReceiptImage);
+      }
+
+      final transaction = TransactionModel(
+        id: id,
+        type: type,
+        description: description,
+        category: category,
+        amount: amount,
+        date: date,
+        receiptImageUrl: imageUrl,
+      );
+
+      // Atualiza o documento específico no Firestore
+      await _transactionsCollection.doc(id).update(transaction.toMap());
+    } catch (e) {
+      debugPrint("Erro ao atualizar no Service: $e");
+      rethrow;
+    }
+  }
 }
