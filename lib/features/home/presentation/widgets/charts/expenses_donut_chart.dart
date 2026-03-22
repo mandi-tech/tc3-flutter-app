@@ -17,7 +17,7 @@ class ExpensesDonutChart extends StatelessWidget {
   Widget build(BuildContext context) {
     if (data.isEmpty) {
       return const SizedBox(
-        height: 180,
+        height: 200,
         child: Center(
           child: Text(
             "Sem dados para exibir",
@@ -65,7 +65,7 @@ class ExpensesDonutChart extends StatelessWidget {
 
         const SizedBox(height: AppSpacing.lg),
 
-        /// legenda
+        /// Legenda
         Wrap(
           alignment: WrapAlignment.center,
           spacing: AppSpacing.lg,

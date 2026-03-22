@@ -71,8 +71,6 @@ class AppTextField extends StatelessWidget {
       onChanged: onChanged,
       onTap: onTap,
       maxLines: obscureText ? 1 : maxLines,
-
-      /// NOVOS
       textAlign: textAlign,
       style: style,
 

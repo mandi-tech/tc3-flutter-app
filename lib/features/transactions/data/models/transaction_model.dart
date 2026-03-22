@@ -23,7 +23,7 @@ class TransactionModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'type': type.value, // salva como string
+      'type': type.value,
       'description': description,
       'category': category,
       'amount': amount,

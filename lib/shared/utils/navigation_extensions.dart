@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 extension NavigationExtension on BuildContext {
-  // Empilha página sem remover a anterior
+  /// Empilha página sem remover a anterior
   Future<T?> pushPage<T extends Object?>(
     String route, {
     Object? extra,
@@ -10,7 +10,7 @@ extension NavigationExtension on BuildContext {
     return push<T>(route, extra: extra);
   }
 
-  // Substitui a página atual pela nova, sem permitir voltar
+  /// Substitui a página atual pela nova, sem permitir voltar
   void goPage(
     String route, {
     Object? extra,
@@ -18,7 +18,7 @@ extension NavigationExtension on BuildContext {
     go(route, extra: extra);
   }
 
-  // Substitui a página atual pela nova, permitindo voltar para a anterior
+  /// Substitui a página atual pela nova, permitindo voltar para a anterior
   void replacePage(
     String route, {
     Object? extra,
@@ -26,21 +26,21 @@ extension NavigationExtension on BuildContext {
     replace(route, extra: extra);
   }
 
-  // Volta para a página anterior, se possível
+  /// Volta para a página anterior, se possível
   void goBack<T extends Object?>([T? result]) {
     if (canPop()) {
       pop(result);
     }
   }
 
-  // Volta para a página raiz, removendo todas as páginas anteriores
+  /// Volta para a página raiz, removendo todas as páginas anteriores
   void popUntilRoot() {
     while (canPop()) {
       pop();
     }
   }
 
-  // Abre um diálogo modal
+  /// Abre um diálogo modal
   Future<T?> openAppDialog<T>({
     required Widget child,
     bool barrierDismissible = true,
@@ -52,7 +52,7 @@ extension NavigationExtension on BuildContext {
     );
   }
 
-  // Abre um bottom sheet modal
+  /// Abre um bottom sheet modal
   Future<T?> openAppBottomSheet<T>({
     required Widget child,
     bool isScrollControlled = false,
@@ -64,7 +64,7 @@ extension NavigationExtension on BuildContext {
     );
   }
 
-  //  Exibe um SnackBar com mensagem personalizada
+  /// Exibe um SnackBar com mensagem personalizada
   void showAppSnackBar(
     String message, {
     SnackBarAction? action,

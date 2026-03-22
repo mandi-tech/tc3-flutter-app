@@ -29,7 +29,7 @@ class _AppSpeedDialState extends State<AppSpeedDial> {
       mainAxisSize: MainAxisSize.min,
       children: [
 
-        /// BOTÕES EXPANDIDOS
+        /// Botões expandidos
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 250),
           child: _isOpen
@@ -55,7 +55,7 @@ class _AppSpeedDialState extends State<AppSpeedDial> {
               : const SizedBox(),
         ),
 
-        /// FAB PRINCIPAL
+        /// FAB principal
         FloatingActionButton(
           onPressed: _toggle,
           child: AnimatedRotation(

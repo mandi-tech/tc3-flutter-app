@@ -22,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
-          // Detalhes da conta
+          /// Detalhes da conta
           Text(
             'Conta',
             style: AppTypography.title,
@@ -40,7 +40,8 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.xl),
-          // Preferências
+
+          /// Preferências
           Text(
             'Preferências',
             style: AppTypography.title,
@@ -58,6 +59,7 @@ class ProfileScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: AppSpacing.xl),
+
           /// Logout
           SettingsCard(
             children: [

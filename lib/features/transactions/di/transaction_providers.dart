@@ -12,12 +12,12 @@ import '../domain/usecases/update_transaction_usecase.dart';
 import '../presentation/controllers/transaction_controller.dart';
 
 List<SingleChildWidget> transactionProviders = [
-  // Service
+  /// Service
   Provider(
     create: (_) => TransactionService(),
   ),
 
-  // Usecases
+  /// Usecases
   Provider(
     create: (context) => AddTransactionUsecase(context.read<TransactionService>()),
   ),
@@ -40,7 +40,7 @@ List<SingleChildWidget> transactionProviders = [
     create: (context) => UpdateTransactionUsecase(context.read<TransactionService>()),
   ),
 
-  // Controller
+  /// Controller
   ChangeNotifierProvider(
     create: (context) => TransactionController(
       service: context.read<TransactionService>(),

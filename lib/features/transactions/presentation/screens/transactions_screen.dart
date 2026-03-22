@@ -58,7 +58,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
     }).toList();
 
-    /// agrupa
+    /// Agrupa
     final groups = TransactionGroupMapper.groupByDate(filteredTransactions);
 
     return Scaffold(
@@ -93,7 +93,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
 
-                        /// filtros
+                        /// Filtros
                         TransactionFiltersPanel(
                           selectedType: filter.type,
                           selectedPeriod: filter.period,
@@ -115,7 +115,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
                         const SizedBox(height: AppSpacing.lg),
 
-                        /// lista
+                        /// Lista
                         if (groups.isEmpty)
                           const TransactionEmptyState()
                         else
