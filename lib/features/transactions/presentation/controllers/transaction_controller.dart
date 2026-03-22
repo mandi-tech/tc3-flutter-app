@@ -65,14 +65,19 @@ class TransactionController extends ChangeNotifier {
     required DateTime date,
     XFile? receiptImage,
   }) async {
-    await addTransactionUsecase(
-      type: type,
-      description: description,
-      category: category,
-      amount: amount,
-      date: date,
-      receiptImage: receiptImage,
-    );
+    try {
+      await addTransactionUsecase(
+        type: type,
+        description: description,
+        category: category,
+        amount: amount,
+        date: date,
+        receiptImage: receiptImage,
+      );
+    } catch (e) {
+      debugPrint("Erro capturado no TransactionController: $e");
+      rethrow; 
+    }
   }
 
   /// Stats

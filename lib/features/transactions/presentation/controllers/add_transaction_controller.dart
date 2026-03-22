@@ -15,7 +15,6 @@ class AddTransactionController extends ChangeNotifier {
 
   final descriptionController = TextEditingController();
   final amountController = TextEditingController();
-
   final imagePicker = ImagePicker();
 
   TransactionType _type;
@@ -24,6 +23,7 @@ class AddTransactionController extends ChangeNotifier {
   XFile? _receiptImage;
   bool _isSaving = false;
 
+  /// Getters
   TransactionType get type => _type;
   String? get selectedCategory => _selectedCategory;
   DateTime get selectedDate => _selectedDate;
@@ -31,14 +31,16 @@ class AddTransactionController extends ChangeNotifier {
   bool get isSaving => _isSaving;
 
   List<String> get currentCategories {
-    return _type.isIncome
+    return _type == TransactionType.income
         ? TransactionCategories.income
         : TransactionCategories.expense;
   }
 
+  /// Setters com Notificação
   void setType(TransactionType value) {
+    if (_type == value) return;
     _type = value;
-    _selectedCategory = currentCategories.first;
+    _selectedCategory = currentCategories.isNotEmpty ? currentCategories.first : null;
     notifyListeners();
   }
 
@@ -52,12 +54,17 @@ class AddTransactionController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setSaving(bool value) {
+    _isSaving = value;
+    notifyListeners();
+  }
+
+  /// Imagens
   Future<void> pickFromGallery() async {
     final image = await imagePicker.pickImage(
       source: ImageSource.gallery,
       imageQuality: 80,
     );
-
     if (image != null) {
       _receiptImage = image;
       notifyListeners();
@@ -69,7 +76,6 @@ class AddTransactionController extends ChangeNotifier {
       source: ImageSource.camera,
       imageQuality: 80,
     );
-
     if (image != null) {
       _receiptImage = image;
       notifyListeners();
@@ -81,11 +87,14 @@ class AddTransactionController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Lógica de Negócio
   double? parseAmount() {
+    if (amountController.text.isEmpty) return null;
+    
     final normalized = amountController.text
         .trim()
         .replaceAll('R\$', '')
-        .replaceAll(' ', '')
+        .replaceAll(RegExp(r'\s+'), '')
         .replaceAll('.', '')
         .replaceAll(',', '.');
 
@@ -93,28 +102,23 @@ class AddTransactionController extends ChangeNotifier {
   }
 
   bool validateForm() {
-    final isValid = formKey.currentState?.validate() ?? false;
-    return isValid && _selectedCategory != null;
+    return (formKey.currentState?.validate() ?? false) && _selectedCategory != null;
   }
 
-  void startSaving() {
-    _isSaving = true;
-    notifyListeners();
-  }
-
-  void finishSuccessState() {
+  /// Limpa todos os campos e estados para uma nova entrada
+  void resetForm() {
     _isSaving = false;
     descriptionController.clear();
     amountController.clear();
-    _type = TransactionType.expense;
-    _selectedCategory = TransactionCategories.expense.first;
-    _selectedDate = DateTime.now();
     _receiptImage = null;
-    notifyListeners();
-  }
-
-  void finishErrorState() {
-    _isSaving = false;
+    _selectedDate = DateTime.now();
+    
+    /// Mantém o tipo atual mas volta para a primeira categoria
+    _selectedCategory = currentCategories.isNotEmpty ? currentCategories.first : null;
+    
+    /// Limpa as mensagens de erro visuais do Form (se houver)
+    formKey.currentState?.reset();
+    
     notifyListeners();
   }
 
