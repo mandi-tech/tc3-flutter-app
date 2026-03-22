@@ -110,7 +110,7 @@ class TransactionController extends ChangeNotifier {
     }
   }
 
-  /// STATS
+  /// Stats
 
   double get totalIncome =>
       statsUsecase.totalIncome(transactions);
