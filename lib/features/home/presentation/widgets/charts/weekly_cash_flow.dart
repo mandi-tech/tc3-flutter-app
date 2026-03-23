@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../../shared/design_system/tokens/app_spacing.dart';
 import '../../../../../shared/design_system/tokens/app_typography.dart';
 
@@ -15,45 +14,32 @@ class WeeklyCashflowChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
-    /// Estado vazio
     if (data.isEmpty) {
-      return SizedBox(
-        height: 200,
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.show_chart,
-                size: 36,
-                color: Colors.grey.shade400,
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                "Sem dados para exibir",
-                style: AppTypography.caption.copyWith(
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
+      return _buildEmptyState();
     }
 
-    final spots = data.entries
-        .map((e) => FlSpot(e.key.toDouble(), e.value))
-        .toList()
-      ..sort((a, b) => a.x.compareTo(b.x));
+    /// Transforma em saldo acumulado
+    double runningBalance = 0;
+    final List<FlSpot> accumulatedSpots = [];
+    
+    /// Ordena os dias de 1 a 7
+    final sortedKeys = data.keys.toList()..sort();
+    
+    for (var day in sortedKeys) {
+      runningBalance += data[day] ?? 0;
+      accumulatedSpots.add(FlSpot(day.toDouble(), runningBalance));
+    }
 
-    final values = spots.map((e) => e.y).toList();
+    /// Calcula máximos e mínimos para o eixo Y
+    final allValues = accumulatedSpots.map((e) => e.y).toList();
+    final maxValue = allValues.reduce((a, b) => a > b ? a : b);
+    final minValue = allValues.reduce((a, b) => a < b ? a : b);
 
-    final maxValue = values.reduce((a, b) => a > b ? a : b);
-    final minValue = values.reduce((a, b) => a < b ? a : b);
-
-    final maxY = _niceMax(maxValue.abs());
-    final minY = -_niceMax(minValue.abs());
+    /// Ajusta o maxY para ter um respiro no topo e o minY para 0 (ou o mínimo real)
+    final maxY = _niceMax(maxValue * 1.2); 
+    final minY = minValue < 0 ? minValue * 1.1 : 0.0;
 
     const days = ["S", "T", "Q", "Q", "S", "S", "D"];
 
@@ -63,122 +49,67 @@ class WeeklyCashflowChart extends StatelessWidget {
         LineChartData(
           minY: minY,
           maxY: maxY,
-
-          /// Grid
           gridData: FlGridData(
             drawVerticalLine: false,
-            horizontalInterval: maxY / 4,
-            getDrawingHorizontalLine: (value) {
-
-              /// Linha central (y=0)
-              if (value == 0) {
-                return FlLine(
-                  color: Colors.grey.shade400,
-                  strokeWidth: 1.5,
-                );
-              }
-
-              return FlLine(
-                color: AppColors.neutral900.withOpacity(0.08),
-                strokeWidth: 1,
-              );
-            },
+            horizontalInterval: (maxY - minY) / 4 == 0 ? 1 : (maxY - minY) / 4,
+            getDrawingHorizontalLine: (value) => FlLine(
+              color: colorScheme.outlineVariant.withOpacity(0.4),
+              strokeWidth: 1,
+            ),
           ),
-
           borderData: FlBorderData(show: false),
-
           titlesData: FlTitlesData(
-            topTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-
-            rightTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-
-            /// Dias da semana
+            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
                 interval: 1,
                 getTitlesWidget: (value, meta) {
-
                   final index = value.toInt() - 1;
-
-                  if (index < 0 || index >= days.length) {
-                    return const SizedBox();
-                  }
-
+                  if (index < 0 || index >= days.length) return const SizedBox();
                   return Padding(
                     padding: const EdgeInsets.only(top: AppSpacing.sm),
-                    child: Text(
-                      days[index],
-                      style: AppTypography.caption,
-                    ),
+                    child: Text(days[index], style: AppTypography.caption.copyWith(color: colorScheme.onSurfaceVariant)),
                   );
                 },
               ),
             ),
-
-            /// Valores
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                interval: maxY / 4,
-                reservedSize: 40,
-                getTitlesWidget: (value, meta) {
-
-                  if (value == 0) {
-                    return Text(
-                      "0",
-                      style: AppTypography.caption,
-                    );
-                  }
-
-                  return Text(
-                    _formatCurrencyCompact(value),
-                    style: AppTypography.caption,
-                  );
-                },
+                interval: (maxY - minY) / 4 == 0 ? 1 : (maxY - minY) / 4,
+                reservedSize: 42,
+                getTitlesWidget: (value, meta) => Text(
+                  _formatCurrencyCompact(value),
+                  style: AppTypography.caption.copyWith(color: colorScheme.onSurfaceVariant),
+                ),
               ),
             ),
           ),
-
-          /// Linha do gráfico
           lineBarsData: [
             LineChartBarData(
-              spots: spots,
+              spots: accumulatedSpots,
               isCurved: true,
-              curveSmoothness: 0.35,
-              barWidth: 3,
-              color: Colors.blueAccent,
+              curveSmoothness: 0.3,
+              barWidth: 4,
+              color: colorScheme.primary, 
               isStrokeCapRound: true,
-
-              /// Pontos de cada movimentação
               dotData: FlDotData(
                 show: true,
-                getDotPainter: (spot, percent, barData, index) {
-
-                  final isPositive = spot.y >= 0;
-
-                  return FlDotCirclePainter(
-                    radius: 4,
-                    color: isPositive
-                        ? AppColors.income
-                        : AppColors.expense,
-                    strokeWidth: 2,
-                    strokeColor: Colors.white,
-                  );
-                },
+                getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
+                  radius: 4,
+                  color: colorScheme.primary,
+                  strokeWidth: 2,
+                  strokeColor: colorScheme.surface,
+                ),
               ),
-
-              /// Área abaixo da linha
               belowBarData: BarAreaData(
                 show: true,
                 gradient: LinearGradient(
                   colors: [
-                    Colors.blueAccent.withOpacity(0.25),
-                    Colors.blueAccent.withOpacity(0.02),
+                    colorScheme.primary.withOpacity(0.3),
+                    colorScheme.primary.withOpacity(0.0),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -186,40 +117,16 @@ class WeeklyCashflowChart extends StatelessWidget {
               ),
             ),
           ],
-
-          /// Tooltip
           lineTouchData: LineTouchData(
             touchTooltipData: LineTouchTooltipData(
-              tooltipBorderRadius: BorderRadius.circular(10),
-              tooltipPadding: const EdgeInsets.all(AppSpacing.sm),
-              getTooltipItems: (spots) {
-                return spots.map((spot) {
-
-                  final dayIndex = spot.x.toInt() - 1;
-
-                  const dayNames = [
-                    "Seg",
-                    "Ter",
-                    "Qua",
-                    "Qui",
-                    "Sex",
-                    "Sáb",
-                    "Dom"
-                  ];
-
-                  final day = (dayIndex >= 0 && dayIndex < 7)
-                      ? dayNames[dayIndex]
-                      : "";
-
-                  final type = spot.y >= 0
-                      ? "Receita"
-                      : "Despesa";
-
+              getTooltipColor:(touchedSpot) => colorScheme.surfaceContainerHighest,
+              getTooltipItems: (touchedSpots) {
+                return touchedSpots.map((spot) {
                   return LineTooltipItem(
-                    "$day\n$type: R\$ ${spot.y.abs().toStringAsFixed(2)}",
+                    "Saldo: R\$ ${spot.y.toStringAsFixed(2)}",
                     AppTypography.caption.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                      color: colorScheme.onSurface,
+                      fontWeight: FontWeight.bold,
                     ),
                   );
                 }).toList();
@@ -227,28 +134,34 @@ class WeeklyCashflowChart extends StatelessWidget {
             ),
           ),
         ),
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeOut,
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return SizedBox(
+      height: 200,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.show_chart, size: 36, color: Colors.grey),
+            const SizedBox(height: AppSpacing.sm),
+            Text("Sem movimentações esta semana", style: AppTypography.caption),
+          ],
+        ),
       ),
     );
   }
 
   double _niceMax(double value) {
-    if (value <= 100) return 100;
-    if (value <= 500) return 500;
+    if (value <= 0) return 100;
     if (value <= 1000) return 1000;
-    if (value <= 2000) return 2000;
-    if (value <= 5000) return 5000;
-    return (value / 1000).ceil() * 1000;
+    return (value / 500).ceil() * 500.0;
   }
 
   String _formatCurrencyCompact(double value) {
-    final abs = value.abs();
-
-    if (abs >= 1000) {
-      return "${(value / 1000).toStringAsFixed(1)}k";
-    }
-
+    if (value.abs() >= 1000) return "${(value / 1000).toStringAsFixed(1)}k";
     return value.toInt().toString();
   }
 }
