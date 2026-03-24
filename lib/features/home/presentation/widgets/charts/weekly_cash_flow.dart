@@ -20,33 +20,44 @@ class WeeklyCashflowChart extends StatelessWidget {
       return _buildEmptyState();
     }
 
-    /// Transforma em saldo acumulado
+    /// Ordem visual: Domingo (7) até Sábado (6)
+    final weekOrder = [7, 1, 2, 3, 4, 5, 6];
+    const daysLabels = ["D", "S", "T", "Q", "Q", "S", "S"];
+
+    /// Pegamos o dia atual para limitar o gráfico
+    final now = DateTime.now();
+    final todayWeekday = now.weekday; 
+    /// Ajustamos o dia de hoje para o índice do nosso array (Dom = 0, Seg = 1...)
+    final todayIndex = todayWeekday == 7 ? 0 : todayWeekday;
+
     double runningBalance = 0;
     final List<FlSpot> accumulatedSpots = [];
     
-    /// Ordena os dias de 1 a 7
-    final sortedKeys = data.keys.toList()..sort();
-    
-    for (var day in sortedKeys) {
-      runningBalance += data[day] ?? 0;
-      accumulatedSpots.add(FlSpot(day.toDouble(), runningBalance));
+    for (int i = 0; i < weekOrder.length; i++) {
+      /// Se o índice for maior que hoje, paramos de adicionar pontos
+      if (i > todayIndex) break;
+
+      final dayKey = weekOrder[i];
+      runningBalance += data[dayKey] ?? 0;
+      accumulatedSpots.add(FlSpot(i.toDouble(), runningBalance));
     }
 
-    /// Calcula máximos e mínimos para o eixo Y
+    /// Se por algum motivo a lista estiver vazia após o filtro, build state vazio
+    if (accumulatedSpots.isEmpty) return _buildEmptyState();
+
     final allValues = accumulatedSpots.map((e) => e.y).toList();
     final maxValue = allValues.reduce((a, b) => a > b ? a : b);
     final minValue = allValues.reduce((a, b) => a < b ? a : b);
 
-    /// Ajusta o maxY para ter um respiro no topo e o minY para 0 (ou o mínimo real)
     final maxY = _niceMax(maxValue * 1.2); 
     final minY = minValue < 0 ? minValue * 1.1 : 0.0;
-
-    const days = ["S", "T", "Q", "Q", "S", "S", "D"];
 
     return SizedBox(
       height: 220,
       child: LineChart(
         LineChartData(
+          minX: 0,
+          maxX: 6, /// Mantemos 6 para o eixo mostrar a semana toda
           minY: minY,
           maxY: maxY,
           gridData: FlGridData(
@@ -66,11 +77,20 @@ class WeeklyCashflowChart extends StatelessWidget {
                 showTitles: true,
                 interval: 1,
                 getTitlesWidget: (value, meta) {
-                  final index = value.toInt() - 1;
-                  if (index < 0 || index >= days.length) return const SizedBox();
+                  final index = value.toInt();
+                  if (index < 0 || index >= daysLabels.length) return const SizedBox();
+                  
+                  final isToday = index == todayIndex;
+
                   return Padding(
                     padding: const EdgeInsets.only(top: AppSpacing.sm),
-                    child: Text(days[index], style: AppTypography.caption.copyWith(color: colorScheme.onSurfaceVariant)),
+                    child: Text(
+                      daysLabels[index], 
+                      style: AppTypography.caption.copyWith(
+                        color: isToday ? colorScheme.primary : colorScheme.onSurfaceVariant,
+                        fontWeight: isToday ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    ),
                   );
                 },
               ),
@@ -95,15 +115,7 @@ class WeeklyCashflowChart extends StatelessWidget {
               barWidth: 4,
               color: colorScheme.primary, 
               isStrokeCapRound: true,
-              dotData: FlDotData(
-                show: true,
-                getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(
-                  radius: 4,
-                  color: colorScheme.primary,
-                  strokeWidth: 2,
-                  strokeColor: colorScheme.surface,
-                ),
-              ),
+              dotData: const FlDotData(show: true),
               belowBarData: BarAreaData(
                 show: true,
                 gradient: LinearGradient(
@@ -119,7 +131,7 @@ class WeeklyCashflowChart extends StatelessWidget {
           ],
           lineTouchData: LineTouchData(
             touchTooltipData: LineTouchTooltipData(
-              getTooltipColor:(touchedSpot) => colorScheme.surfaceContainerHighest,
+              getTooltipColor: (touchedSpot) => colorScheme.surfaceContainerHighest,
               getTooltipItems: (touchedSpots) {
                 return touchedSpots.map((spot) {
                   return LineTooltipItem(

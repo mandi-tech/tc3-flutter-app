@@ -1,18 +1,15 @@
-
 import 'package:storybook_flutter/storybook_flutter.dart';
-import 'package:tc3_flutter_app/shared/design_system/storybook/stories/features/register/widgets/register_form_story.dart';
+import 'package:tc3_flutter_app/shared/design_system/storybook/stories/features/transactions/widgets/transaction_widgets_story.dart';
 
-import 'features/home/widgets/balance_card_story.dart';
-import 'features/home/widgets/donut_chart_story.dart';
-import 'features/transactions/widgets/transaction_filters_panel_story.dart';
-import 'features/transactions/widgets/transaction_group_section_story.dart';
-import 'features/transactions/widgets/transaction_tile_story.dart';
+import 'features/auth/widgets/auth_widgets_stories.dart';
+import 'features/home/widgets/home_widgets_stories.dart';
+import 'features/profile/widgets/profile_widgets_stories.dart';
+import 'features/register/widgets/register_widgets_stories.dart';
 
 final List<Story> widgetStories = [
-  donutChartStory, 
-  ...balanceCardStory,
-  ...transactionFiltersPanelStories,
-  ...transactionGroupSectionStories,
-  ...transactionTileStories,
-  ...registerFormStories
+  ...registerWidgetsStories,
+  ...authWidgetsStories,
+  ...homeWidgetsStories,
+  ...profileWidgetsStories,
+  ...transactionWidgetsStories
 ];

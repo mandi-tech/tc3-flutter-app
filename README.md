@@ -143,34 +143,115 @@ Isso permite:
 
 ## 📂 Estrutura do projeto
 
-    lib/
-    │
-    ├── app/
-    │   └── router/
-    │
-    ├── core/
-    │   └── error/
-    │
-    ├── features/
-    │   ├── auth/
-    │   │   ├── login/
-    │   │   └── register/
-    │   │
-    │   ├── dashboard/
-    │   └── transactions/
-    │
-    ├── shared/
-    │   ├── design_system/
-    │   │   ├── components/
-    │   │   ├── tokens/
-    │   │   └── themes/
-    │   │
-    │   └── utils/
-    │
-    ├── storybook/
-    │
-    ├── main.dart
-    └── main_storybook.dart
+    TC3-FLUTTER-APP\LIB
+    +---app
+    |   +---controllers
+    |   \---router
+    +---core
+    |   \---error
+    +---features
+    |   +---auth
+    |   |   +---data
+    |   |   |   \---services
+    |   |   \---presentation
+    |   |       +---controllers
+    |   |       +---screens
+    |   |       \---widgets
+    |   +---home
+    |   |   \---presentation
+    |   |       +---screens
+    |   |       \---widgets
+    |   |           \---charts
+    |   +---navigation
+    |   |   +---domain
+    |   |   \---presentation
+    |   |       +---screens
+    |   |       \---widgets
+    |   +---profile
+    |   |   \---presentation
+    |   |       +---screens
+    |   |       \---widgets
+    |   +---register
+    |   |   \---presentation
+    |   |       +---screens
+    |   |       \---widgets
+    |   +---splash
+    |   |   \---presentation
+    |   |       \---screens
+    |   \---transactions
+    |       +---data
+    |       |   +---models
+    |       |   \---services
+    |       +---di
+    |       +---domain
+    |       |   +---entities
+    |       |   +---enums
+    |       |   \---usecases
+    |       \---presentation
+    |           +---controllers
+    |           +---filters
+    |           +---formatters
+    |           +---helpers
+    |           +---mappers
+    |           +---screens
+    |           +---utils
+    |           \---widgets
+    |               \---filters
+    \---shared
+        +---design_system
+        |   +---components
+        |   +---storybook
+        |   |   +---previews
+        |   |   |   +---features
+        |   |   |   |   +---auth
+        |   |   |   |   |   \---widgets
+        |   |   |   |   +---home
+        |   |   |   |   |   \---widgets
+        |   |   |   |   +---navigation
+        |   |   |   |   +---profile
+        |   |   |   |   |   \---widgets
+        |   |   |   |   +---register
+        |   |   |   |   |   \---widgets
+        |   |   |   |   +---splash
+        |   |   |   |   \---transactions
+        |   |   |   |       \---widgets
+        |   |   |   \---widgets
+        |   |   +---stories
+        |   |   |   +---components
+        |   |   |   +---features
+        |   |   |   |   +---auth
+        |   |   |   |   |   \---widgets
+        |   |   |   |   +---home
+        |   |   |   |   |   \---widgets
+        |   |   |   |   +---navigation
+        |   |   |   |   |   \---widgets
+        |   |   |   |   +---profile
+        |   |   |   |   |   \---widgets
+        |   |   |   |   +---register
+        |   |   |   |   |   \---widgets
+        |   |   |   |   +---splash
+        |   |   |   |   \---transactions
+        |   |   |   |       \---widgets
+        |   |   |   +---tokens
+        |   |   |   |   +---models
+        |   |   |   |   \---widgets
+        |   |   |   \---widgets
+        |   |   \---support
+        |   |       +---mocks
+        |   |       |   \---features
+        |   |       |       +---auth
+        |   |       |       \---home
+        |   |       \---states
+        |   |           +---components
+        |   |           +---features
+        |   |           |   +---auth
+        |   |           |   +---home
+        |   |           |   +---navigation
+        |   |           |   \---transactions
+        |   |           \---widgets
+        |   +---themes
+        |   \---tokens
+        \---utils
 
 ---
 
@@ -242,6 +323,12 @@ Componentes disponíveis:
 -   AppTextField
 -   AppEmailField
 -   AppPasswordField
+-   AppDropdownField
+-   AppCard
+-   AppPickerField
+-   AppSectionTitle
+-   AppTopBar
+-   AppSpeedDial
 
 Exemplo:
 
@@ -332,7 +419,7 @@ Vídeo demonstrando:
 -   upload de recibos
 -   integração com Firebase
 
-https://www.youtube.com/watch?v=7yawItuhJDM
+https://youtube.com/shorts/Z-QvAC9wJ-8?feature=share
 
 ---
 

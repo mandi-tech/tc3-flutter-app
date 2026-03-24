@@ -1,62 +1,57 @@
-import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../../../../../features/transactions/data/models/transaction_model.dart';
 import '../../../../../../../features/transactions/domain/enums/transaction_type.dart';
-import '../../../../../../../features/transactions/presentation/widgets/transaction_tile.dart';
+import '../../../../previews/features/transactions/widgets/transaction_tile_preview.dart';
 
 final List<Story> transactionTileStories = [
   Story(
-    name: 'Widgets/Transactions/TransactionTile',
-    description: 'Item de transação com entrada e saída.',
+    name: 'Widgets/Transactions/Transaction Tile',
+    description: 'Teste as variações do item de transação usando os Knobs.',
     builder: (context) {
-      final type = context.knobs.options<String>(
-        label: 'Type',
-        initial: 'expense',
+      // Knobs para controle dinâmico
+      final type = context.knobs.options<TransactionType>(
+        label: 'Tipo',
+        initial: TransactionType.expense,
         options: const [
-          Option(label: 'Entrada', value: 'income'),
-          Option(label: 'Saída', value: 'expense'),
+          Option(label: 'Entrada (Income)', value: TransactionType.income),
+          Option(label: 'Saída (Expense)', value: TransactionType.expense),
         ],
       );
 
       final description = context.knobs.text(
-        label: 'Description',
+        label: 'Descrição',
         initial: 'Mercado',
       );
 
       final category = context.knobs.text(
-        label: 'Category',
+        label: 'Categoria',
         initial: 'Alimentação',
       );
 
       final amount = context.knobs.slider(
-        label: 'Amount',
+        label: 'Valor',
         min: 0,
-        max: 5000,
+        max: 10000,
         initial: 120.90,
       );
 
+      final hasImage = context.knobs.boolean(
+        label: 'Possui Recibo',
+        initial: false,
+      );
+
       final transaction = TransactionModel(
-        id: '1',
-        type: type == 'income' ? TransactionType.income : TransactionType.expense,
+        id: 'tile-1',
+        type: type,
         description: description,
         category: category,
         amount: amount,
-        date: DateTime(2026, 3, 10),
-        receiptImageUrl: null,
+        date: DateTime.now(),
+        receiptImageUrl: hasImage ? 'https://via.placeholder.com/150' : null,
       );
 
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
-            child: TransactionTile(
-              transaction: transaction,
-            ),
-          ),
-        ),
-      );
+      return TransactionTilePreview(transaction: transaction);
     },
   ),
 ];

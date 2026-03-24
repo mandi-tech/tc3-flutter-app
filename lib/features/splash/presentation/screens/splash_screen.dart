@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../../app/router/app_routes.dart';
+import '../../../../shared/design_system/tokens/app_colors.dart';
 import '../../../../shared/utils/navigation_extensions.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -66,11 +67,11 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: DecoratedBox(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFFC06C84),
-              Color(0xFFF8B195),
+              AppColors.primary,
+              AppColors.secondary,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
