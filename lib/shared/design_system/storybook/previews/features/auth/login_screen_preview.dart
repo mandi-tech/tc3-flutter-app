@@ -9,7 +9,7 @@ import '../../../../../../features/auth/presentation/widgets/login_form.dart';
 import '../../../../../utils/theme_extensions.dart';
 import '../../../../tokens/app_spacing.dart';
 import '../../../support/mocks/features/auth/auth_controller_mock.dart';
-import 'widgets/auth_header_preview.dart';
+import 'widgets/login_header_preview.dart';
 
 class LoginScreenPreview extends StatelessWidget {
   final bool isLoading;
@@ -29,10 +29,7 @@ class LoginScreenPreview extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: Column(
             children: [
-              const AuthHeaderPreview(
-                title: 'Bem-vinda!',
-                description: 'Entre com seu e-mail e senha para continuar',
-              ),
+              const LoginHeaderPreview(),
               const SizedBox(height: AppSpacing.xl),
               const LoginForm(),
             ],

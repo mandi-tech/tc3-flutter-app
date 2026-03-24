@@ -1,5 +1,3 @@
-// lib/shared/design_system/storybook/stories/features/auth/login_screen_story.dart
-
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import '../../../../tokens/app_spacing.dart';

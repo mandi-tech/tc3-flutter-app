@@ -7,7 +7,6 @@ import '../../../../../../features/register/presentation/widgets/register_form.d
 import '../../../../../utils/theme_extensions.dart';
 import '../../../../tokens/app_spacing.dart';
 import '../../../support/mocks/features/auth/auth_controller_mock.dart';
-import '../auth/widgets/auth_header_preview.dart';
 
 class RegisterScreenPreview extends StatelessWidget {
   final bool isLoading;
@@ -27,10 +26,7 @@ class RegisterScreenPreview extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: Column(
             children: [
-              const AuthHeaderPreview(
-                title: 'Crie sua conta',
-                description: 'Comece a organizar sua vida financeira em poucos passos',
-              ),
+              
               const SizedBox(height: AppSpacing.xl),
               const RegisterForm(),
             ],
