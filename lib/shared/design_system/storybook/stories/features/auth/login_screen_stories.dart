@@ -9,7 +9,7 @@ final List<Story> loginScreenStories = [
     name: 'Screens/Login',
     description: 'Tela para autenticação do usuário.',
     builder: (context) => const StoryPreviewFrame(
-      width: 380,
+      width: 400,
       title: 'Login Screen',
       child: LoginScreenPreview(),
     ),

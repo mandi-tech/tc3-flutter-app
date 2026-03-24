@@ -79,6 +79,7 @@ class _LoginFormState extends State<LoginForm> {
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
           children: [
             AppEmailField(
               controller: _emailController,

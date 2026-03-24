@@ -1,15 +1,13 @@
-// lib/shared/design_system/storybook/previews/features/auth/login_screen_preview.dart
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../../../features/auth/presentation/controllers/auth_controller.dart';
 import '../../../../../../features/auth/presentation/widgets/login_form.dart';
+import '../../../../../../features/auth/presentation/widgets/login_header.dart';
 import '../../../../../utils/theme_extensions.dart';
 import '../../../../tokens/app_spacing.dart';
 import '../../../support/mocks/features/auth/auth_controller_mock.dart';
-import 'widgets/login_header_preview.dart';
 
 class LoginScreenPreview extends StatelessWidget {
   final bool isLoading;
@@ -25,11 +23,11 @@ class LoginScreenPreview extends StatelessWidget {
       value: mockAuth,
       child: Scaffold(
         backgroundColor: context.colors.surface,
-        body: SingleChildScrollView(
+        body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: Column(
             children: [
-              const LoginHeaderPreview(),
+              const LoginHeader(),
               const SizedBox(height: AppSpacing.xl),
               const LoginForm(),
             ],
