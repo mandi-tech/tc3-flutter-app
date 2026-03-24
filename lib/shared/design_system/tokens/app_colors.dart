@@ -1,12 +1,50 @@
 import 'package:flutter/material.dart';
 
 abstract final class AppColors {
-  static const primary = Color(0xFF4F46E5);
-  static const success = Color(0xFF16A34A);
-  static const warning = Color(0xFFF59E0B);
-  static const danger  = Color(0xFFDC2626);
+  /// Brand
+  static const primary = Color(0xFF2B2675);    // Blue
+  static const secondary = Color(0xFFA99BF7);  // Lavender
+  static const accent = Color(0xFFD1D84E);     // Apple Green
 
-  static const neutral0   = Color(0xFFFFFFFF);
-  static const neutral100 = Color(0xFFF3F4F6);
-  static const neutral900 = Color(0xFF111827);
+  /// Financial semantics
+  static const income = Color(0xFF2E9F7E);
+  static const expense = Color(0xFFD64550);   // Orange
+
+  /// Feedback
+  static const success = Color(0xFF3FAE88);
+  static const warning = Color(0xFFF59E0B);
+  static const danger = Color(0xFFD64550);
+
+  /// Light
+  static const background = Color(0xFFFFFCF2); // Cream
+  static const surface = Color(0xFFFFFFFF);
+  static const neutral100 = Color(0xFFE6EAFF); // Sky (Para cards e campos)
+
+  /// Dark Mode
+  static const backgroundDark = Color(0xFF0F0E24); // Um azul quase preto
+  static const surfaceDark = Color(0xFF1D1B4B);    // Um azul um pouco mais claro
+  static const surfaceContainerDark = Color(0xFF2B2675); // Para elementos ainda mais destacados
+
+  /// Neutros
+  static const neutral0 = Color(0xFFFFFFFF);
+  static const neutral900 = Color(0xFF0F0E24);    // Blue quase preto para textos
+
+  /// Textos light
+  static const textPrimary = Color(0xFF2B2675);   // Blue para leitura principal
+  static const textSecondary = Color(0xFF6B6570);
+
+  /// Textos dark
+  static const textPrimaryDark = Color(0xFFFFFCF2);   // Cream
+  static const textSecondaryDark = Color(0xFFA99BF7); // Lavender (para labels menores)
+
+  /// Chart palette
+  static const List<Color> categorySwatch = [
+    Color(0xFF2B2675), // Blue
+    Color(0xFFD1D84E), // Apple Green
+    Color(0xFFE88E3D), // Orange
+    Color(0xFFA99BF7), // Lavender
+    Color(0xFFE6EAFF), // Sky
+    Color(0xFFFFFCF2), // Cream
+    Color(0xFF5A52A5), // Blue light
+  ];
 }

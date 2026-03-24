@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1016767921919",
+    "project_id": "tc3-flutter-app",
+    "storage_bucket": "tc3-flutter-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016767921919:android:612b338c111e9dc6d356ca",
+        "android_client_info": {
+          "package_name": "com.example.tc3_flutter_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFMMGyD1lTyMFwrhcf1K27OqKPbtUuovA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
