@@ -6,7 +6,7 @@ import '../../../../previews/features/transactions/widgets/transaction_group_pre
 
 final List<Story> transactionGroupSectionStories = [
   Story(
-    name: 'Widgets/Transactions/Default',
+    name: 'Widgets/Transactions/Transactions Group',
     builder: (context) => const Padding(
       padding: EdgeInsets.all(AppSpacing.md),
       child: TransactionGroupPreview(),

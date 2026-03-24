@@ -10,7 +10,7 @@ import '../../data/models/transaction_model.dart';
 import '../../domain/enums/transaction_type.dart';
 import '../controllers/transaction_controller.dart';
 
-// Classe de apoio para as categorias
+/// Classe de apoio para as categorias
 abstract final class TransactionCategories {
   static const income = ["Salário", "Freelance", "Investimentos", "Presente", "Reembolso", "Outros"];
   static const expense = ["Alimentação", "Transporte", "Moradia", "Lazer", "Saúde", "Compras", "Educação", "Assinaturas", "Outros"];
@@ -147,7 +147,7 @@ class _TransactionDetailsModalState extends State<TransactionDetailsModal> {
             Divider(color: colorScheme.outlineVariant),
             const SizedBox(height: AppSpacing.md),
 
-            // Área da Imagem com Cores do Tema
+            /// Área da Imagem com Cores do Tema
             GestureDetector(
               onTap: _isEditing ? _pickImage : null,
               child: Stack(
@@ -192,7 +192,7 @@ class _TransactionDetailsModalState extends State<TransactionDetailsModal> {
 
             const SizedBox(height: AppSpacing.lg),
 
-            // Campos de Edição ou Visualização
+            /// Campos de Edição ou Visualização
             if (_isEditing) ...[
               TextFormField(
                 controller: _descriptionController,
@@ -232,7 +232,6 @@ class _TransactionDetailsModalState extends State<TransactionDetailsModal> {
 
             const SizedBox(height: AppSpacing.xl),
 
-            // Botões usando seu AppButton
             if (_isEditing) ...[
               SizedBox(
                 width: double.infinity,
