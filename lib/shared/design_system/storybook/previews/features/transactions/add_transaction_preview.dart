@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../../../../features/transactions/domain/enums/transaction_type.dart';
 import '../../../../../../features/transactions/presentation/controllers/transaction_controller.dart';
 import '../../../../../../features/transactions/presentation/screens/add_transaction_screen.dart';
+import '../../../../../../features/auth/data/services/auth_service.dart';
 
 class MockTransactionController extends Mock implements TransactionController {}
+class MockAuthService extends Mock implements AuthService {}
+class MockUser extends Mock implements User {}
 
 class AddTransactionPreview extends StatelessWidget {
   final TransactionType type;
@@ -23,8 +27,8 @@ class AddTransactionPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Setup do TransactionController Mock
     final mockController = MockTransactionController();
-
     when(() => mockController.addTransaction(
           type: any(named: 'type'),
           description: any(named: 'description'),
@@ -33,6 +37,13 @@ class AddTransactionPreview extends StatelessWidget {
           date: any(named: 'date'),
           receiptImage: any(named: 'receiptImage'),
         )).thenAnswer((_) async => {});
+
+    /// Setup do AuthService Mock (para evitar o erro de Firebase da TopBar)
+    final mockUser = MockUser();
+    when(() => mockUser.displayName).thenReturn("Isabelle");
+    
+    final mockAuth = MockAuthService();
+    when(() => mockAuth.currentUser).thenReturn(mockUser);
 
     return MultiProvider(
       providers: [
@@ -54,7 +65,11 @@ class AddTransactionPreview extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                   ),
                 ),
-                child: AddTransactionScreen(initialType: type),
+                /// Passamos o mockAuth para a tela
+                child: AddTransactionScreen(
+                  initialType: type,
+                  authService: mockAuth, 
+                ),
               ),
             ),
           ),

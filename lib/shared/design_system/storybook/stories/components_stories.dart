@@ -8,6 +8,7 @@ import 'components/app_password_field_story.dart';
 import 'components/app_picker_field_story.dart';
 import 'components/app_section_title_story.dart';
 import 'components/app_text_field_story.dart';
+import 'components/app_top_bar_story.dart';
 import 'features/navigation/widgets/main_navigation_bar_story.dart';
 
 final List<Story> componentStories = [
@@ -20,4 +21,5 @@ final List<Story> componentStories = [
   ...appPickerFieldStories,
   ...appSectionTitleStories,
   ...mainNavigationBarStories,
+  ...appTopBarStories,
 ];

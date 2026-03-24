@@ -20,8 +20,6 @@ final List<Story> screenStories = [
   splashScreenStory,
   ...addTransactionStories,
   ...transactionsStories,
-
-  ///Profile
   changePasswordScreenStory,
   ...accountScreenStories,
   ...profileScreenStories,

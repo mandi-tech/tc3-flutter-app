@@ -9,11 +9,13 @@ import '../tokens/app_typography.dart';
 class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool showBackButton;
+  final AuthService? authService;
 
   const AppTopBar({
     super.key,
     required this.title,
     this.showBackButton = false,
+    this.authService,
   });
 
   String _getFirstName(String? fullName) {
@@ -38,7 +40,7 @@ class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = AuthService();
+    final auth = authService ?? AuthService();
     final user = auth.currentUser;
 
     final firstName = _getFirstName(user?.displayName);

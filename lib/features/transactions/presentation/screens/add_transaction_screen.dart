@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../shared/design_system/components/app_tob_bar.dart';
 import '../../../../shared/design_system/tokens/app_spacing.dart';
+import '../../../auth/data/services/auth_service.dart';
 import '../../domain/enums/transaction_type.dart';
 import '../controllers/add_transaction_controller.dart';
 import '../controllers/transaction_controller.dart';
@@ -11,10 +12,12 @@ import '../widgets/add_transaction_header.dart';
 
 class AddTransactionScreen extends StatefulWidget {
   final TransactionType initialType;
+  final AuthService? authService;
 
   const AddTransactionScreen({
     super.key,
     required this.initialType,
+    this.authService,
   });
 
   @override
@@ -108,9 +111,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppTopBar(
+      appBar: AppTopBar(
         title: 'Nova transação',
         showBackButton: true,
+        authService: widget.authService,
       ),
       body: ListenableBuilder(
         listenable: _controller,
