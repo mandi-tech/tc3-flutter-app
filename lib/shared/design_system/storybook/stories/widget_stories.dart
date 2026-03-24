@@ -13,6 +13,7 @@ final List<Story> widgetStories = [
   ...transactionFiltersPanelStories,
   ...transactionGroupSectionStories,
   ...transactionTileStories,
+
   ...registerWidgetsStories,
   ...authWidgetsStories,
   ...homeWidgetsStories,
