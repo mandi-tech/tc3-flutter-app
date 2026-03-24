@@ -53,7 +53,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   }
 
   Future<void> _saveTransaction() async {
-    // 1. Validação básica antes de começar
+    /// Validação básica antes de começar
     if (!_controller.validateForm()) return;
 
     final amount = _controller.parseAmount();
@@ -63,10 +63,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     }
 
     try {
-      // 2. Inicia o estado de carregamento
+      /// Inicia o estado de carregamento
       _controller.setSaving(true);
 
-      // 3. Chamada para o controller de transações (ex: Firebase ou Banco Local)
+      /// Chamada para o controller de transações (ex: Firebase ou Banco Local)
       await context.read<TransactionController>().addTransaction(
             type: _controller.type,
             description: _controller.descriptionController.text.trim(),
@@ -76,21 +76,20 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
             receiptImage: _controller.receiptImage,
           );
 
-      // 4. Se chegou aqui, deu certo!
       if (!mounted) return;
       
       _showSnackBar('Transação adicionada com sucesso!');
       
-      // 5. Limpa os campos para a próxima entrada
+      /// Limpa os campos para a próxima entrada
       _controller.resetForm();
 
     } catch (e) {
-      // 6. Caso ocorra erro na gravação
+      /// Caso ocorra erro na gravação
       if (mounted) {
         _showSnackBar('Erro ao salvar: $e', isError: true);
       }
     } finally {
-      // 7. O PONTO CHAVE: Garante que o loading pare SEMPRE
+      /// Garante que o loading pare SEMPRE
       if (mounted) {
         _controller.setSaving(false);
       }
